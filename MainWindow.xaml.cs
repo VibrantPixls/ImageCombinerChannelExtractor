@@ -35,6 +35,9 @@ namespace ImageCombinerChannelExtractor
         private CancellationTokenSource? _ctsCombined;
         #endregion
 
+        private static Dictionary<int, DoingTaskNotif> _notifications { get; } = new Dictionary<int, DoingTaskNotif>();
+        private static int _currentNotificationNumber = 0;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -55,6 +58,27 @@ namespace ImageCombinerChannelExtractor
                 [ColorChannelEnum.Alpha] = new ChannelSlot(),
             };
         }
+
+        #region Notifications
+        private int SpawnNotification(string text, NotificationTypeEnum notifType = NotificationTypeEnum.Info)
+        {
+            var notifId = GetCurrentNotificationInt();
+            var notif = new DoingTaskNotif(notifType, text);
+            _notifications.Add(notifId, notif);
+            NotificationContainer.Children.Insert(0, notif);
+            return notifId;
+        }
+
+        private void RemoveNotification(int taskIdToRemove)
+        {
+            if (!_notifications.TryGetValue(taskIdToRemove, out var notif))
+            {
+                return;
+            }
+            NotificationContainer.Children.Remove(notif);
+            _notifications.Remove(taskIdToRemove);
+        }
+        #endregion
 
         #region On ColorChannelInput events
         private void OnChannelClick(object sender, FileSelectedEventArgs e)
@@ -187,6 +211,12 @@ namespace ImageCombinerChannelExtractor
 
         private async Task GenerateCombinedPreviewAsync()
         {
+            if (!DoesAnyChannelHaveInputImages())
+            {
+                //early exit when no input images
+                return;
+            }
+
             _ctsCombined?.Cancel();
             _ctsCombined?.Dispose();
             var cts = new CancellationTokenSource();
@@ -195,6 +225,8 @@ namespace ImageCombinerChannelExtractor
 
             try
             {
+                var notifInt = SpawnNotification("Combining images");
+
                 await Task.Delay(1000, token).ConfigureAwait(true);
 
                 // Snapshot it before doing anything
@@ -205,6 +237,7 @@ namespace ImageCombinerChannelExtractor
                 if (!token.IsCancellationRequested)
                 {
                     _combinedPreviewCache = result;
+                    RemoveNotification(notifInt);
                     // now show if the user was waiting for it
                     StartShowingCombinedPreview();
                 }
@@ -218,7 +251,6 @@ namespace ImageCombinerChannelExtractor
         private static BitmapSource? BuildCombinedImage(Dictionary<ColorChannelEnum, ChannelSlot> channels, CancellationToken token)
         {
             var sources = channels.Where(kv => kv.Value?.Bitmap != null).ToDictionary(kv => kv.Key, kv => kv.Value!);
-
             if (sources.Count == 0)
             {
                 return null;
@@ -590,6 +622,27 @@ namespace ImageCombinerChannelExtractor
         {
             double maxDimension = Math.Max(width, height);
             return _combinedDefaultSize / maxDimension;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static int GetCurrentNotificationInt()
+        {
+            _currentNotificationNumber += 1;
+            return _currentNotificationNumber;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private bool DoesAnyChannelHaveInputImages()
+        {
+            int amountOfValidInputs = 0;
+            foreach (var source in _combinerChannels)
+            {
+                if (source.Value.Bitmap != null)
+                {
+                    amountOfValidInputs++;
+                }
+            }
+            return amountOfValidInputs != 0;
         }
         #endregion
     }
