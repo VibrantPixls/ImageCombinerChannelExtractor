@@ -1,6 +1,6 @@
 ﻿namespace ImageCombinerChannelExtractor.Components.Enums
 {
-    public enum CurrentBitmapPreviewingEnum
+    public enum CurrentBitmapPreviewingEnum : byte
     {
         None,
         ColorChannel,
