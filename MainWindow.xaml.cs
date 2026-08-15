@@ -422,16 +422,15 @@ namespace ImageCombinerChannelExtractor
 
         private static double CubicWeight(double t)
         {
-            const double a = -0.5;
             t = Math.Abs(t);
 
             if (t <= 1.0)
             {
-                return (a + 2.0) * t * t * t - (a + 3.0) * t * t + 1.0;
+                return (1.5 * t - 2.5) * t * t + 1.0;
             }
             if (t < 2.0)
             {
-                return a * t * t * t - 5.0 * a * t * t + 8.0 * a * t - 4.0 * a;
+                return ((-0.5 * t + 2.5) * t - 4.0) * t + 2.0;
             }
             return 0.0;
         }
