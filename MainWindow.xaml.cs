@@ -93,6 +93,8 @@ namespace ImageCombinerChannelExtractor
         {
             var input = (ColorChannelInput)sender;
             // function only is used for the combined
+
+            Debug.WriteLine($"OnFilteringChanged {input.ColorChannel} to {input.SelectedFiltering}");
             _combinerChannels[input.ColorChannel].FilteringMode = input.SelectedFiltering;
 
             MakeCombinedPreviewDirty();

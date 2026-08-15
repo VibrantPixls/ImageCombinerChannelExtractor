@@ -29,7 +29,8 @@
                 ChannelClick="OnChannelClick"
                 ChannelClickRemove="OnChannelClickRemove"
                 ChannelMouseEnter="OnChannelMouseEnter"
-                ChannelMouseLeave="OnChannelMouseLeave"/>
+                ChannelMouseLeave="OnChannelMouseLeave"
+                FilteringChanged="OnFilteringChanged"/>
 
             <controls:ColorChannelInput x:Name="BlueChannelInput"
                 ColorChannel="Blue"
@@ -37,7 +38,8 @@
                 ChannelClick="OnChannelClick"
                 ChannelClickRemove="OnChannelClickRemove"
                 ChannelMouseEnter="OnChannelMouseEnter"
-                ChannelMouseLeave="OnChannelMouseLeave"/>
+                ChannelMouseLeave="OnChannelMouseLeave"
+                FilteringChanged="OnFilteringChanged"/>
             
             <controls:ColorChannelInput x:Name="AlphaChannelInput"
                 ColorChannel="Alpha"
@@ -45,7 +47,9 @@
                 ChannelClick="OnChannelClick"
                 ChannelClickRemove="OnChannelClickRemove"
                 ChannelMouseEnter="OnChannelMouseEnter"
-                ChannelMouseLeave="OnChannelMouseLeave"/>
+                ChannelMouseLeave="OnChannelMouseLeave"
+                FilteringChanged="OnFilteringChanged"/>
+            
             <StackPanel MouseEnter="OnButtonMouseEnterCombined">
                 <Button x:Name="btnCreateCombined" Height="25" Content="Create Combined PNG" />
                 <Label x:Name="lblResolutionCombined" />
