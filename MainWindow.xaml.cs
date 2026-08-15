@@ -10,16 +10,17 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Wpf.Ui.Controls;
 
 namespace ImageCombinerChannelExtractor
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow : FluentWindow
     {
         private readonly Dictionary<ColorChannelEnum, ChannelSlot> _combinerChannels;
         private readonly Dictionary<ColorChannelEnum, ChannelSlot> _extracterChannels;
 
         #region Image previews variables
-        private const double _combinedDefaultSize = 350.0;
+        private const double _combinedDefaultSize = 400.0;
 
         private CurrentBitmapPreviewingEnum _currentlyPreviewingType = CurrentBitmapPreviewingEnum.None;
         private ColorChannelEnum? _currentlyPreviewingColorChannel = null;
@@ -35,12 +36,18 @@ namespace ImageCombinerChannelExtractor
         private CancellationTokenSource? _ctsCombined;
         #endregion
 
+        #region Notification variables
+        private const byte _notificationAutoDestroyAfterTimeInSeconds = 3;
         private readonly static Dictionary<uint, DoingTaskNotif> _notifications = new Dictionary<uint, DoingTaskNotif>();
         private static uint _currentNotificationNumber = 0;
+        #endregion
 
         public MainWindow()
         {
             InitializeComponent();
+
+            brdPreviewBoxCombined.Width = _combinedDefaultSize;
+            brdPreviewBoxCombined.Height = _combinedDefaultSize;
 
             _combinerChannels = new Dictionary<ColorChannelEnum, ChannelSlot>
             {
@@ -60,13 +67,28 @@ namespace ImageCombinerChannelExtractor
         }
 
         #region Notifications
-        private uint SpawnNotification(string text, NotificationTypeEnum notifType = NotificationTypeEnum.Info)
+        private uint SpawnNotification(string text, NotificationTypeEnum notifType = NotificationTypeEnum.Info, bool autoDestroy = false)
         {
             var notifId = GetCurrentNotificationInt();
             var notif = new DoingTaskNotif(notifType, text);
             _notifications.Add(notifId, notif);
             NotificationContainer.Children.Insert(0, notif);
+
+            if (autoDestroy)
+            {
+                AutoRemoveNotification(notifId, notif);
+            }
             return notifId;
+        }
+
+        private async void AutoRemoveNotification(uint notifId, DoingTaskNotif notif)
+        {
+            for (int i = _notificationAutoDestroyAfterTimeInSeconds; i >= 0; i--)
+            {
+                notif.SetSecondsLeft(i);
+                await Task.Delay(1000);
+            }
+            RemoveNotification(notifId);
         }
 
         private void RemoveNotification(uint taskIdToRemove)
@@ -122,7 +144,7 @@ namespace ImageCombinerChannelExtractor
             Debug.WriteLine($"OnFilteringChanged {input.ColorChannel} to {input.SelectedFiltering}");
             _combinerChannels[input.ColorChannel].FilteringMode = input.SelectedFiltering;
 
-            MakeCombinedPreviewDirty();
+            MarkCombinedPreviewDirty();
         }
         #endregion
 
@@ -133,15 +155,15 @@ namespace ImageCombinerChannelExtractor
             if (!string.IsNullOrEmpty(path))
             {
                 var targetDict = sender.IsChannelFromCombined ? _combinerChannels : _extracterChannels;
-                sender.SetLabelText($"{channel} channel: {System.IO.Path.GetFileName(path)}");
+                sender.SetLabelText($"{Path.GetFileName(path)}");
                 targetDict[channel].Bitmap = LoadImageIndependent(path);
-                ShowChannelPreview(sender, channel);
+                ShowChannelPreview(sender, channel, true);
             }
             UpdateResolution();
 
             loadingOverlay.StopLoading();
 
-            MakeCombinedPreviewDirty();
+            MarkCombinedPreviewDirty();
         }
 
         private void DeleteChannel(ColorChannelInput sender, ColorChannelEnum channel)
@@ -153,7 +175,7 @@ namespace ImageCombinerChannelExtractor
             ClearChannelPreview();
             UpdateResolution();
 
-            MakeCombinedPreviewDirty();
+            MarkCombinedPreviewDirty();
         }
 
         private static string? SelectPNGFile()
@@ -188,7 +210,7 @@ namespace ImageCombinerChannelExtractor
                 _differentResolutionsForCombinedOutput = false;
                 _resolutionHorizontal = 0;
                 _resolutionVertical = 0;
-                lblResolutionCombined.Content = string.Empty;
+                lblResolutionCombined.Text = string.Empty;
 
                 brdPreviewBoxCombined.Width = _combinedDefaultSize;
                 brdPreviewBoxCombined.Height = _combinedDefaultSize;
@@ -198,12 +220,12 @@ namespace ImageCombinerChannelExtractor
             _differentResolutionsForCombinedOutput = AreChannelsMismatchedInSize();
             UpdateTargetResolutionCombined();
 
-            lblResolutionCombined.Content = _differentResolutionsForCombinedOutput ? $"Mismatched sizes - output will be {_resolutionHorizontal}x{_resolutionVertical}" : $"{_resolutionHorizontal}x{_resolutionVertical}";
+            lblResolutionCombined.Text = _differentResolutionsForCombinedOutput ? $"Mismatched sizes - output will be {_resolutionHorizontal}x{_resolutionVertical}" : $"{_resolutionHorizontal}x{_resolutionVertical}";
         }
         #endregion
 
         #region Combiner
-        public void MakeCombinedPreviewDirty()
+        public void MarkCombinedPreviewDirty()
         {
             _combinedPreviewCache = null;
             _ = GenerateCombinedPreviewAsync();
@@ -223,11 +245,11 @@ namespace ImageCombinerChannelExtractor
             _ctsCombined = cts;
             var token = cts.Token;
 
-            var notifInt = SpawnNotification("Combining images", NotificationTypeEnum.Combining);
+            var notifInt = SpawnNotification(TextInfo.notificationCombining, NotificationTypeEnum.Combining);
 
             try
             {
-                await Task.Delay(10000, token).ConfigureAwait(true);
+                await Task.Delay(10, token).ConfigureAwait(true);
 
                 // Snapshot it before doing anything
                 var snapshot = new Dictionary<ColorChannelEnum, ChannelSlot>(_combinerChannels);
@@ -239,6 +261,7 @@ namespace ImageCombinerChannelExtractor
                     _combinedPreviewCache = result;
                     // now show if the user was waiting for it
                     StartShowingCombinedPreview();
+                    SpawnNotification(TextInfo.notificationSuccessfullCombining, NotificationTypeEnum.Success, true);
                 }
             }
             catch (OperationCanceledException)
@@ -500,18 +523,18 @@ namespace ImageCombinerChannelExtractor
             {
                 _currentlyPreviewingType = CurrentBitmapPreviewingEnum.Combined;
                 imgPreviewCombiner.ImageSource = _combinedPreviewCache;
-                lblPreviewCombined.Content = $"Combined image";
+                lblPreviewCombined.Text = $"Combined image";
 
                 _isWaitingForCombinedImage = false;
             }
         }
 
-        private void ShowChannelPreview(ColorChannelInput sender, ColorChannelEnum channel)
+        private void ShowChannelPreview(ColorChannelInput sender, ColorChannelEnum channel, bool isDirty = false)
         {
             bool isFromCombiner = sender.IsChannelFromCombined;
 
             // Check if the channel is already being previewed
-            if (_currentlyPreviewingColorChannel == channel && _currentlyPreviewingType == CurrentBitmapPreviewingEnum.ColorChannel)
+            if (!isDirty && _currentlyPreviewingColorChannel == channel && _currentlyPreviewingType == CurrentBitmapPreviewingEnum.ColorChannel)
             {
                 return;
             }
@@ -523,7 +546,7 @@ namespace ImageCombinerChannelExtractor
 
             _currentlyPreviewingColorChannel = channel;
             _currentlyPreviewingType = CurrentBitmapPreviewingEnum.ColorChannel;
-            lblPreviewCombined.Content = $"{channel} channel";
+            lblPreviewCombined.Text = $"{channel} channel";
 
             imgPreviewCombiner.ImageSource = wantedImage;
         }
@@ -532,7 +555,7 @@ namespace ImageCombinerChannelExtractor
         {
             _currentlyPreviewingColorChannel = null;
             _currentlyPreviewingType = CurrentBitmapPreviewingEnum.None;
-            lblPreviewCombined.Content = string.Empty;
+            lblPreviewCombined.Text = string.Empty;
 
             if (imgPreviewCombiner.ImageSource == null)
             {

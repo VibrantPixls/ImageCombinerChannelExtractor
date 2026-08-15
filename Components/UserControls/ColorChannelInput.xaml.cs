@@ -88,7 +88,7 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
 
         public void SetLabelText(string lblText)
         {
-            lblSelectedFile.Content = lblText;
+            lblSelectedFile.Text = lblText;
         }
 
         private void OnButtonClick(object sender, RoutedEventArgs e)

@@ -1,4 +1,5 @@
 ﻿using ImageCombinerChannelExtractor.Components.Enums;
+using Wpf.Ui.Controls;
 
 namespace ImageCombinerChannelExtractor.Components.Helpers
 {
@@ -16,6 +17,16 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
             NotificationTypeEnum.Success => "\uE76E",
 
             _ => "\uE82F" // info
+        };
+
+        public static InfoBarSeverity GetSeverity(NotificationTypeEnum type) => type switch
+        {
+            NotificationTypeEnum.Error => InfoBarSeverity.Error,
+            NotificationTypeEnum.Warning => InfoBarSeverity.Warning,
+
+            NotificationTypeEnum.Success => InfoBarSeverity.Success,
+
+            _ => InfoBarSeverity.Informational
         };
     }
 }
