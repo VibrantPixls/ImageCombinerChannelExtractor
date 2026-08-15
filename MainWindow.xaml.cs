@@ -27,16 +27,16 @@ namespace ImageCombinerChannelExtractor
 
         #region Combined ouput image variables
         private static bool _differentResolutionsForCombinedOutput;
-        private static int _resolutionHorizontal = 0;
-        private static int _resolutionVertical = 0;
+        private static int _resolutionHorizontal = -1;
+        private static int _resolutionVertical = -1;
 
         private BitmapSource? _combinedPreviewCache = null;
         private bool _isWaitingForCombinedImage = false;
         private CancellationTokenSource? _ctsCombined;
         #endregion
 
-        private static Dictionary<int, DoingTaskNotif> _notifications { get; } = new Dictionary<int, DoingTaskNotif>();
-        private static int _currentNotificationNumber = 0;
+        private static Dictionary<uint, DoingTaskNotif> _notifications { get; } = new Dictionary<uint, DoingTaskNotif>();
+        private static uint _currentNotificationNumber = 0;
 
         public MainWindow()
         {
@@ -60,7 +60,7 @@ namespace ImageCombinerChannelExtractor
         }
 
         #region Notifications
-        private int SpawnNotification(string text, NotificationTypeEnum notifType = NotificationTypeEnum.Info)
+        private uint SpawnNotification(string text, NotificationTypeEnum notifType = NotificationTypeEnum.Info)
         {
             var notifId = GetCurrentNotificationInt();
             var notif = new DoingTaskNotif(notifType, text);
@@ -69,7 +69,7 @@ namespace ImageCombinerChannelExtractor
             return notifId;
         }
 
-        private void RemoveNotification(int taskIdToRemove)
+        private void RemoveNotification(uint taskIdToRemove)
         {
             if (!_notifications.TryGetValue(taskIdToRemove, out var notif))
             {
@@ -625,7 +625,7 @@ namespace ImageCombinerChannelExtractor
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static int GetCurrentNotificationInt()
+        private static uint GetCurrentNotificationInt()
         {
             _currentNotificationNumber += 1;
             return _currentNotificationNumber;
