@@ -6,6 +6,8 @@
         Warning,
         Error,
 
-        Combining
+        Combining,
+
+        Success
     }
 }

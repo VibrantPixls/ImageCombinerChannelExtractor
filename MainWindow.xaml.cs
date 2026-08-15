@@ -223,11 +223,11 @@ namespace ImageCombinerChannelExtractor
             _ctsCombined = cts;
             var token = cts.Token;
 
+            var notifInt = SpawnNotification("Combining images", NotificationTypeEnum.Combining);
+
             try
             {
-                var notifInt = SpawnNotification("Combining images");
-
-                await Task.Delay(1000, token).ConfigureAwait(true);
+                await Task.Delay(10000, token).ConfigureAwait(true);
 
                 // Snapshot it before doing anything
                 var snapshot = new Dictionary<ColorChannelEnum, ChannelSlot>(_combinerChannels);
@@ -237,7 +237,6 @@ namespace ImageCombinerChannelExtractor
                 if (!token.IsCancellationRequested)
                 {
                     _combinedPreviewCache = result;
-                    RemoveNotification(notifInt);
                     // now show if the user was waiting for it
                     StartShowingCombinedPreview();
                 }
@@ -245,6 +244,11 @@ namespace ImageCombinerChannelExtractor
             catch (OperationCanceledException)
             {
                 // cancelled
+
+            }
+            finally
+            {
+                RemoveNotification(notifInt);
             }
         }
 
