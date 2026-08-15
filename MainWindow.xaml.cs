@@ -183,7 +183,7 @@ namespace ImageCombinerChannelExtractor
             _ = GenerateCombinedPreviewAsync();
         }
 
-        public async Task GenerateCombinedPreviewAsync()
+        private async Task GenerateCombinedPreviewAsync()
         {
             _ctsCombined?.Cancel();
             _ctsCombined?.Dispose();
