@@ -1,0 +1,64 @@
+﻿<Window x:Class="ImageCombinerChannelExtractor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ImageCombinerChannelExtractor"
+        xmlns:controls="clr-namespace:ImageCombinerChannelExtractor.Components.UserControls"
+        mc:Ignorable="d"
+        Title="Image Combiner &amp; Channel Extractor" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0">
+            <controls:ColorChannelInput x:Name="RedChannelInput"
+                ColorChannel="Red"
+                ChannelColor="Red"
+                ChannelClick="OnChannelClick"
+                ChannelClickRemove="OnChannelClickRemove"
+                ChannelMouseEnter="OnChannelMouseEnter"
+                ChannelMouseLeave="OnChannelMouseLeave"
+                FilteringChanged="OnFilteringChanged"/>
+
+            <controls:ColorChannelInput x:Name="GreenChannelInput"
+                ColorChannel="Green"
+                ChannelColor="Green"
+                ChannelClick="OnChannelClick"
+                ChannelClickRemove="OnChannelClickRemove"
+                ChannelMouseEnter="OnChannelMouseEnter"
+                ChannelMouseLeave="OnChannelMouseLeave"/>
+
+            <controls:ColorChannelInput x:Name="BlueChannelInput"
+                ColorChannel="Blue"
+                ChannelColor="Blue"
+                ChannelClick="OnChannelClick"
+                ChannelClickRemove="OnChannelClickRemove"
+                ChannelMouseEnter="OnChannelMouseEnter"
+                ChannelMouseLeave="OnChannelMouseLeave"/>
+            
+            <controls:ColorChannelInput x:Name="AlphaChannelInput"
+                ColorChannel="Alpha"
+                ChannelColor="WhiteSmoke"
+                ChannelClick="OnChannelClick"
+                ChannelClickRemove="OnChannelClickRemove"
+                ChannelMouseEnter="OnChannelMouseEnter"
+                ChannelMouseLeave="OnChannelMouseLeave"/>
+            <StackPanel MouseEnter="OnButtonMouseEnterCombined">
+                <Button x:Name="btnCreateCombined" Height="25" Content="Create Combined PNG" />
+                <Label x:Name="lblResolutionCombined" />
+            </StackPanel>
+        </StackPanel>
+
+        <WrapPanel Grid.Column="1">
+            <Border x:Name="brdPreviewBoxCombined" Width="350" Height="350" ClipToBounds="True">
+                <controls:CheckerboardPictureBox x:Name="imgPreviewCombiner" />
+            </Border>
+            <Label x:Name="lblPreviewCombined" />
+        </WrapPanel>
+
+        <controls:LoadingScreen x:Name="loadingOverlay" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Panel.ZIndex="99" Visibility="Collapsed"/>
+    </Grid>
+</Window>
