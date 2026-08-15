@@ -441,11 +441,11 @@ namespace ImageCombinerChannelExtractor
         #region Image previews
         private void ShowCombinedPreview()
         {
-            Debug.WriteLine("ShowCombinedPreview");
             if (_combinedPreviewCache == null)
             {
                 return;
             }
+
             _currentlyPreviewingType = CurrentBitmapPreviewingEnum.Combined;
             imgPreviewCombiner.ImageSource = _combinedPreviewCache;
             lblPreviewCombined.Content = $"Combined image";
