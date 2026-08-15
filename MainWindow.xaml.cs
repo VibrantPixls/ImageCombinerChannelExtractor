@@ -31,6 +31,7 @@ namespace ImageCombinerChannelExtractor
         private static int _resolutionVertical = 0;
 
         private BitmapSource? _combinedPreviewCache = null;
+        private bool _isWaitingForCombinedImage = false;
         private CancellationTokenSource? _ctsCombined;
         #endregion
 
@@ -180,6 +181,7 @@ namespace ImageCombinerChannelExtractor
         #region Combiner
         public void MakeCombinedPreviewDirty()
         {
+            _combinedPreviewCache = null;
             _ = GenerateCombinedPreviewAsync();
         }
 
@@ -193,7 +195,7 @@ namespace ImageCombinerChannelExtractor
 
             try
             {
-                await Task.Delay(100, token).ConfigureAwait(true);
+                await Task.Delay(1000, token).ConfigureAwait(true);
 
                 // Snapshot it before doing anything
                 var snapshot = new Dictionary<ColorChannelEnum, ChannelSlot>(_combinerChannels);
@@ -203,6 +205,8 @@ namespace ImageCombinerChannelExtractor
                 if (!token.IsCancellationRequested)
                 {
                     _combinedPreviewCache = result;
+                    // now show if the user was waiting for it
+                    StartShowingCombinedPreview();
                 }
             }
             catch (OperationCanceledException)
@@ -443,14 +447,27 @@ namespace ImageCombinerChannelExtractor
         #region Image previews
         private void ShowCombinedPreview()
         {
+            _isWaitingForCombinedImage = true; // waiting for it to finish
+
             if (_combinedPreviewCache == null)
             {
                 return;
             }
 
-            _currentlyPreviewingType = CurrentBitmapPreviewingEnum.Combined;
-            imgPreviewCombiner.ImageSource = _combinedPreviewCache;
-            lblPreviewCombined.Content = $"Combined image";
+            // image is valid, so show
+            StartShowingCombinedPreview();
+        }
+
+        private void StartShowingCombinedPreview()
+        {
+            if (_isWaitingForCombinedImage)
+            {
+                _currentlyPreviewingType = CurrentBitmapPreviewingEnum.Combined;
+                imgPreviewCombiner.ImageSource = _combinedPreviewCache;
+                lblPreviewCombined.Content = $"Combined image";
+
+                _isWaitingForCombinedImage = false;
+            }
         }
 
         private void ShowChannelPreview(ColorChannelInput sender, ColorChannelEnum channel)
