@@ -35,7 +35,7 @@ namespace ImageCombinerChannelExtractor
         private CancellationTokenSource? _ctsCombined;
         #endregion
 
-        private static Dictionary<uint, DoingTaskNotif> _notifications { get; } = new Dictionary<uint, DoingTaskNotif>();
+        private readonly static Dictionary<uint, DoingTaskNotif> _notifications = new Dictionary<uint, DoingTaskNotif>();
         private static uint _currentNotificationNumber = 0;
 
         public MainWindow()
