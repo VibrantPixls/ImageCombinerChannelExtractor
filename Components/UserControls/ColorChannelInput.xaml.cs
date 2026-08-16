@@ -32,13 +32,6 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             set => SetValue(ColorChannelProperty, value);
         }
 
-        public static readonly DependencyProperty ChannelColorProperty = DependencyProperty.Register(nameof(ChannelColor), typeof(Brush), typeof(ColorChannelInput), new PropertyMetadata(Brushes.White));
-        public Brush ChannelColor
-        {
-            get => (Brush)GetValue(ChannelColorProperty);
-            set => SetValue(ChannelColorProperty, value);
-        }
-
         public static readonly DependencyProperty IsChannelFromCombinedProperty = DependencyProperty.Register(nameof(IsChannelFromCombined), typeof(bool), typeof(ColorChannelInput), new PropertyMetadata(true));
         public bool IsChannelFromCombined
         {

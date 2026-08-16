@@ -19,7 +19,6 @@
         <StackPanel Grid.Column="0" Margin="16,0,2,0">
             <controls:ColorChannelInput x:Name="RedChannelInput"
                                     ColorChannel="Red"
-                                    ChannelColor="Red"
                                     ChannelClick="OnChannelClick"
                                     ChannelClickRemove="OnChannelClickRemove"
                                     ChannelMouseEnter="OnChannelMouseEnter"
@@ -28,7 +27,6 @@
 
             <controls:ColorChannelInput x:Name="GreenChannelInput"
                                     ColorChannel="Green"
-                                    ChannelColor="Green"
                                     ChannelClick="OnChannelClick"
                                     ChannelClickRemove="OnChannelClickRemove"
                                     ChannelMouseEnter="OnChannelMouseEnter"
@@ -37,7 +35,6 @@
 
             <controls:ColorChannelInput x:Name="BlueChannelInput"
                                     ColorChannel="Blue"
-                                    ChannelColor="Blue"
                                     ChannelClick="OnChannelClick"
                                     ChannelClickRemove="OnChannelClickRemove"
                                     ChannelMouseEnter="OnChannelMouseEnter"
@@ -46,7 +43,6 @@
 
             <controls:ColorChannelInput x:Name="AlphaChannelInput"
                                     ColorChannel="Alpha"
-                                    ChannelColor="WhiteSmoke"
                                     ChannelClick="OnChannelClick"
                                     ChannelClickRemove="OnChannelClickRemove"
                                     ChannelMouseEnter="OnChannelMouseEnter"
