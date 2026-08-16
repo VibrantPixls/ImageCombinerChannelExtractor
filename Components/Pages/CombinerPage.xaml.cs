@@ -80,14 +80,11 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         #region Load images into channels
         private void LoadChannelFromPath(ColorChannelInput sender, ColorChannelEnum channel, string? path)
         {
-            loadingOverlay.ShowLoading("Importing image...");
             if (ColorChannelHelper.LoadChannelFromPath(sender, channel, path))
             {
                 ShowChannelPreview(sender, channel, true);
             }
             UpdateResolution();
-
-            loadingOverlay.StopLoading();
 
             MarkCombinedPreviewDirty();
         }
@@ -501,8 +498,8 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             _resolutionCombinedOutputWidth = target.TargetOutputWidth;
             _resolutionCombinedOutputHeight = target.TargetOutputHeight;
 
-            brdPreviewBoxCombined.Width = target.PreviewImageWidth;
-            brdPreviewBoxCombined.Height = target.PreviewImageHeight;
+            imgPreviewCombiner.Width = target.PreviewImageWidth;
+            imgPreviewCombiner.Height = target.PreviewImageHeight;
         }
         #endregion
     }
