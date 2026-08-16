@@ -197,13 +197,8 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             }
             btnColorChannelInput.Content = wantedString;
 
-            var mouseOver = wantedBrush.Clone();
-            mouseOver.Opacity = 0.05;
-            crdPanel.Background = mouseOver;
-
-            //var normalLook = wantedBrush.Clone();
-            //normalLook.Opacity = 0.3;
-            //btnColorChannelInput.Background = normalLook;
+            wantedBrush.Opacity = 0.05;
+            crdPanel.Background = wantedBrush;
         }
     }
 }
