@@ -15,5 +15,7 @@
         public const string ClrChnBtnGreen = "Select Image for the red channel";
         public const string ClrChnBtnBlue = "Select Image for the blue channel";
         public const string ClrChnBtnAlpha = "Select Image for the alpha channel";
+
+        public const string CrtCombinedBtn = "Create Combined PNG";
     }
 }

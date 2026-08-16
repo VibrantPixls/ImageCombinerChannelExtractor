@@ -55,7 +55,7 @@
 
             <ui:Card Margin="0,12,0,0" Padding="12" MouseEnter="OnButtonMouseEnterCombined">
                 <StackPanel>
-                    <ui:Button x:Name="btnCreateCombined" Content="Create Combined PNG" Appearance="Primary" Icon="{ui:SymbolIcon Image24}" HorizontalAlignment="Stretch" Height="36" />
+                    <ui:Button x:Name="btnCreateCombined" Appearance="Primary" Icon="{ui:SymbolIcon Image24}" HorizontalAlignment="Stretch" Height="36" Content="Create Combined PNG" />
                     <ui:TextBlock x:Name="lblResolutionCombined" FontTypography="Caption" HorizontalAlignment="Center" Margin="0,6,0,0" />
                 </StackPanel>
             </ui:Card>

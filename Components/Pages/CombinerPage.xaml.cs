@@ -37,6 +37,8 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
             brdPreviewBoxCombined.Width = _combinedDefaultSize;
             brdPreviewBoxCombined.Height = _combinedDefaultSize;
+
+            btnCreateCombined.Content = StringLinesInfo.CrtCombinedBtn;
         }
 
         #region On ColorChannelInput events
