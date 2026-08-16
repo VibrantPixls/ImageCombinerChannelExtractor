@@ -9,8 +9,8 @@
              d:DesignHeight="150" d:DesignWidth="400"
              x:Name="Root">
 
-    <ui:Card x:Name="crdPanel" Margin="0,0,0,8" Padding="12">
-        <Grid MouseEnter="OnButtonMouseEnter" MouseLeave="OnButtonMouseLeave" AllowDrop="True" DragOver="OnButtonDragOver" Drop="OnButtonDrop">
+    <ui:Card x:Name="crdPanel" Margin="0,0,0,8" Padding="12" MouseEnter="OnButtonMouseEnter" MouseLeave="OnButtonMouseLeave" AllowDrop="True" DragOver="OnButtonDragOver" Drop="OnButtonDrop">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
