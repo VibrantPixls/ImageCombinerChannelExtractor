@@ -486,6 +486,10 @@ namespace ImageCombinerChannelExtractor.Components.Pages
                 return;
             }
             imgPreviewCombiner.ImageSource = null;
+
+            // reset preview back to default size
+            imgPreviewCombiner.Width = _combinedDefaultSize;
+            imgPreviewCombiner.Height = _combinedDefaultSize;
         }
         #endregion
 
