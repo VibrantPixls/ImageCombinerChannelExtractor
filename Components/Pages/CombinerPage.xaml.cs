@@ -4,7 +4,6 @@ using ImageCombinerChannelExtractor.Components.Helpers;
 using ImageCombinerChannelExtractor.Components.Shared;
 using ImageCombinerChannelExtractor.Components.UserControls;
 using Microsoft.Win32;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -162,7 +161,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             _ctsCombined = cts;
             var token = cts.Token;
 
-            var notifInt = TriggerNotification(TextInfo.notificationCombining, NotificationTypeEnum.Combining);
+            var notifInt = TriggerNotification(StringLinesInfo.notificationCombining, NotificationTypeEnum.Combining);
             try
             {
                 await Task.Delay(10, token).ConfigureAwait(true);
@@ -177,7 +176,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
                     _combinedPreviewCache = result;
                     // now show if the user was waiting for it
                     StartShowingCombinedPreview();
-                    TriggerNotification(TextInfo.notificationSuccessfullCombining, NotificationTypeEnum.Success, true);
+                    TriggerNotification(StringLinesInfo.notificationSuccessfullCombining, NotificationTypeEnum.Success, true);
                 }
             }
             catch (OperationCanceledException)

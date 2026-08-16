@@ -9,7 +9,7 @@
              d:DesignHeight="150" d:DesignWidth="400"
              x:Name="Root">
 
-    <ui:Card Margin="0,0,0,8" Padding="12">
+    <ui:Card x:Name="crdPanel" Margin="0,0,0,8" Padding="12">
         <Grid MouseEnter="OnButtonMouseEnter" MouseLeave="OnButtonMouseLeave" AllowDrop="True" DragOver="OnButtonDragOver" Drop="OnButtonDrop">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -29,9 +29,9 @@
                     </Grid.ColumnDefinitions>
 
                     <Border Grid.Column="0" Background="{Binding ChannelColor, ElementName=Root}" CornerRadius="3" Margin="0,2,6,2"/>
-                    <ui:Button Grid.Column="1" HorizontalAlignment="Stretch" Appearance="Secondary" Content="{Binding ColorChannel, ElementName=Root}" ContentStringFormat="Select Image ({0} Channel)" Icon="{ui:SymbolIcon ImageAdd24}" Click="OnButtonClick" Height="36"/>
+                    <ui:Button x:Name="btnColorChannelInput" Grid.Column="1" HorizontalAlignment="Stretch" Appearance="Secondary" Icon="{ui:SymbolIcon ImageAdd24}" Click="OnButtonClick" Height="36" Foreground="White" />
                 </Grid>
-                <ui:Button Grid.Column="1" Appearance="Transparent" Icon="{ui:SymbolIcon Dismiss24}" Click="OnButtonClickRemove" ToolTip="Clear input image" Height="36" Width="36" Padding="0"/>
+                <ui:Button Grid.Column="1" Appearance="Transparent" Icon="{ui:SymbolIcon Dismiss24}" Click="OnButtonClickRemove" ToolTip="Clear input image" Height="36" Width="36" Padding="0" Foreground="White" />
             </Grid>
 
             <Grid Grid.Row="1">

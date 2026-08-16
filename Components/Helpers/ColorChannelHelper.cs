@@ -1,8 +1,8 @@
 ﻿using ImageCombinerChannelExtractor.Components.Classes;
 using ImageCombinerChannelExtractor.Components.Enums;
+using ImageCombinerChannelExtractor.Components.Shared;
 using ImageCombinerChannelExtractor.Components.Structs;
 using ImageCombinerChannelExtractor.Components.UserControls;
-using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -87,7 +87,7 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
         public static void DeleteChannel(ColorChannelInput sender, ColorChannelEnum channel)
         {
             var targetDict = sender.IsChannelFromCombined ? _combinerChannels : _extracterChannels;
-            sender.SetLabelText("No Image Selected");
+            sender.SetLabelText(StringLinesInfo.NoInputImageTextDefault);
             targetDict[channel].Bitmap = null;
             targetDict[channel].FilePath = string.Empty;
         }

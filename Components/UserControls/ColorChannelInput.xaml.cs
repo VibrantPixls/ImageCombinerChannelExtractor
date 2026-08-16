@@ -21,6 +21,8 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
                 cmbboxFiltering.Items.Add(EnumFriendlyNameHelper.GetFriendlyName(value));
             }
             cmbboxFiltering.SelectedIndex = 0;
+
+            Loaded += (s, e) => UpdateColoringStuff(ColorChannel);
         }
 
         public static readonly DependencyProperty ColorChannelProperty = DependencyProperty.Register(nameof(ColorChannel), typeof(ColorChannelEnum), typeof(ColorChannelInput), new PropertyMetadata(ColorChannelEnum.Red));
@@ -163,6 +165,45 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             }
             string extension = Path.GetExtension(filePath);
             return SharedInfo.AllowedImageExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase);
+        }
+
+        private void UpdateColoringStuff(ColorChannelEnum channel)
+        {
+            if (btnColorChannelInput is null)
+            {
+                return;
+            }
+
+            string wantedString;
+            Brush wantedBrush;
+            switch (channel)
+            {
+                case ColorChannelEnum.Green:
+                    wantedString = StringLinesInfo.ClrChnBtnGreen;
+                    wantedBrush = SharedInfo.MainColorGreen;
+                    break;
+                case ColorChannelEnum.Blue:
+                    wantedString = StringLinesInfo.ClrChnBtnBlue;
+                    wantedBrush = SharedInfo.MainColorBlue;
+                    break;
+                case ColorChannelEnum.Alpha:
+                    wantedString = StringLinesInfo.ClrChnBtnAlpha;
+                    wantedBrush = SharedInfo.MainColorAlpha;
+                    break;
+                default: // red
+                    wantedString = StringLinesInfo.ClrChnBtnRed;
+                    wantedBrush = SharedInfo.MainColorRed;
+                    break;
+            }
+            btnColorChannelInput.Content = wantedString;
+
+            var mouseOver = wantedBrush.Clone();
+            mouseOver.Opacity = 0.05;
+            crdPanel.Background = mouseOver;
+
+            //var normalLook = wantedBrush.Clone();
+            //normalLook.Opacity = 0.3;
+            //btnColorChannelInput.Background = normalLook;
         }
     }
 }

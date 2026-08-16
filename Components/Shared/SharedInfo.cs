@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using ImageCombinerChannelExtractor.Components.Helpers;
+using System.IO;
+using System.Windows.Media;
 
 namespace ImageCombinerChannelExtractor.Components.Shared
 {
@@ -24,5 +26,13 @@ namespace ImageCombinerChannelExtractor.Components.Shared
             string extension = Path.GetExtension(filePath);
             return AllowedImageExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase);
         }
+
+        private static readonly Color baseRedColor = Color.FromRgb(177, 0, 8);
+        private static readonly Color baseRedWhite = Color.FromRgb(68, 64, 59);
+
+        public static readonly Brush MainColorRed = new SolidColorBrush(baseRedColor);
+        public static readonly Brush MainColorGreen = new SolidColorBrush(ColorHelper.GetMediaColorHueAdjusted(baseRedColor, 120));
+        public static readonly Brush MainColorBlue = new SolidColorBrush(ColorHelper.GetMediaColorHueAdjusted(baseRedColor, 240));
+        public static readonly Brush MainColorAlpha = new SolidColorBrush(baseRedWhite);
     }
 }

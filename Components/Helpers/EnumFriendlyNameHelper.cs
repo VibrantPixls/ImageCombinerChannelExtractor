@@ -1,4 +1,5 @@
 ﻿using ImageCombinerChannelExtractor.Components.Enums;
+using ImageCombinerChannelExtractor.Components.Shared;
 
 namespace ImageCombinerChannelExtractor.Components.Helpers
 {
@@ -8,9 +9,9 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
         {
             return value switch
             {
-                ChannelFilteringMode.Bilinear => "Smooth (Bilinear)",
-                ChannelFilteringMode.NearestNeighbor => "Sharp (Nearest Neighbor)",
-                _ => "Smooth (Bicubic)"
+                ChannelFilteringMode.Bilinear => StringLinesInfo.EnumFriendlyNameChannelFilteringBilinear,
+                ChannelFilteringMode.NearestNeighbor => StringLinesInfo.EnumFriendlyNameChannelFilteringNearestNeighbor,
+                _ => StringLinesInfo.EnumFriendlyNameChannelFilteringBicubic
             };
         }
     }
