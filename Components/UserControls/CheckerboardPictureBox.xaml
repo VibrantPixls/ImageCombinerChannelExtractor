@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ImageCombinerChannelExtractor.Components.UserControls"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              mc:Ignorable="d"
              x:Name="Root"
              d:DesignHeight="400" d:DesignWidth="400">
@@ -13,12 +14,12 @@
                 <DrawingBrush TileMode="Tile" Viewport="0,0,20,20" ViewportUnits="Absolute">
                     <DrawingBrush.Drawing>
                         <DrawingGroup>
-                            <GeometryDrawing Brush="Gainsboro">
+                            <GeometryDrawing Brush="{DynamicResource SubtleFillColorSecondaryBrush}">
                                 <GeometryDrawing.Geometry>
                                     <RectangleGeometry Rect="0,0,20,20"/>
                                 </GeometryDrawing.Geometry>
                             </GeometryDrawing>
-                            <GeometryDrawing Brush="LightGray">
+                            <GeometryDrawing Brush="{DynamicResource SubtleFillColorTertiaryBrush}">
                                 <GeometryDrawing.Geometry>
                                     <GeometryGroup>
                                         <RectangleGeometry Rect="10,0,10,10"/>
