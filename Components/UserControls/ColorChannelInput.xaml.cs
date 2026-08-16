@@ -51,6 +51,7 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             set => SetValue(SelectedFilteringProperty, value);
         }
 
+        #region Interaction events
         public static readonly RoutedEvent FilteringChangedEvent = EventManager.RegisterRoutedEvent(nameof(FilteringChanged), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ColorChannelInput));
         public event RoutedEventHandler FilteringChanged
         {
@@ -84,11 +85,6 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
         {
             add => AddHandler(ChannelMouseLeaveEvent, value);
             remove => RemoveHandler(ChannelMouseLeaveEvent, value);
-        }
-
-        public void SetLabelText(string lblText)
-        {
-            lblSelectedFile.Text = lblText;
         }
 
         private void OnButtonClick(object sender, RoutedEventArgs e)
@@ -151,6 +147,12 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
                 }
             }
             RaiseEvent(new RoutedEventArgs(FilteringChangedEvent, this));
+        }
+        #endregion
+
+        public void SetLabelText(string lblText)
+        {
+            lblSelectedFile.Text = lblText;
         }
 
         private static bool IsValidImageFile(string filePath)

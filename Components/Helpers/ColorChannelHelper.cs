@@ -78,6 +78,7 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
                 var targetDict = sender.IsChannelFromCombined ? _combinerChannels : _extracterChannels;
                 sender.SetLabelText($"{Path.GetFileName(path)}");
                 targetDict[channel].Bitmap = LoadImageIndependent(path);
+                targetDict[channel].FilePath = path;
                 return true;
             }
             return false;
@@ -88,14 +89,13 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
             var targetDict = sender.IsChannelFromCombined ? _combinerChannels : _extracterChannels;
             sender.SetLabelText("No Image Selected");
             targetDict[channel].Bitmap = null;
+            targetDict[channel].FilePath = string.Empty;
         }
 
         // filtering can only change for the combined channels
-        public static void OnFilteringChanged(object sender, RoutedEventArgs e)
+        public static void OnFilteringChanged(ColorChannelInput sender, RoutedEventArgs e)
         {
-            var input = (ColorChannelInput)sender;
-            Debug.WriteLine($"OnFilteringChanged {input.ColorChannel} to {input.SelectedFiltering}");
-            _combinerChannels[input.ColorChannel].FilteringMode = input.SelectedFiltering;
+            _combinerChannels[sender.ColorChannel].FilteringMode = sender.SelectedFiltering;
         }
 
         #region Public helpers
@@ -140,6 +140,29 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool DoesSenderInputChannelHaveInputImage(ColorChannelInput sender)
+        {
+            var dict = sender.IsChannelFromCombined ? _combinerChannels : _extracterChannels;
+            return dict[sender.ColorChannel].Bitmap != null;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool DoesSenderInputChannelHaveDifferentImage(ColorChannelInput sender, string? newPath)
+        {
+            if (string.IsNullOrEmpty(newPath))
+            {
+                return false;
+            }
+
+            var dict = sender.IsChannelFromCombined ? _combinerChannels : _extracterChannels;
+            if (!DoesSenderInputChannelHaveInputImage(dict, sender))
+            {
+                return true; // otherwise first inputs won't load
+            }
+            return !string.Equals(dict[sender.ColorChannel].FilePath, newPath, StringComparison.OrdinalIgnoreCase);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool DoesAnyChannelHaveInputImages()
         {
             bool someChannelHasAInputImage = false;
@@ -174,18 +197,25 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
 
         #region Private helpers
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static (double Width, double Height) GetScaledDimensions(double width, double height, double combinedPreviewImageSizeDefault)
+        private static (double Width, double Height) GetScaledDimensions(double width, double height, double combinedPreviewImageSizeDefault)
         {
             double scale = GetScaleFactor(width, height, combinedPreviewImageSizeDefault);
             return (width * scale, height * scale);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static double GetScaleFactor(double width, double height, double combinedPreviewImageSizeDefault)
+        private static double GetScaleFactor(double width, double height, double combinedPreviewImageSizeDefault)
         {
             double maxDimension = Math.Max(width, height);
             return combinedPreviewImageSizeDefault / maxDimension;
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static bool DoesSenderInputChannelHaveInputImage(Dictionary<ColorChannelEnum, ChannelSlot> dictionary, ColorChannelInput sender)
+        {
+            return dictionary[sender.ColorChannel].Bitmap != null;
+        }
+
         #endregion
     }
 }

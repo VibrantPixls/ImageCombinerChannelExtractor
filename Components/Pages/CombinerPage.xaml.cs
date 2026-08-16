@@ -4,6 +4,7 @@ using ImageCombinerChannelExtractor.Components.Helpers;
 using ImageCombinerChannelExtractor.Components.Shared;
 using ImageCombinerChannelExtractor.Components.UserControls;
 using Microsoft.Win32;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -72,7 +73,12 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
         private void OnFilteringChanged(object sender, RoutedEventArgs e)
         {
-            ColorChannelHelper.OnFilteringChanged(sender, e);
+            var input = (ColorChannelInput)sender;
+            if (!ColorChannelHelper.DoesSenderInputChannelHaveInputImage(input))
+            {
+                return;
+            }
+            ColorChannelHelper.OnFilteringChanged(input, e);
             MarkCombinedPreviewDirty();
         }
         #endregion
@@ -80,6 +86,11 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         #region Load images into channels
         private void LoadChannelFromPath(ColorChannelInput sender, ColorChannelEnum channel, string? path)
         {
+            if (!ColorChannelHelper.DoesSenderInputChannelHaveDifferentImage(sender, path))
+            {
+                return;
+            }
+
             if (ColorChannelHelper.LoadChannelFromPath(sender, channel, path))
             {
                 ShowChannelPreview(sender, channel, true);

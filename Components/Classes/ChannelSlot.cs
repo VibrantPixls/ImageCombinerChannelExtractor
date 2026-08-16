@@ -7,5 +7,7 @@ namespace ImageCombinerChannelExtractor.Components.Classes
     {
         public BitmapImage? Bitmap { get; set; }
         public ChannelFilteringMode FilteringMode { get; set; } = ChannelFilteringMode.Bicubic;
+
+        public string FilePath { get; set; } = string.Empty;
     }
 }
