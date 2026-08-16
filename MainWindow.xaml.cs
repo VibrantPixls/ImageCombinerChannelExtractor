@@ -20,7 +20,7 @@ namespace ImageCombinerChannelExtractor
         private readonly Dictionary<ColorChannelEnum, ChannelSlot> _extracterChannels;
 
         #region Image previews variables
-        private const double _combinedDefaultSize = 400.0;
+        private const double _combinedDefaultSize = 425.0;
 
         private CurrentBitmapPreviewingEnum _currentlyPreviewingType = CurrentBitmapPreviewingEnum.None;
         private ColorChannelEnum? _currentlyPreviewingColorChannel = null;

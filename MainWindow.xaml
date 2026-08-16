@@ -80,14 +80,14 @@
 
                 <ui:Card Grid.Row="0" HorizontalAlignment="Center" Padding="8">
                     <StackPanel HorizontalAlignment="Center">
-                        <Border x:Name="brdPreviewBoxCombined" Width="400" Height="400" CornerRadius="4" ClipToBounds="True">
+                        <Border x:Name="brdPreviewBoxCombined" Width="425" Height="425" CornerRadius="4" ClipToBounds="True">
                             <controls:CheckerboardPictureBox x:Name="imgPreviewCombiner" />
                         </Border>
                         <ui:TextBlock x:Name="lblPreviewCombined" FontTypography="Caption" HorizontalAlignment="Center" Margin="0,6,0,0"/>
                     </StackPanel>
                 </ui:Card>
 
-                <ScrollViewer Grid.Row="1" Margin="100,12,0,0">
+                <ScrollViewer Grid.Row="1" Margin="100,12,0,0" >
                     <StackPanel x:Name="NotificationContainer" RenderTransformOrigin="0.5,0.5" >
                         <StackPanel.RenderTransform>
                             <TransformGroup>
