@@ -76,7 +76,5 @@
                 </StackPanel>
             </ui:Card>
         </Grid>
-
-        <controls:LoadingScreen x:Name="loadingOverlay" Grid.RowSpan="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Panel.ZIndex="99" Visibility="Hidden"/>
     </Grid>
 </Page>
