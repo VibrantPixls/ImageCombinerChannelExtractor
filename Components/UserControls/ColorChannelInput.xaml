@@ -28,7 +28,7 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Border Grid.Column="0" Background="{Binding ChannelColor, ElementName=Root}" CornerRadius="3" Margin="0,2,6,2"/>
+                    <Border Grid.Column="0" CornerRadius="3" Margin="0,2,6,2"/>
                     <ui:Button x:Name="btnColorChannelInput" Grid.Column="1" HorizontalAlignment="Stretch" Appearance="Secondary" Icon="{ui:SymbolIcon ImageAdd24}" Click="OnButtonClick" Height="36" Foreground="White" />
                 </Grid>
                 <ui:Button Grid.Column="1" Appearance="Transparent" Icon="{ui:SymbolIcon Dismiss24}" Click="OnButtonClickRemove" ToolTip="Clear input image" Height="36" Width="36" Padding="0" Foreground="White" />
