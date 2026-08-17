@@ -1,5 +1,8 @@
 # Image Combiner & Channel Extractor
 
+> [!IMPORTANT]
+> This version is currently being worked on and is not yet finished.
+
 > [!NOTE]
 > This is the **modern** version of the Image Combiner & Channel Extractor.
 > Looking for a legacy version? Check out the legacy version [here](https://github.com/VibrantPixls/ImageCombinerChannelExtractorLegacy)!
