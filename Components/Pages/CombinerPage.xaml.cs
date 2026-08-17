@@ -64,7 +64,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
         private void OnChannelMouseLeave(object sender, RoutedEventArgs e)
         {
-            var input = (ColorChannelInput)sender;
+            ResetAllSelectedInputs();
         }
 
         private void OnButtonMouseEnterCombined(object sender, MouseEventArgs e)
@@ -457,6 +457,8 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         {
             if (_isWaitingForCombinedImage)
             {
+                ResetAllSelectedInputs();
+
                 _currentlyPreviewingType = CurrentBitmapPreviewingEnum.Combined;
                 imgPreviewCombiner.ImageSource = _combinedPreviewCache;
                 lblPreviewCombined.Text = $"Combined image";
@@ -475,6 +477,8 @@ namespace ImageCombinerChannelExtractor.Components.Pages
                 return;
             }
 
+            SetNewChannelPreview(sender);
+
             if (ColorChannelHelper.GetCombinedChannelsDictionary()[sender.ColorChannel].Bitmap is not { } wantedImage)
             {
                 return;
@@ -487,8 +491,24 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             imgPreviewCombiner.ImageSource = wantedImage;
         }
 
+        private void SetNewChannelPreview(ColorChannelInput newPreview)
+        {
+            ResetAllSelectedInputs();
+            newPreview.SetSelected(true);
+        }
+
+        private void ResetAllSelectedInputs()
+        {
+            RedChannelInput.SetSelected(false);
+            GreenChannelInput.SetSelected(false);
+            BlueChannelInput.SetSelected(false);
+            AlphaChannelInput.SetSelected(false);
+        }
+
         private void ClearChannelPreview()
         {
+            ResetAllSelectedInputs();
+
             _currentlyPreviewingColorChannel = null;
             _currentlyPreviewingType = CurrentBitmapPreviewingEnum.None;
             lblPreviewCombined.Text = string.Empty;
@@ -506,7 +526,6 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         #endregion
 
         #region Helpers
-
         private void UpdateTargetResolutionCombined()
         {
             var target = ColorChannelHelper.GetCombinedImageTargetResolution(_combinedDefaultSize);

@@ -150,6 +150,11 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             lblSelectedFile.Text = lblText;
         }
 
+        public void SetSelected(bool selected)
+        {
+            UpdateBrushColors(GetColorBrush(ColorChannel, selected));
+        }
+
         private static bool IsValidImageFile(string filePath)
         {
             if (string.IsNullOrWhiteSpace(filePath) || !File.Exists(filePath))
@@ -167,31 +172,30 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
                 return;
             }
 
-            string wantedString;
-            Brush wantedBrush;
-            switch (channel)
-            {
-                case ColorChannelEnum.Green:
-                    wantedString = StringLinesInfo.ClrChnBtnGreen;
-                    wantedBrush = SharedInfo.MainColorGreen;
-                    break;
-                case ColorChannelEnum.Blue:
-                    wantedString = StringLinesInfo.ClrChnBtnBlue;
-                    wantedBrush = SharedInfo.MainColorBlue;
-                    break;
-                case ColorChannelEnum.Alpha:
-                    wantedString = StringLinesInfo.ClrChnBtnAlpha;
-                    wantedBrush = SharedInfo.MainColorAlpha;
-                    break;
-                default: // red
-                    wantedString = StringLinesInfo.ClrChnBtnRed;
-                    wantedBrush = SharedInfo.MainColorRed;
-                    break;
-            }
-            btnColorChannelInput.Content = wantedString;
+            btnColorChannelInput.Content = GetBtnString(channel);
+            UpdateBrushColors(GetColorBrush(channel));
+        }
 
+        private void UpdateBrushColors(Brush wantedBrush)
+        {
             wantedBrush.Opacity = 0.05;
             crdPanel.Background = wantedBrush;
         }
+
+        private string GetBtnString(ColorChannelEnum channel) => channel switch
+        {
+            ColorChannelEnum.Green => StringLinesInfo.ClrChnBtnGreen,
+            ColorChannelEnum.Blue => StringLinesInfo.ClrChnBtnBlue,
+            ColorChannelEnum.Alpha => StringLinesInfo.ClrChnBtnAlpha,
+            _ => StringLinesInfo.ClrChnBtnRed
+        };
+
+        private Brush GetColorBrush(ColorChannelEnum channel, bool isBright = false) => channel switch
+        {
+            ColorChannelEnum.Green => isBright ? SharedInfo.MainColorGreenBright : SharedInfo.MainColorGreen,
+            ColorChannelEnum.Blue => isBright ? SharedInfo.MainColorBlueBright : SharedInfo.MainColorBlue,
+            ColorChannelEnum.Alpha => isBright ? SharedInfo.MainColorAlphaBright : SharedInfo.MainColorAlpha,
+            _ => isBright ? SharedInfo.MainColorRedBright : SharedInfo.MainColorRed
+        };
     }
 }

@@ -88,5 +88,31 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
 
             return Color.FromArgb(color.A, rb, gb, bb);
         }
+
+        public static Color GetMediaColorBrighter(Color color, float amount)
+        {
+            float r = color.R / 255f;
+            float g = color.G / 255f;
+            float b = color.B / 255f;
+            float max = MathF.Max(r, MathF.Max(g, b));
+            float min = MathF.Min(r, MathF.Min(g, b));
+            float d = max - min;
+            float v = MathF.Max(0f, MathF.Min(1f, max + amount));
+
+            if (d == 0f)
+            {
+                byte gray = (byte)MathF.Round(v * 255f);
+                return Color.FromArgb(color.A, gray, gray, gray);
+            }
+
+            float s = max == 0f ? 0f : d / max;
+            float scale = max == 0f ? 0f : v / max;
+
+            byte rb = (byte)MathF.Round(MathF.Min(255f, r * scale * 255f));
+            byte gb = (byte)MathF.Round(MathF.Min(255f, g * scale * 255f));
+            byte bb = (byte)MathF.Round(MathF.Min(255f, b * scale * 255f));
+
+            return Color.FromArgb(color.A, rb, gb, bb);
+        }
     }
 }
