@@ -38,7 +38,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             brdPreviewBoxCombined.Width = _combinedDefaultSize;
             brdPreviewBoxCombined.Height = _combinedDefaultSize;
 
-            btnCreateCombined.Content = StringLinesInfo.CrtCombinedBtn;
+            btnCreateCombined.Content = StringLinesInfo.CrtCombinedBtnNoInputs;
         }
 
         #region On ColorChannelInput events
@@ -151,11 +151,15 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
         private async Task GenerateCombinedPreviewAsync()
         {
+            btnCreateCombined.IsEnabled = false;
             if (!ColorChannelHelper.DoesAnyChannelHaveInputImages())
             {
                 //early exit when no input images
+                btnCreateCombined.Content = StringLinesInfo.CrtCombinedBtnNoInputs;
                 return;
             }
+
+            btnCreateCombined.Content = StringLinesInfo.CrtCombinedBtnGenerating;
 
             _ctsCombined?.Cancel();
             _ctsCombined?.Dispose();
@@ -178,13 +182,16 @@ namespace ImageCombinerChannelExtractor.Components.Pages
                     _combinedPreviewCache = result;
                     // now show if the user was waiting for it
                     StartShowingCombinedPreview();
+
+                    btnCreateCombined.IsEnabled = true;
+                    btnCreateCombined.Content = StringLinesInfo.CrtCombinedBtn;
+
                     TriggerNotification(StringLinesInfo.notificationSuccessfullCombining, NotificationTypeEnum.Success, true);
                 }
             }
             catch (OperationCanceledException)
             {
                 // cancelled
-
             }
             finally
             {

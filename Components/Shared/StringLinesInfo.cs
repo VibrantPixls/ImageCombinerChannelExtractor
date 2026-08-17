@@ -17,5 +17,7 @@
         public const string ClrChnBtnAlpha = "Select Image for the alpha channel";
 
         public const string CrtCombinedBtn = "Create Combined PNG";
+        public const string CrtCombinedBtnNoInputs = "No Input Images";
+        public const string CrtCombinedBtnGenerating = "Generating Combined PNG";
     }
 }
