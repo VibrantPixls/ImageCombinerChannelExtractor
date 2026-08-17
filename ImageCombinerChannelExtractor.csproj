@@ -11,10 +11,20 @@
     <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
     <Company>Vibrant Pixels</Company>
     <Authors>Vibrant Pixels</Authors>
+    <Copyright>Vibrant Pixels</Copyright>
+    <RepositoryUrl>https://github.com/VibrantPixls/ImageCombinerChannelExtractor</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="WPF-UI" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
