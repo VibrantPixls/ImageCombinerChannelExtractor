@@ -4,12 +4,7 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
 {
     public static class ColorHelper
     {
-        public static Color GetMediaColorHueAdjusted(Color color, float hueDegrees)
-        {
-            return ShiftHue(color, hueDegrees);
-        }
-
-        private static Color ShiftHue(Color color, float degrees)
+        public static Color GetMediaColorHueAdjusted(Color color, float degrees)
         {
             float r = color.R / 255f;
             float g = color.G / 255f;
