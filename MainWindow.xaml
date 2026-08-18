@@ -11,9 +11,11 @@
                  d:Background="#1C1C1C"
                  Title="Image Combiner &amp; Channel Extractor" 
                  Height="650" Width="1080"
+                 MinHeight="650" MaxHeight="650"
+                 MinWidth="1080" MaxWidth="1080"
                  WindowStartupLocation="CenterScreen"
                  WindowBackdropType="Mica"
-                 ExtendsContentIntoTitleBar="True" WindowStyle="None" ResizeMode="NoResize">
+                 ExtendsContentIntoTitleBar="True" WindowStyle="None" ResizeMode="NoResize" SnapsToDevicePixels="True">
 
     <Grid>
         <Grid.RowDefinitions>
