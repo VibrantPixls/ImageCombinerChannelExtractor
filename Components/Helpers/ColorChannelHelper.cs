@@ -77,7 +77,10 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
             {
                 var targetDict = sender.IsChannelFromCombined ? _combinerChannels : _extracterChannels;
                 sender.SetLabelText($"{Path.GetFileName(path)}");
-                targetDict[channel].Bitmap = LoadImageIndependent(path);
+
+                var newLoadedImage = LoadImageIndependent(path);
+                targetDict[channel].Bitmap = newLoadedImage;
+                targetDict[channel].BitmapSize = (newLoadedImage.PixelWidth, newLoadedImage.PixelHeight);
                 targetDict[channel].FilePath = path;
                 return true;
             }
@@ -89,6 +92,7 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
             var targetDict = sender.IsChannelFromCombined ? _combinerChannels : _extracterChannels;
             sender.SetLabelText(StringLinesInfo.NoInputImageTextDefault);
             targetDict[channel].Bitmap = null;
+            targetDict[channel].BitmapSize = (0, 0);
             targetDict[channel].FilePath = string.Empty;
         }
 
@@ -137,6 +141,13 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
                 }
             }
             return false;
+        }
+
+        public static (int Width, int Height) GetColorChannelImageSize(ColorChannelInput sender)
+        {
+            var dict = sender.IsChannelFromCombined ? _combinerChannels : _extracterChannels;
+            var bitmapSize = dict[sender.ColorChannel].BitmapSize;
+            return (bitmapSize.Width, bitmapSize.Height);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

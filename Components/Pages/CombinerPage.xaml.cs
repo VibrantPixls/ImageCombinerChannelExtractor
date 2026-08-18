@@ -14,6 +14,8 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 {
     public partial class CombinerPage : Page
     {
+        private readonly ColorChannelInput[] _cachedColorInputPanels;
+
         #region Image previews variables
         private const double _combinedDefaultSize = 425.0;
 
@@ -34,6 +36,14 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         public CombinerPage()
         {
             InitializeComponent();
+
+            _cachedColorInputPanels = new[]
+            {
+                RedChannelInput,
+                GreenChannelInput,
+                BlueChannelInput,
+                AlphaChannelInput
+            };
 
             brdPreviewBoxCombined.Width = _combinedDefaultSize;
             brdPreviewBoxCombined.Height = _combinedDefaultSize;
@@ -92,7 +102,8 @@ namespace ImageCombinerChannelExtractor.Components.Pages
                 return;
             }
 
-            if (ColorChannelHelper.LoadChannelFromPath(sender, channel, path))
+            bool successfullyLoaded = ColorChannelHelper.LoadChannelFromPath(sender, channel, path);
+            if (successfullyLoaded)
             {
                 ShowChannelPreview(sender, channel, true);
             }
@@ -140,11 +151,23 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
             lblResolutionCombined.Text = _differentResolutionsForCombinedOutput ? $"Mismatched sizes - output will be {_resolutionCombinedOutputWidth}x{_resolutionCombinedOutputHeight}" : $"{_resolutionCombinedOutputWidth}x{_resolutionCombinedOutputHeight}";
         }
+
+        private void UpdateFilteringComboboxEnable()
+        {
+            foreach (var panel in _cachedColorInputPanels)
+            {
+                bool hasInputImage = ColorChannelHelper.DoesSenderInputChannelHaveInputImage(panel);
+                // should be a function, oh well
+                panel.cmbboxFiltering.IsEnabled = hasInputImage && WillChannelResizeInCombinedImage(panel);
+            }
+        }
         #endregion
 
         #region Combiner
         public void MarkCombinedPreviewDirty()
         {
+            UpdateFilteringComboboxEnable();
+
             _combinedPreviewCache = null;
             _ = GenerateCombinedPreviewAsync();
         }
@@ -542,6 +565,12 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
             imgPreviewCombiner.Width = target.PreviewImageWidth;
             imgPreviewCombiner.Height = target.PreviewImageHeight;
+        }
+
+        private bool WillChannelResizeInCombinedImage(ColorChannelInput sender)
+        {
+            var imageSize = ColorChannelHelper.GetColorChannelImageSize(sender);
+            return imageSize.Width < _resolutionCombinedOutputWidth && imageSize.Height < _resolutionCombinedOutputHeight;
         }
         #endregion
     }
