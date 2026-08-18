@@ -4,6 +4,7 @@
     {
         public const string notificationCombining = "Started combining input images";
         public const string notificationSuccessfullCombining = "Successfully created combined image";
+        public const string notificationSuccessfullCombiningExport = "Successfully exported combined image";
 
         public const string EnumFriendlyNameChannelFilteringBilinear = "Smooth (Bilinear)";
         public const string EnumFriendlyNameChannelFilteringNearestNeighbor = "Sharp (Nearest Neighbor)";
@@ -19,5 +20,11 @@
         public const string CrtCombinedBtn = "Create Combined PNG";
         public const string CrtCombinedBtnNoInputs = "No Input Images";
         public const string CrtCombinedBtnGenerating = "Generating Combined PNG";
+
+        // ---------------------------
+        public static string GetExceptionError(Exception ex)
+        {
+            return $"Export Exception: {ex}";
+        }
     }
 }

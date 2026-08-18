@@ -2,11 +2,8 @@
 
 namespace ImageCombinerChannelExtractor
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : Application
     {
+        public static MainWindow MainWindowReference => (MainWindow)Current.MainWindow;
     }
-
 }

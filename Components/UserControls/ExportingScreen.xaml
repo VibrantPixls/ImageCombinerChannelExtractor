@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="ImageCombinerChannelExtractor.Components.UserControls.ExportingScreen"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ImageCombinerChannelExtractor.Components.UserControls"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             mc:Ignorable="d" 
+             d:DesignHeight="602" d:DesignWidth="1000">
+    <Grid Background="{DynamicResource SmokeFillColorDefaultBrush}" Opacity="100">
+        <ui:Card Background="{DynamicResource SolidBackgroundFillColorBaseBrush}" VerticalAlignment="Stretch" Padding="32" HorizontalContentAlignment="Center" Margin="150">
+            <StackPanel Width="400">
+                <Label Content="Exporting..." FontWeight="SemiBold" HorizontalContentAlignment="Center" FontSize="24"/>
+                <ProgressBar x:Name="progressbar" IsIndeterminate="false" Height="25" Margin="0,15,0,0"/>
+            </StackPanel>
+        </ui:Card>
+    </Grid>
+</UserControl>

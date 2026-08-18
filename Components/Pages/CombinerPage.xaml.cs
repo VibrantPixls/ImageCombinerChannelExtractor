@@ -2,8 +2,10 @@
 using ImageCombinerChannelExtractor.Components.Enums;
 using ImageCombinerChannelExtractor.Components.Helpers;
 using ImageCombinerChannelExtractor.Components.Shared;
+using ImageCombinerChannelExtractor.Components.Stream;
 using ImageCombinerChannelExtractor.Components.UserControls;
 using Microsoft.Win32;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -32,6 +34,10 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         private bool _isWaitingForCombinedImage = false;
         private CancellationTokenSource? _ctsCombined;
         #endregion
+
+        private const int _defaultTimeToDisplayNotif = 3;
+        private const int _defaultTimeToDisplayNotifIfException = _defaultTimeToDisplayNotif * 3;
+        private const int _show100PercentageOnOverlayForInMiliseconds = 3000;
 
         public CombinerPage()
         {
@@ -93,6 +99,52 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
             MarkSenderPreviewDirty(input);
             MarkCombinedPreviewDirty();
+        }
+
+        private async void btnCreateCombined_Click(object sender, RoutedEventArgs e) // export file
+        {
+            if (_combinedPreviewCache == null)
+            {
+                return;
+            }
+
+            var saveFileDialog = new SaveFileDialog
+            {
+                Filter = "PNG Image (*.png)|*.png",
+                DefaultExt = ".png",
+                FileName = "ExportedPreview.png",
+                Title = "Save Preview As"
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                bool gotError = false;
+                var button = sender as Button;
+                try
+                {
+                    if (button != null)
+                    {
+                        button.IsEnabled = false; // just to be sure
+                    }
+                    await SavePreviewCacheToPngAsync(saveFileDialog.FileName);
+                }
+                catch (Exception ex)
+                {
+                    TriggerNotification(StringLinesInfo.GetExceptionError(ex), NotificationTypeEnum.Error, _defaultTimeToDisplayNotifIfException);
+                }
+                finally
+                {
+                    if (button != null)
+                    {
+                        button.IsEnabled = true;
+                    }
+
+                    if (!gotError)
+                    {
+                        TriggerNotification(StringLinesInfo.notificationSuccessfullCombiningExport, NotificationTypeEnum.Success, _defaultTimeToDisplayNotif);
+                    }
+                }
+            }
         }
         #endregion
 
@@ -195,7 +247,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             var notifInt = TriggerNotification(StringLinesInfo.notificationCombining, NotificationTypeEnum.Combining);
             try
             {
-                await Task.Delay(10, token).ConfigureAwait(true);
+                //await Task.Delay(10, token).ConfigureAwait(true);
 
                 // Snapshot it before doing anything
                 var snapshot = new Dictionary<ColorChannelEnum, ChannelSlot>(ColorChannelHelper.GetCombinedChannelsDictionary());
@@ -211,7 +263,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
                     btnCreateCombined.IsEnabled = true;
                     btnCreateCombined.Content = StringLinesInfo.CrtCombinedBtn;
 
-                    TriggerNotification(StringLinesInfo.notificationSuccessfullCombining, NotificationTypeEnum.Success, true);
+                    TriggerNotification(StringLinesInfo.notificationSuccessfullCombining, NotificationTypeEnum.Success, _defaultTimeToDisplayNotif);
                 }
             }
             catch (OperationCanceledException)
@@ -453,21 +505,14 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         #endregion
 
         #region Notifications trigger
-        private uint TriggerNotification(string text, NotificationTypeEnum notifType = NotificationTypeEnum.Info, bool autoDestroy = false)
+        private uint TriggerNotification(string text, NotificationTypeEnum notifType = NotificationTypeEnum.Info, int autoDestroyinSec = 0)
         {
-            if (Application.Current.MainWindow is MainWindow mainWindow)
-            {
-                return mainWindow.SpawnNotification(text, notifType, autoDestroy);
-            }
-            return 0;
+            return App.MainWindowReference.SpawnNotification(text, notifType, autoDestroyinSec);
         }
 
         private void TriggerRemoveNotification(uint taskIdToRemove)
         {
-            if (Application.Current.MainWindow is MainWindow mainWindow)
-            {
-                mainWindow.RemoveNotification(taskIdToRemove);
-            }
+            App.MainWindowReference.RemoveNotification(taskIdToRemove);
         }
         #endregion
 
@@ -574,6 +619,46 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
             imgPreviewCombiner.Width = target.PreviewImageWidth;
             imgPreviewCombiner.Height = target.PreviewImageHeight;
+        }
+
+        private async Task SavePreviewCacheToPngAsync(string filePath)
+        {
+            // null check already done beforehand
+#pragma warning disable CS8600
+            BitmapSource bitmapToSave = _combinedPreviewCache;
+#pragma warning restore CS8600
+
+            App.MainWindowReference.SetExtractingScreenProgress(0);
+            App.MainWindowReference.ShowExtractingScreen(true);
+
+#pragma warning disable CS8602
+            long estimatedTotalBytes = (long)(bitmapToSave.PixelWidth * bitmapToSave.PixelHeight * (bitmapToSave.Format.BitsPerPixel / 8) * 0.3);
+#pragma warning restore CS8602
+            if (estimatedTotalBytes <= 0) estimatedTotalBytes = 1;
+
+            var progress = new Progress<double>(percentage =>
+            {
+                App.MainWindowReference.SetExtractingScreenProgress(percentage);
+            });
+
+            await Task.Run(() =>
+            {
+                var encoder = new PngBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(bitmapToSave));
+
+                using var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 65536, options: FileOptions.SequentialScan);
+                using var progressStream = new FileExportingStreamer(fileStream, bytesWritten =>
+                {
+                    double percent = Math.Min(99.0, ((double)bytesWritten / estimatedTotalBytes) * 100.0);
+                    ((IProgress<double>)progress).Report(percent);
+                });
+
+                encoder.Save(progressStream);
+            });
+            App.MainWindowReference.SetExtractingScreenProgress(100);
+            // delay after hitting 100%
+            await Task.Delay(_show100PercentageOnOverlayForInMiliseconds).ConfigureAwait(true);
+            App.MainWindowReference.ShowExtractingScreen(false);
         }
         #endregion
     }

@@ -6,7 +6,6 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
 {
     public partial class NotificationWidget : UserControl
     {
-        private const byte _notificationAutoDestroyAfterTimeInSeconds = 3;
         private readonly static Dictionary<uint, DoingTaskNotif> _notifications = new Dictionary<uint, DoingTaskNotif>();
         private static uint _currentNotificationNumber = 0;
 
@@ -15,23 +14,23 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             InitializeComponent();
         }
 
-        public uint SpawnNotification(string text, NotificationTypeEnum notifType = NotificationTypeEnum.Info, bool autoDestroy = false)
+        public uint SpawnNotification(string text, NotificationTypeEnum notifType = NotificationTypeEnum.Info, int autoDestroyinSec = 0)
         {
             var notifId = GetCurrentNotificationInt();
             var notif = new DoingTaskNotif(notifType, text);
             _notifications.Add(notifId, notif);
             NotificationContainer.Children.Insert(0, notif);
 
-            if (autoDestroy)
+            if (autoDestroyinSec > 0)
             {
-                AutoRemoveNotification(notifId, notif);
+                AutoRemoveNotification(notifId, notif, autoDestroyinSec);
             }
             return notifId;
         }
 
-        private async void AutoRemoveNotification(uint notifId, DoingTaskNotif notif)
+        private async void AutoRemoveNotification(uint notifId, DoingTaskNotif notif, int amountOfSecondsToWait)
         {
-            for (int i = _notificationAutoDestroyAfterTimeInSeconds; i >= 0; i--)
+            for (int i = amountOfSecondsToWait; i >= 0; i--)
             {
                 notif.SetSecondsLeft(i);
                 await Task.Delay(1000);
