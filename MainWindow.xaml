@@ -6,13 +6,14 @@
                  xmlns:local="clr-namespace:ImageCombinerChannelExtractor"
                  xmlns:controls="clr-namespace:ImageCombinerChannelExtractor.Components.UserControls"
                  xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+                 xmlns:pages="clr-namespace:ImageCombinerChannelExtractor.Components.Pages"
                  mc:Ignorable="d"
                  d:Background="#1C1C1C"
                  Title="Image Combiner &amp; Channel Extractor" 
-                 Height="650" Width="1000"
+                 Height="650" Width="1080"
                  WindowStartupLocation="CenterScreen"
                  WindowBackdropType="Mica"
-                 ExtendsContentIntoTitleBar="True" WindowStyle="None">
+                 ExtendsContentIntoTitleBar="True" WindowStyle="None" ResizeMode="NoResize">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -20,9 +21,14 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <ui:TitleBar Grid.Row="0" Title="Image Combiner &amp; Channel Extractor" />
+        <ui:TitleBar Grid.Row="0" Title="                   Image Combiner &amp; Channel Extractor" CanMaximize="False" ShowMaximize="False" />
 
-        <Frame Grid.Row="1" x:Name="MainFrame" Source="/Components/Pages/CombinerPage.xaml" NavigationUIVisibility="Hidden" />
+        <ui:NavigationView Grid.Row="1" x:Name="RootNavigation" PaneDisplayMode="LeftFluent" TransitionDuration="300" IsBackButtonVisible="Collapsed" HeaderVisibility="Collapsed" IsFooterSeparatorVisible="False" IsPaneToggleVisible="False">
+            <ui:NavigationView.MenuItems>
+                <ui:NavigationViewItem Content="Combiner" Icon="{ui:SymbolIcon Layer20}" TargetPageType="{x:Type pages:CombinerPage}" Width="80" />
+                <ui:NavigationViewItem Content="Extractor" Icon="{ui:SymbolIcon BoardSplit28}" TargetPageType="{x:Type pages:CombinerPage}" Width="80" />
+            </ui:NavigationView.MenuItems>
+        </ui:NavigationView>
 
         <controls:ExportingScreen x:Name="loadingScreen" Grid.Row="1" Visibility="Collapsed"/>
         <controls:NotificationWidget x:Name="notificationWidget" Grid.Row="1" Margin="650,485,16,16"/>

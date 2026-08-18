@@ -8,6 +8,8 @@ namespace ImageCombinerChannelExtractor
         public MainWindow()
         {
             InitializeComponent();
+
+            Loaded += (s, e) => RootNavigation.Navigate(typeof(Components.Pages.CombinerPage));
         }
 
         #region Extracting screen trigger
