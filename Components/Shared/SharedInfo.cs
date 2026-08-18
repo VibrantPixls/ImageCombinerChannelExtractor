@@ -6,17 +6,20 @@ namespace ImageCombinerChannelExtractor.Components.Shared
 {
     public static class SharedInfo
     {
+        // image files
         public static readonly string[] AllowedImageExtensions = { ".png", ".jpg", ".jpeg" };
         public static readonly string OpenFileDialogFilter;
 
         static SharedInfo()
         {
+            // image files
             var extsWithoutDot = AllowedImageExtensions.Select(ext => ext.TrimStart('.').ToLower()).ToArray();
             string combinedPattern = string.Join(";", extsWithoutDot.Select(ext => $"*.{ext}"));
             string individualFilters = string.Join("|", extsWithoutDot.Select(ext => $"{ext.ToUpper()} Files (*.{ext})|*.{ext}"));
             OpenFileDialogFilter = $"All Supported Images ({combinedPattern})|{combinedPattern}|{individualFilters}";
         }
 
+        // image files
         public static bool IsValidImageFile(string? filePath)
         {
             if (string.IsNullOrWhiteSpace(filePath) || !File.Exists(filePath))
@@ -49,5 +52,12 @@ namespace ImageCombinerChannelExtractor.Components.Shared
         public static readonly Brush MainColorBlueBright = new SolidColorBrush(SharedColors_Blue_Bright);
         public static readonly Brush MainColorAlpha = new SolidColorBrush(SharedColors_White);
         public static readonly Brush MainColorAlphaBright = new SolidColorBrush(SharedColors_White_Bright);
+
+        // notification delays
+        public const int NotificationAutoDestroyAfterInSeconds = 3;
+        public const int NotificationAutoDestroyAfterInSecondsIfException = NotificationAutoDestroyAfterInSeconds * 4;
+
+        // extracting overlay
+        public const int OverlayKeepOnScreenAfterFinishForInMilliseconds = 400;
     }
 }

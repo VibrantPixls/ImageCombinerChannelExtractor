@@ -35,10 +35,6 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         private CancellationTokenSource? _ctsCombined;
         #endregion
 
-        private const int _defaultTimeToDisplayNotif = 3;
-        private const int _defaultTimeToDisplayNotifIfException = _defaultTimeToDisplayNotif * 3;
-        private const int _show100PercentageOnOverlayForInMiliseconds = 3000;
-
         public CombinerPage()
         {
             InitializeComponent();
@@ -130,7 +126,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
                 }
                 catch (Exception ex)
                 {
-                    TriggerNotification(StringLinesInfo.GetExceptionError(ex), NotificationTypeEnum.Error, _defaultTimeToDisplayNotifIfException);
+                    TriggerNotification(StringLinesInfo.GetExceptionError(ex), NotificationTypeEnum.Error, SharedInfo.NotificationAutoDestroyAfterInSecondsIfException);
                 }
                 finally
                 {
@@ -141,7 +137,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
                     if (!gotError)
                     {
-                        TriggerNotification(StringLinesInfo.notificationSuccessfullCombiningExport, NotificationTypeEnum.Success, _defaultTimeToDisplayNotif);
+                        TriggerNotification(StringLinesInfo.notificationSuccessfullCombiningExport, NotificationTypeEnum.Success, SharedInfo.NotificationAutoDestroyAfterInSeconds);
                     }
                 }
             }
@@ -263,7 +259,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
                     btnCreateCombined.IsEnabled = true;
                     btnCreateCombined.Content = StringLinesInfo.CrtCombinedBtn;
 
-                    TriggerNotification(StringLinesInfo.notificationSuccessfullCombining, NotificationTypeEnum.Success, _defaultTimeToDisplayNotif);
+                    TriggerNotification(StringLinesInfo.notificationSuccessfullCombining, NotificationTypeEnum.Success, SharedInfo.NotificationAutoDestroyAfterInSeconds);
                 }
             }
             catch (OperationCanceledException)
@@ -657,7 +653,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             });
             App.MainWindowReference.SetExtractingScreenProgress(100);
             // delay after hitting 100%
-            await Task.Delay(_show100PercentageOnOverlayForInMiliseconds).ConfigureAwait(true);
+            await Task.Delay(SharedInfo.OverlayKeepOnScreenAfterFinishForInMilliseconds).ConfigureAwait(true);
             App.MainWindowReference.ShowExtractingScreen(false);
         }
         #endregion
