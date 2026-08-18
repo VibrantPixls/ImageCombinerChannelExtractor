@@ -6,6 +6,7 @@ using ImageCombinerChannelExtractor.Components.UserControls;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace ImageCombinerChannelExtractor.Components.Helpers
@@ -186,6 +187,17 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
                 }
             }
             return someChannelHasAInputImage;
+        }
+
+        public static BitmapScalingMode GetBitmapScalingFilteringMode(ColorChannelInput sender)
+        {
+            var dict = sender.IsChannelFromCombined ? _combinerChannels : _extracterChannels;
+            return dict[sender.ColorChannel].FilteringMode switch
+            {
+                ChannelFilteringMode.Bilinear => BitmapScalingMode.Linear,
+                ChannelFilteringMode.NearestNeighbor => BitmapScalingMode.NearestNeighbor,
+                _ => BitmapScalingMode.HighQuality
+            };
         }
         #endregion
 
