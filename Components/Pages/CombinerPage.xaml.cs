@@ -529,10 +529,10 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
         private void ResetAllSelectedInputs()
         {
-            RedChannelInput.SetSelected(false);
-            GreenChannelInput.SetSelected(false);
-            BlueChannelInput.SetSelected(false);
-            AlphaChannelInput.SetSelected(false);
+            foreach (var panel in _cachedColorInputPanels)
+            {
+                panel.SetSelected(false);
+            }
         }
 
         private void ClearChannelPreview()
