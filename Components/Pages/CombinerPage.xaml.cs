@@ -75,7 +75,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         private void OnFilteringChanged(object sender, RoutedEventArgs e)
         {
             var input = (ColorChannelInput)sender;
-            if (!ColorChannelHelper.DoesSenderInputChannelHaveInputImage(input))
+            if (!ColorChannelHelper.DoesSenderInputChannelHaveInputImage(input) || !ColorChannelHelper.AreChannelsMismatchedInSize(input.IsChannelFromCombined))
             {
                 return;
             }
