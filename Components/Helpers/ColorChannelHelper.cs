@@ -72,7 +72,7 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
         #endregion
 
         // return true if an image was loaded
-        public static bool LoadChannelFromPath(ColorChannelInput sender, ColorChannelEnum channel, string? path)
+        public static bool LoadChannelFromPath(ColorChannelUserControl sender, ColorChannelEnum channel, string? path)
         {
             if (!string.IsNullOrEmpty(path))
             {
@@ -88,7 +88,7 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
             return false;
         }
 
-        public static void DeleteChannel(ColorChannelInput sender, ColorChannelEnum channel)
+        public static void DeleteChannel(ColorChannelUserControl sender, ColorChannelEnum channel)
         {
             var targetDict = sender.IsChannelFromCombined ? _combinerChannels : _extracterChannels;
             sender.SetLabelText(StringLinesInfo.NoInputImageTextDefault);

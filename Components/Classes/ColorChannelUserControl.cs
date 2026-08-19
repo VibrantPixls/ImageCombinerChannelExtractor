@@ -53,6 +53,18 @@ namespace ImageCombinerChannelExtractor.Components.Classes
         }
         #endregion
 
+        public static readonly DependencyProperty LabelTextContentProperty = DependencyProperty.Register(nameof(LabelTextContent), typeof(string), typeof(ColorChannelUserControl), new PropertyMetadata(""));
+        public string LabelTextContent
+        {
+            get => (string)GetValue(LabelTextContentProperty);
+            set => SetValue(LabelTextContentProperty, value);
+        }
+
+        public virtual void SetLabelText(string lblText)
+        {
+            LabelTextContent = lblText;
+        }
+
         protected virtual string GetBtnString(ColorChannelEnum channel) => channel switch
         {
             _ => string.Empty

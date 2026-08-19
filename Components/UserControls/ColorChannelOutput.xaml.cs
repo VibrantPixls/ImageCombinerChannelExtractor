@@ -13,6 +13,7 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             InitializeComponent();
 
             Loaded += (s, e) => UpdateColoringStuff(ColorChannel);
+            SetLabelText(StringLinesInfo.NoInputImageTextDefault);
         }
 
         private void OnButtonClick(object sender, RoutedEventArgs e)

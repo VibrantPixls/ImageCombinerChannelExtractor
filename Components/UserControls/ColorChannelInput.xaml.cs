@@ -24,6 +24,8 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             cmbboxFiltering.SelectedIndex = 0;
 
             Loaded += (s, e) => UpdateColoringStuff(ColorChannel);
+
+            SetLabelText(StringLinesInfo.NoInputImageTextDefault);
         }
 
         public static readonly DependencyProperty SelectedFilteringProperty = DependencyProperty.Register(nameof(SelectedFiltering), typeof(ChannelFilteringMode), typeof(ColorChannelInput), new PropertyMetadata(ChannelFilteringMode.Bicubic));
@@ -103,16 +105,6 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             RaiseEvent(new RoutedEventArgs(FilteringChangedEvent, this));
         }
         #endregion
-
-        public void SetLabelText(string lblText)
-        {
-            lblSelectedFile.Text = lblText;
-        }
-
-        public override void SetSelected(bool selected)
-        {
-            base.SetSelected(selected);
-        }
 
         private static bool IsValidImageFile(string filePath)
         {
