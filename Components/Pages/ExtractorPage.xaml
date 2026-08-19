@@ -30,10 +30,23 @@
                     <ui:TextBlock x:Name="lblPreviewCombined" FontTypography="Caption" HorizontalAlignment="Center" Margin="0,6,0,0"/>
 
                     <StackPanel>
-                        <StackPanel Orientation="Horizontal">
-                            <ui:Button x:Name="btnExtract" Appearance="Primary" Icon="{ui:SymbolIcon Image24}" HorizontalAlignment="Stretch" Height="36" Content="Extract From Combined PNG" />
+                        <Grid Margin="0,0,0,8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid Grid.Column="0" Margin="0,0,8,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="6"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border Grid.Column="0" CornerRadius="3" Margin="0,2,6,2"/>
+                                <ui:Button Grid.Column="1" Margin="0,2,6,2" x:Name="btnExtract" Appearance="Primary" Icon="{ui:SymbolIcon Image24}" HorizontalAlignment="Stretch" Height="36" Content="Extract From Combined PNG" />
+                            </Grid>
                             <ui:Button Grid.Column="1" Appearance="Transparent" Icon="{ui:SymbolIcon Dismiss24}" Click="OnButtonClickRemove" ToolTip="Clear input image" Height="36" Width="36" Padding="0" Foreground="White" />
-                        </StackPanel>
+                        </Grid>
                         <ui:TextBlock x:Name="lblResolutionCombined" FontTypography="Caption" HorizontalAlignment="Center" Margin="0,6,0,0" />
                     </StackPanel>
                 </StackPanel>
