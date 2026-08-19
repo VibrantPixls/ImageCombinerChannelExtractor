@@ -1,5 +1,8 @@
 ﻿using ImageCombinerChannelExtractor.Components.Classes.UserControlChildClasses;
+using ImageCombinerChannelExtractor.Components.Enums;
+using ImageCombinerChannelExtractor.Components.Shared;
 using System.Windows;
+using System.Windows.Media;
 
 namespace ImageCombinerChannelExtractor.Components.UserControls
 {
@@ -8,11 +11,35 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
         public ColorChannelOutput()
         {
             InitializeComponent();
+
+            Loaded += (s, e) => UpdateColoringStuff(ColorChannel);
         }
 
         private void OnButtonClick(object sender, RoutedEventArgs e)
         {
 
         }
+
+        protected override void UpdateColoringStuff(ColorChannelEnum channel)
+        {
+            if (crdPanel is null)
+            {
+                return;
+            }
+
+            crdPanel.Content = GetBtnString(channel);
+            base.UpdateColoringStuff(channel);
+        }
+
+        protected override void UpdateBrushColors(Brush wantedBrush)
+        {
+            base.UpdateBrushColors(wantedBrush);
+            crdPanel.Background = wantedBrush;
+        }
+
+        protected override string GetBtnString(ColorChannelEnum channel) => channel switch
+        {
+            _ => StringLinesInfo.CrtExtractBtnNoInputs
+        };
     }
 }

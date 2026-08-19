@@ -41,20 +41,6 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             remove => RemoveHandler(FilteringChangedEvent, value);
         }
 
-        public static readonly RoutedEvent ChannelClickEvent = EventManager.RegisterRoutedEvent(nameof(ChannelClick), RoutingStrategy.Bubble, typeof(EventHandler<FileSelectedEventArgs>), typeof(ColorChannelInput));
-        public event EventHandler<FileSelectedEventArgs> ChannelClick
-        {
-            add => AddHandler(ChannelClickEvent, value);
-            remove => RemoveHandler(ChannelClickEvent, value);
-        }
-
-        public static readonly RoutedEvent ChannelClickRemoveEvent = EventManager.RegisterRoutedEvent(nameof(ChannelClickRemove), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ColorChannelInput));
-        public event RoutedEventHandler ChannelClickRemove
-        {
-            add => AddHandler(ChannelClickRemoveEvent, value);
-            remove => RemoveHandler(ChannelClickRemoveEvent, value);
-        }
-
         private void OnButtonClick(object sender, RoutedEventArgs e)
         {
             RaiseEvent(new FileSelectedEventArgs(ChannelClickEvent, this, null));

@@ -31,7 +31,8 @@ namespace ImageCombinerChannelExtractor.Components.Shared
         }
 
         // colors
-        const float _brightenAmount = 0.1f;
+        //const float _brightenAmount = 0.1f;
+        const float _brightenAmount = 1.1f;
         private static readonly Color SharedColors_Red = Color.FromRgb(177, 0, 8);
         private static readonly Color SharedColors_Red_Bright = ColorHelper.GetMediaColorBrighter(SharedColors_Red, _brightenAmount);
 

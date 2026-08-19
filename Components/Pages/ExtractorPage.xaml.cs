@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace ImageCombinerChannelExtractor.Components.Pages
 {
@@ -9,7 +10,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             InitializeComponent();
         }
 
-        private void OnButtonClickRemove(object sender, System.Windows.RoutedEventArgs e)
+        private void btnExtract_Click(object sender, RoutedEventArgs e)
         {
 
         }

@@ -24,6 +24,20 @@ namespace ImageCombinerChannelExtractor.Components.Classes
         #endregion
 
         #region Mouse events
+        public static readonly RoutedEvent ChannelClickEvent = EventManager.RegisterRoutedEvent(nameof(ChannelClick), RoutingStrategy.Bubble, typeof(EventHandler<FileSelectedEventArgs>), typeof(ColorChannelUserControl));
+        public event EventHandler<FileSelectedEventArgs> ChannelClick
+        {
+            add => AddHandler(ChannelClickEvent, value);
+            remove => RemoveHandler(ChannelClickEvent, value);
+        }
+
+        public static readonly RoutedEvent ChannelClickRemoveEvent = EventManager.RegisterRoutedEvent(nameof(ChannelClickRemove), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ColorChannelUserControl));
+        public event RoutedEventHandler ChannelClickRemove
+        {
+            add => AddHandler(ChannelClickRemoveEvent, value);
+            remove => RemoveHandler(ChannelClickRemoveEvent, value);
+        }
+
         public static readonly RoutedEvent ChannelMouseEnterEvent = EventManager.RegisterRoutedEvent(nameof(ChannelMouseEnter), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ColorChannelUserControl));
         public event RoutedEventHandler ChannelMouseEnter
         {
