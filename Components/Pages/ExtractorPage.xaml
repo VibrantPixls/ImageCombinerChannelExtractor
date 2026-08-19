@@ -41,37 +41,7 @@
         </Grid>
 
         <StackPanel Grid.Column="1" Margin="16,0,2,0">
-            <controls:ColorChannelInput x:Name="RedChannelInput"
-                                ColorChannel="Red"
-                                ChannelClick="OnChannelClick"
-                                ChannelClickRemove="OnChannelClickRemove"
-                                ChannelMouseEnter="OnChannelMouseEnter"
-                                ChannelMouseLeave="OnChannelMouseLeave"
-                                FilteringChanged="OnFilteringChanged"/>
-
-            <controls:ColorChannelInput x:Name="GreenChannelInput"
-                                ColorChannel="Green"
-                                ChannelClick="OnChannelClick"
-                                ChannelClickRemove="OnChannelClickRemove"
-                                ChannelMouseEnter="OnChannelMouseEnter"
-                                ChannelMouseLeave="OnChannelMouseLeave"
-                                FilteringChanged="OnFilteringChanged"/>
-
-            <controls:ColorChannelInput x:Name="BlueChannelInput"
-                                ColorChannel="Blue"
-                                ChannelClick="OnChannelClick"
-                                ChannelClickRemove="OnChannelClickRemove"
-                                ChannelMouseEnter="OnChannelMouseEnter"
-                                ChannelMouseLeave="OnChannelMouseLeave"
-                                FilteringChanged="OnFilteringChanged"/>
-
-            <controls:ColorChannelInput x:Name="AlphaChannelInput"
-                                ColorChannel="Alpha"
-                                ChannelClick="OnChannelClick"
-                                ChannelClickRemove="OnChannelClickRemove"
-                                ChannelMouseEnter="OnChannelMouseEnter"
-                                ChannelMouseLeave="OnChannelMouseLeave"
-                                FilteringChanged="OnFilteringChanged"/>
+            
         </StackPanel>
     </Grid>
 </Page>

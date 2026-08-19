@@ -1,10 +1,11 @@
-﻿<UserControl x:Class="ImageCombinerChannelExtractor.Components.UserControls.ColorChannelInput"
+﻿<classes:ColorChannelInputClass x:Class="ImageCombinerChannelExtractor.Components.UserControls.ColorChannelInput"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ImageCombinerChannelExtractor.Components.UserControls"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:classes="clr-namespace:ImageCombinerChannelExtractor.Components.Classes.UserControlChildClasses"
              mc:Ignorable="d"
              d:DesignHeight="150" d:DesignWidth="400"
              x:Name="Root">
@@ -45,5 +46,5 @@
             </Grid>
         </Grid>
     </ui:Card>
-</UserControl>
+</classes:ColorChannelInputClass>
     

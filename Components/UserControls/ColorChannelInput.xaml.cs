@@ -1,4 +1,5 @@
 ﻿using ImageCombinerChannelExtractor.Components.Classes;
+using ImageCombinerChannelExtractor.Components.Classes.UserControlChildClasses;
 using ImageCombinerChannelExtractor.Components.Enums;
 using ImageCombinerChannelExtractor.Components.Helpers;
 using ImageCombinerChannelExtractor.Components.Shared;
@@ -10,7 +11,7 @@ using System.Windows.Media;
 
 namespace ImageCombinerChannelExtractor.Components.UserControls
 {
-    public partial class ColorChannelInput : UserControl
+    public partial class ColorChannelInput : ColorChannelInputClass
     {
         public ColorChannelInput()
         {
@@ -23,20 +24,6 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             cmbboxFiltering.SelectedIndex = 0;
 
             Loaded += (s, e) => UpdateColoringStuff(ColorChannel);
-        }
-
-        public static readonly DependencyProperty ColorChannelProperty = DependencyProperty.Register(nameof(ColorChannel), typeof(ColorChannelEnum), typeof(ColorChannelInput), new PropertyMetadata(ColorChannelEnum.Red));
-        public ColorChannelEnum ColorChannel
-        {
-            get => (ColorChannelEnum)GetValue(ColorChannelProperty);
-            set => SetValue(ColorChannelProperty, value);
-        }
-
-        public static readonly DependencyProperty IsChannelFromCombinedProperty = DependencyProperty.Register(nameof(IsChannelFromCombined), typeof(bool), typeof(ColorChannelInput), new PropertyMetadata(true));
-        public bool IsChannelFromCombined
-        {
-            get => (bool)GetValue(IsChannelFromCombinedProperty);
-            set => SetValue(IsChannelFromCombinedProperty, value);
         }
 
         public static readonly DependencyProperty SelectedFilteringProperty = DependencyProperty.Register(nameof(SelectedFiltering), typeof(ChannelFilteringMode), typeof(ColorChannelInput), new PropertyMetadata(ChannelFilteringMode.Bicubic));
@@ -66,20 +53,6 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
         {
             add => AddHandler(ChannelClickRemoveEvent, value);
             remove => RemoveHandler(ChannelClickRemoveEvent, value);
-        }
-
-        public static readonly RoutedEvent ChannelMouseEnterEvent = EventManager.RegisterRoutedEvent(nameof(ChannelMouseEnter), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ColorChannelInput));
-        public event RoutedEventHandler ChannelMouseEnter
-        {
-            add => AddHandler(ChannelMouseEnterEvent, value);
-            remove => RemoveHandler(ChannelMouseEnterEvent, value);
-        }
-
-        public static readonly RoutedEvent ChannelMouseLeaveEvent = EventManager.RegisterRoutedEvent(nameof(ChannelMouseLeave), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ColorChannelInput));
-        public event RoutedEventHandler ChannelMouseLeave
-        {
-            add => AddHandler(ChannelMouseLeaveEvent, value);
-            remove => RemoveHandler(ChannelMouseLeaveEvent, value);
         }
 
         private void OnButtonClick(object sender, RoutedEventArgs e)
@@ -150,9 +123,9 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             lblSelectedFile.Text = lblText;
         }
 
-        public void SetSelected(bool selected)
+        public override void SetSelected(bool selected)
         {
-            UpdateBrushColors(GetColorBrush(ColorChannel, selected));
+            base.SetSelected(selected);
         }
 
         private static bool IsValidImageFile(string filePath)
@@ -165,7 +138,7 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             return SharedInfo.AllowedImageExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase);
         }
 
-        private void UpdateColoringStuff(ColorChannelEnum channel)
+        protected override void UpdateColoringStuff(ColorChannelEnum channel)
         {
             if (btnColorChannelInput is null)
             {
@@ -173,29 +146,21 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             }
 
             btnColorChannelInput.Content = GetBtnString(channel);
-            UpdateBrushColors(GetColorBrush(channel));
+            base.UpdateColoringStuff(channel);
         }
 
-        private void UpdateBrushColors(Brush wantedBrush)
+        protected override void UpdateBrushColors(Brush wantedBrush)
         {
-            wantedBrush.Opacity = 0.05;
+            base.UpdateBrushColors(wantedBrush);
             crdPanel.Background = wantedBrush;
         }
 
-        private string GetBtnString(ColorChannelEnum channel) => channel switch
+        protected override string GetBtnString(ColorChannelEnum channel) => channel switch
         {
             ColorChannelEnum.Green => StringLinesInfo.ClrChnBtnGreen,
             ColorChannelEnum.Blue => StringLinesInfo.ClrChnBtnBlue,
             ColorChannelEnum.Alpha => StringLinesInfo.ClrChnBtnAlpha,
             _ => StringLinesInfo.ClrChnBtnRed
-        };
-
-        private Brush GetColorBrush(ColorChannelEnum channel, bool isBright = false) => channel switch
-        {
-            ColorChannelEnum.Green => isBright ? SharedInfo.MainColorGreenBright : SharedInfo.MainColorGreen,
-            ColorChannelEnum.Blue => isBright ? SharedInfo.MainColorBlueBright : SharedInfo.MainColorBlue,
-            ColorChannelEnum.Alpha => isBright ? SharedInfo.MainColorAlphaBright : SharedInfo.MainColorAlpha,
-            _ => isBright ? SharedInfo.MainColorRedBright : SharedInfo.MainColorRed
         };
     }
 }

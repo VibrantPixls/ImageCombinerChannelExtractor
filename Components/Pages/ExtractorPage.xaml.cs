@@ -8,5 +8,10 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         {
             InitializeComponent();
         }
+
+        private void OnButtonClickRemove(object sender, System.Windows.RoutedEventArgs e)
+        {
+
+        }
     }
 }

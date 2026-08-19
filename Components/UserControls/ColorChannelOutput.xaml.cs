@@ -1,9 +1,9 @@
-﻿using System.Windows;
-using System.Windows.Controls;
+﻿using ImageCombinerChannelExtractor.Components.Classes.UserControlChildClasses;
+using System.Windows;
 
 namespace ImageCombinerChannelExtractor.Components.UserControls
 {
-    public partial class ColorChannelOutput : UserControl
+    public partial class ColorChannelOutput : ColorChannelOutputClass
     {
         public ColorChannelOutput()
         {
