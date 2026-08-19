@@ -21,6 +21,8 @@
         public const string CrtCombinedBtnNoInputs = "No Input Images";
         public const string CrtCombinedBtnGenerating = "Generating Combined PNG";
 
+        public const string CrtExtractBtn = "Extract From Combined PNG";
+
         // ---------------------------
         public static string GetExceptionError(Exception ex)
         {

@@ -4,11 +4,74 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ImageCombinerChannelExtractor.Components.Pages"
+      xmlns:controls="clr-namespace:ImageCombinerChannelExtractor.Components.UserControls"
+      xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="602" d:DesignWidth="1000"
       Title="ExtractorPage">
 
-    <Grid>
-        
+    <Grid Grid.Row="1" Margin="16">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0" Margin="12,0,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <ui:Card Grid.Row="0" HorizontalAlignment="Center" Padding="8">
+                <StackPanel HorizontalAlignment="Center">
+                    <Border x:Name="brdPreviewBoxCombined" Width="425" Height="425" CornerRadius="4" ClipToBounds="True">
+                        <controls:CheckerboardPictureBox x:Name="imgPreviewCombiner" />
+                    </Border>
+                    <ui:TextBlock x:Name="lblPreviewCombined" FontTypography="Caption" HorizontalAlignment="Center" Margin="0,6,0,0"/>
+
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <ui:Button x:Name="btnExtract" Appearance="Primary" Icon="{ui:SymbolIcon Image24}" HorizontalAlignment="Stretch" Height="36" Content="Extract From Combined PNG" />
+                            <ui:Button Grid.Column="1" Appearance="Transparent" Icon="{ui:SymbolIcon Dismiss24}" Click="OnButtonClickRemove" ToolTip="Clear input image" Height="36" Width="36" Padding="0" Foreground="White" />
+                        </StackPanel>
+                        <ui:TextBlock x:Name="lblResolutionCombined" FontTypography="Caption" HorizontalAlignment="Center" Margin="0,6,0,0" />
+                    </StackPanel>
+                </StackPanel>
+            </ui:Card>
+        </Grid>
+
+        <StackPanel Grid.Column="1" Margin="16,0,2,0">
+            <controls:ColorChannelInput x:Name="RedChannelInput"
+                                ColorChannel="Red"
+                                ChannelClick="OnChannelClick"
+                                ChannelClickRemove="OnChannelClickRemove"
+                                ChannelMouseEnter="OnChannelMouseEnter"
+                                ChannelMouseLeave="OnChannelMouseLeave"
+                                FilteringChanged="OnFilteringChanged"/>
+
+            <controls:ColorChannelInput x:Name="GreenChannelInput"
+                                ColorChannel="Green"
+                                ChannelClick="OnChannelClick"
+                                ChannelClickRemove="OnChannelClickRemove"
+                                ChannelMouseEnter="OnChannelMouseEnter"
+                                ChannelMouseLeave="OnChannelMouseLeave"
+                                FilteringChanged="OnFilteringChanged"/>
+
+            <controls:ColorChannelInput x:Name="BlueChannelInput"
+                                ColorChannel="Blue"
+                                ChannelClick="OnChannelClick"
+                                ChannelClickRemove="OnChannelClickRemove"
+                                ChannelMouseEnter="OnChannelMouseEnter"
+                                ChannelMouseLeave="OnChannelMouseLeave"
+                                FilteringChanged="OnFilteringChanged"/>
+
+            <controls:ColorChannelInput x:Name="AlphaChannelInput"
+                                ColorChannel="Alpha"
+                                ChannelClick="OnChannelClick"
+                                ChannelClickRemove="OnChannelClickRemove"
+                                ChannelMouseEnter="OnChannelMouseEnter"
+                                ChannelMouseLeave="OnChannelMouseLeave"
+                                FilteringChanged="OnFilteringChanged"/>
+        </StackPanel>
     </Grid>
 </Page>
