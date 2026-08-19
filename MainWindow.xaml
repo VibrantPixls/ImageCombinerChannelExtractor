@@ -25,7 +25,7 @@
 
         <ui:TitleBar Grid.Row="0" Title="                   Image Combiner &amp; Channel Extractor" CanMaximize="False" ShowMaximize="False" ApplicationTheme="Dark" />
 
-        <ui:NavigationView Grid.Row="1" x:Name="RootNavigation" PaneDisplayMode="LeftFluent" TransitionDuration="300" IsBackButtonVisible="Collapsed" IsFooterSeparatorVisible="False" IsPaneToggleVisible="False" HeaderVisibility="Collapsed">
+        <ui:NavigationView Grid.Row="1" x:Name="MainNavigation" PaneDisplayMode="LeftFluent" TransitionDuration="300" IsBackButtonVisible="Collapsed" IsFooterSeparatorVisible="False" IsPaneToggleVisible="False" HeaderVisibility="Collapsed">
             <ui:NavigationView.MenuItems>
                 <ui:NavigationViewItem Content="Combiner" Icon="{ui:SymbolIcon Layer20}" TargetPageType="{x:Type pages:CombinerPage}" Width="80" />
                 <ui:NavigationViewItem Content="Extractor" Icon="{ui:SymbolIcon BoardSplit28}" TargetPageType="{x:Type pages:CombinerPage}" Width="80" />
