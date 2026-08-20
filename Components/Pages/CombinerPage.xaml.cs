@@ -160,6 +160,8 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             UpdateResolution();
 
             MarkCombinedPreviewDirty();
+
+            sender.UpdateDeleteButtonEnabled(successfullyLoaded);
         }
 
         private void DeleteChannel(ColorChannelInput sender, ColorChannelEnum channel)
@@ -170,6 +172,8 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             UpdateResolution();
 
             MarkCombinedPreviewDirty();
+
+            sender.UpdateDeleteButtonEnabled(false);
         }
 
         private void UpdateResolution()

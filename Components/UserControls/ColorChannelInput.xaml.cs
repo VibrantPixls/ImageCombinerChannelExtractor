@@ -22,6 +22,7 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
                 cmbboxFiltering.Items.Add(EnumFriendlyNameHelper.GetFriendlyName(value));
             }
             cmbboxFiltering.SelectedIndex = 0;
+            UpdateDeleteButtonEnabled(false);
 
             Loaded += (s, e) => UpdateColoringStuff(ColorChannel);
 
@@ -105,6 +106,10 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             RaiseEvent(new RoutedEventArgs(FilteringChangedEvent, this));
         }
         #endregion
+        public void UpdateDeleteButtonEnabled(bool enabled)
+        {
+            dltBtn.IsEnabled = enabled;
+        }
 
         private static bool IsValidImageFile(string filePath)
         {
