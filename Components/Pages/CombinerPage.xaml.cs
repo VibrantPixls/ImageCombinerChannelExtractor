@@ -84,11 +84,11 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         private void OnFilteringChanged(object sender, RoutedEventArgs e)
         {
             var input = (ColorChannelInput)sender;
-            if (!ColorChannelHelper.DoesSenderInputChannelHaveInputImage(input)) // should pass for pixel arts
+            if (!ColorChannelHelper.DoesSenderInputChannelHaveInputImageForCombined(input.ColorChannel)) // should pass for pixel arts
             {
                 return;
             }
-            ColorChannelHelper.OnFilteringChanged(input, e);
+            ColorChannelHelper.OnFilteringChanged(input);
 
             MarkSenderPreviewDirty(input);
             MarkCombinedPreviewDirty();
@@ -144,12 +144,12 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         #region Load images into channels
         private void LoadChannelFromPath(ColorChannelInput sender, ColorChannelEnum channel, string? path)
         {
-            if (!ColorChannelHelper.DoesSenderInputChannelHaveDifferentImage(sender, path))
+            if (!ColorChannelHelper.DoesSenderInputChannelHaveDifferentImageForCombined(sender.ColorChannel, path))
             {
                 return;
             }
 
-            bool successfullyLoaded = ColorChannelHelper.LoadChannelFromPath(sender, channel, path);
+            bool successfullyLoaded = ColorChannelHelper.LoadChannelFromPath(sender, path);
             if (successfullyLoaded)
             {
                 ShowChannelPreview(sender, channel, true);
@@ -163,7 +163,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
         private void DeleteChannel(ColorChannelInput sender, ColorChannelEnum channel)
         {
-            ColorChannelHelper.DeleteChannel(sender, channel);
+            ColorChannelHelper.DeleteChannel(sender);
 
             ClearChannelPreview();
             UpdateResolution();
@@ -175,7 +175,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
         private void UpdateResolution()
         {
-            byte filledChannels = ColorChannelHelper.GetFilledColorChannelsAmount();
+            byte filledChannels = ColorChannelHelper.GetFilledCombinedColorChannelsAmount();
             if (filledChannels == 0)
             {
                 _differentResolutionsForCombinedOutput = false;
@@ -188,7 +188,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
                 return;
             }
 
-            _differentResolutionsForCombinedOutput = ColorChannelHelper.AreChannelsMismatchedInSize();
+            _differentResolutionsForCombinedOutput = ColorChannelHelper.AreCombinedChannelsMismatchedInSize();
             UpdateTargetResolutionCombined();
 
             lblResolutionCombined.Text = _differentResolutionsForCombinedOutput ? $"Mismatched sizes - output will be {_resolutionCombinedOutputWidth}x{_resolutionCombinedOutputHeight}" : $"{_resolutionCombinedOutputWidth}x{_resolutionCombinedOutputHeight}";
@@ -199,7 +199,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             foreach (var panel in _cachedColorInputPanels)
             {
                 var converted = (ColorChannelInput)panel;
-                bool hasInputImage = ColorChannelHelper.DoesSenderInputChannelHaveInputImage(converted);
+                bool hasInputImage = ColorChannelHelper.DoesSenderInputChannelHaveInputImageForCombined(converted.ColorChannel);
                 // should be a function, oh well
                 converted.cmbboxFiltering.IsEnabled = hasInputImage; // small images should be able to set filtering for pixel-art's
             }
@@ -218,7 +218,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         private async Task GenerateCombinedPreviewAsync()
         {
             btnCreateCombined.IsEnabled = false;
-            if (!ColorChannelHelper.DoesAnyChannelHaveInputImages())
+            if (!ColorChannelHelper.DoesAnyChannelHaveInputImagesForCombined())
             {
                 //early exit when no input images
                 btnCreateCombined.Content = StringLinesInfo.CrtCombinedBtnNoInputs;
@@ -521,7 +521,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
         private void MarkSenderPreviewDirty(ColorChannelInput sender)
         {
-            RenderOptions.SetBitmapScalingMode(imgPreviewCombiner, ColorChannelHelper.GetBitmapScalingFilteringMode(sender));
+            RenderOptions.SetBitmapScalingMode(imgPreviewCombiner, ColorChannelHelper.GetBitmapScalingFilteringMode(sender.ColorChannel));
         }
 
         private void StartShowingCombinedPreview()
@@ -560,7 +560,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             _currentlyPreviewingType = CurrentBitmapPreviewingEnum.ColorChannel;
             lblPreviewCombined.Text = $"{channel} channel";
 
-            RenderOptions.SetBitmapScalingMode(imgPreviewCombiner, ColorChannelHelper.GetBitmapScalingFilteringMode(sender));
+            RenderOptions.SetBitmapScalingMode(imgPreviewCombiner, ColorChannelHelper.GetBitmapScalingFilteringMode(sender.ColorChannel));
             imgPreviewCombiner.ImageSource = wantedImage;
         }
 

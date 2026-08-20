@@ -7,7 +7,6 @@ using ImageCombinerChannelExtractor.Components.UserControls;
 using Microsoft.Win32;
 using System.IO;
 using System.Runtime.CompilerServices;
-using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -39,12 +38,8 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
             _extractorInput = new ChannelSlot();
         }
 
+        #region Extractor
         #region Public getters
-        public static Dictionary<ColorChannelEnum, ChannelSlot> GetCombinedChannelsDictionary()
-        {
-            return _combinerChannels;
-        }
-
         public static Dictionary<ColorChannelEnum, ChannelSlot> GetExtractedChannelsDictionary()
         {
             return _extracterChannels;
@@ -54,11 +49,37 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
         {
             return _extractorInput;
         }
+        #endregion
 
         public static (double Width, double Height) GetTargetResolution()
         {
             var size = _extractorInput.BitmapSize;
             return GetScaledDimensions(size.Width, size.Height, SharedInfo.ExtractorPreviewDefaultSize);
+        }
+
+        public static bool LoadChannelFromPath(ExtractorPage sender, string? path)
+        {
+            if (!string.IsNullOrEmpty(path))
+            {
+                sender.UpdateLabel($"{Path.GetFileName(path)}");
+                AddBitmap(_extractorInput, LoadImageIndependent(path), path);
+                return true;
+            }
+            return false;
+        }
+
+        public static void DeleteChannel(ExtractorPage sender)
+        {
+            sender.UpdateLabel(StringLinesInfo.NoInputImageTextDefault);
+            ClearBitmap(_extractorInput);
+        }
+        #endregion
+
+        #region Combiner
+        #region Public getters
+        public static Dictionary<ColorChannelEnum, ChannelSlot> GetCombinedChannelsDictionary()
+        {
+            return _combinerChannels;
         }
 
         public static CombinedImageTargetStruct GetCombinedImageTargetResolution()
@@ -92,45 +113,135 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
         #endregion
 
         // return true if an image was loaded
-        public static bool LoadChannelFromPath(ColorChannelUserControl sender, ColorChannelEnum channel, string? path)
+        public static bool LoadChannelFromPath(ColorChannelUserControl sender, string? path)
         {
             if (!string.IsNullOrEmpty(path))
             {
                 var targetDict = sender.IsChannelFromCombined ? _combinerChannels : _extracterChannels;
                 sender.SetLabelText($"{Path.GetFileName(path)}");
-                AddBitmap(targetDict[channel], LoadImageIndependent(path), path);
-                return true;
-            }
-            return false;
-        }
-        public static bool LoadChannelFromPath(ExtractorPage sender, string? path)
-        {
-            if (!string.IsNullOrEmpty(path))
-            {
-                sender.UpdateLabel($"{Path.GetFileName(path)}");
-                AddBitmap(_extractorInput, LoadImageIndependent(path), path);
+                AddBitmap(targetDict[sender.ColorChannel], LoadImageIndependent(path), path);
                 return true;
             }
             return false;
         }
 
-        public static void DeleteChannel(ColorChannelUserControl sender, ColorChannelEnum channel)
+        public static void DeleteChannel(ColorChannelUserControl sender)
         {
             var targetDict = sender.IsChannelFromCombined ? _combinerChannels : _extracterChannels;
             sender.SetLabelText(StringLinesInfo.NoInputImageTextDefault);
-            ClearBitmap(targetDict[channel]);
-        }
-        public static void DeleteChannel(ExtractorPage sender)
-        {
-            sender.UpdateLabel(StringLinesInfo.NoInputImageTextDefault);
-            ClearBitmap(_extractorInput);
+            ClearBitmap(targetDict[sender.ColorChannel]);
         }
 
         // filtering can only change for the combined channels
-        public static void OnFilteringChanged(ColorChannelInput sender, RoutedEventArgs e)
+        public static void OnFilteringChanged(ColorChannelInput sender)
         {
             _combinerChannels[sender.ColorChannel].FilteringMode = sender.SelectedFiltering;
         }
+
+        #region Public helpers
+        public static byte GetFilledCombinedColorChannelsAmount()
+        {
+            byte totalFilled = 0;
+            foreach (var channel in _combinerChannels)
+            {
+                var bitmap = channel.Value.Bitmap;
+                if (bitmap != null)
+                {
+                    totalFilled++;
+                }
+            }
+            return totalFilled;
+        }
+
+        public static bool AreCombinedChannelsMismatchedInSize()
+        {
+            int firstWidth = -1;
+            int firstHeight = -1;
+
+            foreach (var channel in _combinerChannels)
+            {
+                var bitmap = channel.Value.Bitmap;
+                if (bitmap == null)
+                {
+                    continue;
+                }
+
+                if (firstWidth == -1)
+                {
+                    firstWidth = bitmap.PixelWidth;
+                    firstHeight = bitmap.PixelHeight;
+                }
+                else if (bitmap.PixelWidth != firstWidth || bitmap.PixelHeight != firstHeight)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool DoesSenderInputChannelHaveDifferentImageForCombined(ColorChannelEnum channel, string? newPath)
+        {
+            if (string.IsNullOrEmpty(newPath))
+            {
+                return false;
+            }
+
+            if (!DoesSenderInputChannelHaveInputImageForCombined(channel))
+            {
+                return true; // otherwise first inputs won't load
+            }
+            return !string.Equals(_combinerChannels[channel].FilePath, newPath, StringComparison.OrdinalIgnoreCase);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool DoesAnyChannelHaveInputImagesForCombined()
+        {
+            bool someChannelHasAInputImage = false;
+            foreach (var source in _combinerChannels)
+            {
+                if (source.Value.Bitmap != null)
+                {
+                    someChannelHasAInputImage = true;
+                    break;
+                }
+            }
+            return someChannelHasAInputImage;
+        }
+
+        public static BitmapScalingMode GetBitmapScalingFilteringMode(ColorChannelEnum channel)
+        {
+            return _combinerChannels[channel].FilteringMode switch
+            {
+                ChannelFilteringMode.Bilinear => BitmapScalingMode.Linear,
+                ChannelFilteringMode.NearestNeighbor => BitmapScalingMode.NearestNeighbor,
+                _ => BitmapScalingMode.HighQuality
+            };
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool DoesSenderInputChannelHaveInputImageForCombined(ColorChannelEnum channel)
+        {
+            return _combinerChannels[channel].Bitmap != null;
+        }
+        #endregion
+
+        #region Private helpers
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static (double Width, double Height) GetScaledDimensions(double width, double height, double combinedPreviewImageSizeDefault)
+        {
+            double scale = GetScaleFactor(width, height, combinedPreviewImageSizeDefault);
+            return (width * scale, height * scale);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static double GetScaleFactor(double width, double height, double combinedPreviewImageSizeDefault)
+        {
+            double maxDimension = Math.Max(width, height);
+            return combinedPreviewImageSizeDefault / maxDimension;
+        }
+        #endregion
+        #endregion
 
         #region Public helpers
         public static string? SelectPNGFile()
@@ -150,102 +261,6 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
             }
             string extension = Path.GetExtension(filePath);
             return SharedInfo.AllowedImageExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase);
-        }
-
-        public static byte GetFilledColorChannelsAmount(bool IsCombined = true)
-        {
-            byte totalFilled = 0;
-            foreach (var channel in IsCombined ? _combinerChannels.Values : _extracterChannels.Values)
-            {
-                var bitmap = channel.Bitmap;
-                if (bitmap != null)
-                {
-                    totalFilled++;
-                }
-            }
-            return totalFilled;
-        }
-
-        public static bool AreChannelsMismatchedInSize(bool IsCombined = true)
-        {
-            int firstWidth = -1;
-            int firstHeight = -1;
-
-            foreach (var channel in IsCombined ? _combinerChannels.Values : _extracterChannels.Values)
-            {
-                var bitmap = channel.Bitmap;
-                if (bitmap == null)
-                {
-                    continue;
-                }
-
-                if (firstWidth == -1)
-                {
-                    firstWidth = bitmap.PixelWidth;
-                    firstHeight = bitmap.PixelHeight;
-                }
-                else if (bitmap.PixelWidth != firstWidth || bitmap.PixelHeight != firstHeight)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public static (int Width, int Height) GetColorChannelImageSize(ColorChannelInput sender)
-        {
-            var dict = sender.IsChannelFromCombined ? _combinerChannels : _extracterChannels;
-            var bitmapSize = dict[sender.ColorChannel].BitmapSize;
-            return (bitmapSize.Width, bitmapSize.Height);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool DoesSenderInputChannelHaveInputImage(ColorChannelInput sender)
-        {
-            var dict = sender.IsChannelFromCombined ? _combinerChannels : _extracterChannels;
-            return dict[sender.ColorChannel].Bitmap != null;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool DoesSenderInputChannelHaveDifferentImage(ColorChannelInput sender, string? newPath)
-        {
-            if (string.IsNullOrEmpty(newPath))
-            {
-                return false;
-            }
-
-            var dict = sender.IsChannelFromCombined ? _combinerChannels : _extracterChannels;
-            if (!DoesSenderInputChannelHaveInputImage(dict, sender))
-            {
-                return true; // otherwise first inputs won't load
-            }
-            return !string.Equals(dict[sender.ColorChannel].FilePath, newPath, StringComparison.OrdinalIgnoreCase);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool DoesAnyChannelHaveInputImages()
-        {
-            bool someChannelHasAInputImage = false;
-            foreach (var source in _combinerChannels)
-            {
-                if (source.Value.Bitmap != null)
-                {
-                    someChannelHasAInputImage = true;
-                    break;
-                }
-            }
-            return someChannelHasAInputImage;
-        }
-
-        public static BitmapScalingMode GetBitmapScalingFilteringMode(ColorChannelInput sender)
-        {
-            var dict = sender.IsChannelFromCombined ? _combinerChannels : _extracterChannels;
-            return dict[sender.ColorChannel].FilteringMode switch
-            {
-                ChannelFilteringMode.Bilinear => BitmapScalingMode.Linear,
-                ChannelFilteringMode.NearestNeighbor => BitmapScalingMode.NearestNeighbor,
-                _ => BitmapScalingMode.HighQuality
-            };
         }
         #endregion
 
@@ -267,11 +282,11 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
         #endregion
 
         #region Private helpers
-        private static void AddBitmap(ChannelSlot slotToClear, BitmapImage image, string path)
+        private static void AddBitmap(ChannelSlot slotToAdd, BitmapImage image, string path)
         {
-            slotToClear.Bitmap = image;
-            slotToClear.BitmapSize = (image.PixelWidth, image.PixelHeight);
-            slotToClear.FilePath = path;
+            slotToAdd.Bitmap = image;
+            slotToAdd.BitmapSize = (image.PixelWidth, image.PixelHeight);
+            slotToAdd.FilePath = path;
         }
 
         private static void ClearBitmap(ChannelSlot slotToClear)
@@ -280,27 +295,6 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
             slotToClear.BitmapSize = (0, 0);
             slotToClear.FilePath = string.Empty;
         }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static (double Width, double Height) GetScaledDimensions(double width, double height, double combinedPreviewImageSizeDefault)
-        {
-            double scale = GetScaleFactor(width, height, combinedPreviewImageSizeDefault);
-            return (width * scale, height * scale);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static double GetScaleFactor(double width, double height, double combinedPreviewImageSizeDefault)
-        {
-            double maxDimension = Math.Max(width, height);
-            return combinedPreviewImageSizeDefault / maxDimension;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool DoesSenderInputChannelHaveInputImage(Dictionary<ColorChannelEnum, ChannelSlot> dictionary, ColorChannelInput sender)
-        {
-            return dictionary[sender.ColorChannel].Bitmap != null;
-        }
-
         #endregion
     }
 }
