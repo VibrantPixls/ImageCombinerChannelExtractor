@@ -57,7 +57,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         private void OnChannelClick(object sender, FileSelectedEventArgs e)
         {
             var input = (ColorChannelInput)sender;
-            string? path = e.SelectedFilePath ?? SelectPNGFile();
+            string? path = e.SelectedFilePath ?? ColorChannelHelper.SelectPNGFile();
 
             LoadChannelFromPath(input, input.ColorChannel, path);
         }
@@ -170,15 +170,6 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             UpdateResolution();
 
             MarkCombinedPreviewDirty();
-        }
-
-        private static string? SelectPNGFile()
-        {
-            OpenFileDialog ofd = new()
-            {
-                Filter = SharedInfo.OpenFileDialogFilter
-            };
-            return ofd.ShowDialog() == true ? ofd.FileName : null;
         }
 
         private void UpdateResolution()

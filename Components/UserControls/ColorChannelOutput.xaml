@@ -16,7 +16,7 @@
             </Grid.ColumnDefinitions>
 
             <local:CheckerboardPictureBox Grid.Column="0" Height="125" Width="125" />
-            <ui:Button Grid.Column="1" x:Name="btnDownloadChannel" HorizontalAlignment="Stretch" Appearance="Secondary" Icon="{ui:SymbolIcon ImageAdd24}" Click="OnButtonClick" Height="36" Foreground="White" />
+            <ui:Button Grid.Column="1" x:Name="btnDownloadChannel" HorizontalAlignment="Stretch" Appearance="Secondary" Icon="{ui:SymbolIcon ImageAdd24}" Height="36" Foreground="White" />
         </Grid>
     </ui:Card>
 </classes:ColorChannelOutputClass>

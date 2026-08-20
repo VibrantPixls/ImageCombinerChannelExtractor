@@ -1,7 +1,6 @@
 ﻿using ImageCombinerChannelExtractor.Components.Classes.UserControlChildClasses;
 using ImageCombinerChannelExtractor.Components.Enums;
 using ImageCombinerChannelExtractor.Components.Shared;
-using System.Windows;
 using System.Windows.Media;
 
 namespace ImageCombinerChannelExtractor.Components.UserControls
@@ -14,11 +13,6 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
 
             Loaded += (s, e) => UpdateColoringStuff(ColorChannel);
             SetLabelText(StringLinesInfo.NoInputImageTextDefault);
-        }
-
-        private void OnButtonClick(object sender, RoutedEventArgs e)
-        {
-
         }
 
         protected override void UpdateColoringStuff(ColorChannelEnum channel)

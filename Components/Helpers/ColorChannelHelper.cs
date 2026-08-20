@@ -1,8 +1,10 @@
 ﻿using ImageCombinerChannelExtractor.Components.Classes;
 using ImageCombinerChannelExtractor.Components.Enums;
+using ImageCombinerChannelExtractor.Components.Pages;
 using ImageCombinerChannelExtractor.Components.Shared;
 using ImageCombinerChannelExtractor.Components.Structs;
 using ImageCombinerChannelExtractor.Components.UserControls;
+using Microsoft.Win32;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -15,6 +17,7 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
     {
         private static readonly Dictionary<ColorChannelEnum, ChannelSlot> _combinerChannels;
         private static readonly Dictionary<ColorChannelEnum, ChannelSlot> _extracterChannels;
+        private static readonly ChannelSlot _extractorInput;
 
         static ColorChannelHelper()
         {
@@ -33,12 +36,23 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
                 [ColorChannelEnum.Blue] = new ChannelSlot(),
                 [ColorChannelEnum.Alpha] = new ChannelSlot(),
             };
+            _extractorInput = new ChannelSlot();
         }
 
         #region Public getters
         public static Dictionary<ColorChannelEnum, ChannelSlot> GetCombinedChannelsDictionary()
         {
             return _combinerChannels;
+        }
+
+        public static Dictionary<ColorChannelEnum, ChannelSlot> GetExtractedChannelsDictionary()
+        {
+            return _extracterChannels;
+        }
+
+        public static ChannelSlot GetExtractedInput()
+        {
+            return _extractorInput;
         }
 
         public static CombinedImageTargetStruct GetCombinedImageTargetResolution(double combinedPreviewImageSizeDefault)
@@ -78,11 +92,18 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
             {
                 var targetDict = sender.IsChannelFromCombined ? _combinerChannels : _extracterChannels;
                 sender.SetLabelText($"{Path.GetFileName(path)}");
+                AddBitmap(targetDict[channel], LoadImageIndependent(path), path);
+                return true;
+            }
+            return false;
+        }
 
-                var newLoadedImage = LoadImageIndependent(path);
-                targetDict[channel].Bitmap = newLoadedImage;
-                targetDict[channel].BitmapSize = (newLoadedImage.PixelWidth, newLoadedImage.PixelHeight);
-                targetDict[channel].FilePath = path;
+        public static bool LoadChannelFromPath(ExtractorPage sender, string? path)
+        {
+            if (!string.IsNullOrEmpty(path))
+            {
+                sender.UpdateLabel($"{Path.GetFileName(path)}");
+                AddBitmap(_extractorInput, LoadImageIndependent(path), path);
                 return true;
             }
             return false;
@@ -92,9 +113,13 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
         {
             var targetDict = sender.IsChannelFromCombined ? _combinerChannels : _extracterChannels;
             sender.SetLabelText(StringLinesInfo.NoInputImageTextDefault);
-            targetDict[channel].Bitmap = null;
-            targetDict[channel].BitmapSize = (0, 0);
-            targetDict[channel].FilePath = string.Empty;
+            ClearBitmap(targetDict[channel]);
+        }
+
+        public static void DeleteChannel(ExtractorPage sender)
+        {
+            sender.UpdateLabel(StringLinesInfo.NoInputImageTextDefault);
+            ClearBitmap(_extractorInput);
         }
 
         // filtering can only change for the combined channels
@@ -104,6 +129,15 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
         }
 
         #region Public helpers
+        public static string? SelectPNGFile()
+        {
+            OpenFileDialog ofd = new()
+            {
+                Filter = SharedInfo.OpenFileDialogFilter
+            };
+            return ofd.ShowDialog() == true ? ofd.FileName : null;
+        }
+
         public static byte GetFilledColorChannelsAmount(bool IsCombined = true)
         {
             byte totalFilled = 0;
@@ -219,6 +253,20 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
         #endregion
 
         #region Private helpers
+        private static void AddBitmap(ChannelSlot slotToClear, BitmapImage image, string path)
+        {
+            slotToClear.Bitmap = image;
+            slotToClear.BitmapSize = (image.PixelWidth, image.PixelHeight);
+            slotToClear.FilePath = path;
+        }
+
+        private static void ClearBitmap(ChannelSlot slotToClear)
+        {
+            slotToClear.Bitmap = null;
+            slotToClear.BitmapSize = (0, 0);
+            slotToClear.FilePath = string.Empty;
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static (double Width, double Height) GetScaledDimensions(double width, double height, double combinedPreviewImageSizeDefault)
         {
