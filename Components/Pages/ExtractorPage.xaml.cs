@@ -1,6 +1,7 @@
 ﻿using ImageCombinerChannelExtractor.Components.Classes;
 using ImageCombinerChannelExtractor.Components.Classes.PageClasses;
 using ImageCombinerChannelExtractor.Components.Helpers;
+using ImageCombinerChannelExtractor.Components.Shared;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
@@ -22,6 +23,8 @@ namespace ImageCombinerChannelExtractor.Components.Pages
                 BlueChannel,
                 AlphaChannel
             };
+
+            UpdateLabel(StringLinesInfo.NoInputImageTextDefault);
         }
 
         #region On ColorChannelInput events
