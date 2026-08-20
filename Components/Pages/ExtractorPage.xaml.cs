@@ -30,6 +30,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         #region On ColorChannelInput events
         #endregion
 
+        #region On mouse events
         private void OnChannelMouseEnter(object sender, RoutedEventArgs e)
         {
             var input = (ColorChannelUserControl)sender;
@@ -69,18 +70,30 @@ namespace ImageCombinerChannelExtractor.Components.Pages
                 }
             }
         }
+        #endregion
 
         public void UpdateLabel(string labelText)
         {
             lblResolutionCombined.Text = labelText;
         }
 
+        #region On input image
         private void btnExtract_Click(object sender, RoutedEventArgs e)
         {
             string? path = ColorChannelHelper.SelectPNGFile();
             ExtractFromPath(path);
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            _selectedFilePath = null;
+            ColorChannelHelper.DeleteChannel(this);
+            imgPreviewCombiner.ImageSource = null;
+            UpdateTargetResolution();
+        }
+        #endregion
+
+        #region Helpers
         private void ExtractFromPath(string? path)
         {
             _selectedFilePath = path;
@@ -102,13 +115,6 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             imgPreviewCombiner.Width = target.Width;
             imgPreviewCombiner.Height = target.Height;
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            _selectedFilePath = null;
-            ColorChannelHelper.DeleteChannel(this);
-            imgPreviewCombiner.ImageSource = null;
-            UpdateTargetResolution();
-        }
+        #endregion
     }
 }
