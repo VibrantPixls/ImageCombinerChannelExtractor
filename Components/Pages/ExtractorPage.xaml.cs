@@ -2,7 +2,6 @@
 using ImageCombinerChannelExtractor.Components.Classes.PageClasses;
 using ImageCombinerChannelExtractor.Components.Helpers;
 using ImageCombinerChannelExtractor.Components.Shared;
-using System.Diagnostics;
 using System.IO;
 using System.Windows;
 
