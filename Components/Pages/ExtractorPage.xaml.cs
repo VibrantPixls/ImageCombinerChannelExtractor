@@ -91,7 +91,16 @@ namespace ImageCombinerChannelExtractor.Components.Pages
                     return;
                 }
                 imgPreviewCombiner.ImageSource = wantedImage;
+                UpdateTargetResolution();
             }
+        }
+
+        private void UpdateTargetResolution()
+        {
+            var target = ColorChannelHelper.GetTargetResolution();
+
+            imgPreviewCombiner.Width = target.Width;
+            imgPreviewCombiner.Height = target.Height;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -99,6 +108,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             _selectedFilePath = null;
             ColorChannelHelper.DeleteChannel(this);
             imgPreviewCombiner.ImageSource = null;
+            UpdateTargetResolution();
         }
     }
 }

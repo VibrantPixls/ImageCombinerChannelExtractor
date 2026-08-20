@@ -60,5 +60,9 @@ namespace ImageCombinerChannelExtractor.Components.Shared
 
         // extracting overlay
         public const int OverlayKeepOnScreenAfterFinishForInMilliseconds = 400;
+
+        // preview sizes
+        public const double CombinedPreviewDefaultSize = 425.0;
+        public const double ExtractorPreviewDefaultSize = 425.0;
     }
 }

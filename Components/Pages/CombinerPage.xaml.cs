@@ -18,8 +18,6 @@ namespace ImageCombinerChannelExtractor.Components.Pages
     public partial class CombinerPage : CombPage
     {
         #region Image previews variables
-        private const double _combinedDefaultSize = 425.0;
-
         private CurrentBitmapPreviewingEnum _currentlyPreviewingType = CurrentBitmapPreviewingEnum.None;
         private ColorChannelEnum? _currentlyPreviewingColorChannel = null;
         #endregion
@@ -46,8 +44,8 @@ namespace ImageCombinerChannelExtractor.Components.Pages
                 AlphaChannelInput
             };
 
-            brdPreviewBoxCombined.Width = _combinedDefaultSize;
-            brdPreviewBoxCombined.Height = _combinedDefaultSize;
+            brdPreviewBoxCombined.Width = SharedInfo.CombinedPreviewDefaultSize;
+            brdPreviewBoxCombined.Height = SharedInfo.CombinedPreviewDefaultSize;
 
             btnCreateCombined.Content = StringLinesInfo.CrtCombinedBtnNoInputs;
         }
@@ -185,8 +183,8 @@ namespace ImageCombinerChannelExtractor.Components.Pages
                 _resolutionCombinedOutputHeight = 0;
                 lblResolutionCombined.Text = string.Empty;
 
-                brdPreviewBoxCombined.Width = _combinedDefaultSize;
-                brdPreviewBoxCombined.Height = _combinedDefaultSize;
+                brdPreviewBoxCombined.Width = SharedInfo.CombinedPreviewDefaultSize;
+                brdPreviewBoxCombined.Height = SharedInfo.CombinedPreviewDefaultSize;
                 return;
             }
 
@@ -579,15 +577,15 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             imgPreviewCombiner.ImageSource = null;
 
             // reset preview back to default size
-            imgPreviewCombiner.Width = _combinedDefaultSize;
-            imgPreviewCombiner.Height = _combinedDefaultSize;
+            imgPreviewCombiner.Width = SharedInfo.CombinedPreviewDefaultSize;
+            imgPreviewCombiner.Height = SharedInfo.CombinedPreviewDefaultSize;
         }
         #endregion
 
         #region Helpers
         private void UpdateTargetResolutionCombined()
         {
-            var target = ColorChannelHelper.GetCombinedImageTargetResolution(_combinedDefaultSize);
+            var target = ColorChannelHelper.GetCombinedImageTargetResolution();
 
             _resolutionCombinedOutputWidth = target.TargetOutputWidth;
             _resolutionCombinedOutputHeight = target.TargetOutputHeight;

@@ -55,7 +55,13 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
             return _extractorInput;
         }
 
-        public static CombinedImageTargetStruct GetCombinedImageTargetResolution(double combinedPreviewImageSizeDefault)
+        public static (double Width, double Height) GetTargetResolution()
+        {
+            var size = _extractorInput.BitmapSize;
+            return GetScaledDimensions(size.Width, size.Height, SharedInfo.ExtractorPreviewDefaultSize);
+        }
+
+        public static CombinedImageTargetStruct GetCombinedImageTargetResolution()
         {
             int maxWidth = 0;
             int maxHeight = 0;
@@ -81,7 +87,7 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
                     maxHeight = height;
                 }
             }
-            return new CombinedImageTargetStruct((maxWidth, maxHeight), GetScaledDimensions(maxWidth, maxHeight, combinedPreviewImageSizeDefault));
+            return new CombinedImageTargetStruct((maxWidth, maxHeight), GetScaledDimensions(maxWidth, maxHeight, SharedInfo.CombinedPreviewDefaultSize));
         }
         #endregion
 
