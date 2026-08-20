@@ -541,13 +541,13 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         {
             bool isFromCombiner = sender.IsChannelFromCombined;
 
+            SetHoverOverChannel(sender);
+
             // Check if the channel is already being previewed
             if (!isDirty && _currentlyPreviewingColorChannel == channel && _currentlyPreviewingType == CurrentBitmapPreviewingEnum.ColorChannel)
             {
                 return;
             }
-
-            SetNewChannelPreview(sender);
 
             if (ColorChannelHelper.GetCombinedChannelsDictionary()[sender.ColorChannel].Bitmap is not { } wantedImage)
             {
@@ -562,7 +562,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             imgPreviewCombiner.ImageSource = wantedImage;
         }
 
-        private void SetNewChannelPreview(ColorChannelInput newPreview)
+        private void SetHoverOverChannel(ColorChannelInput newPreview)
         {
             ResetAllSelectedInputs();
             newPreview.SetSelected(true);
@@ -578,8 +578,6 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
         private void ClearChannelPreview()
         {
-            ResetAllSelectedInputs();
-
             _currentlyPreviewingColorChannel = null;
             _currentlyPreviewingType = CurrentBitmapPreviewingEnum.None;
             lblPreviewCombined.Text = string.Empty;
