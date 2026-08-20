@@ -103,7 +103,6 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
             }
             return false;
         }
-
         public static bool LoadChannelFromPath(ExtractorPage sender, string? path)
         {
             if (!string.IsNullOrEmpty(path))
@@ -121,7 +120,6 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
             sender.SetLabelText(StringLinesInfo.NoInputImageTextDefault);
             ClearBitmap(targetDict[channel]);
         }
-
         public static void DeleteChannel(ExtractorPage sender)
         {
             sender.UpdateLabel(StringLinesInfo.NoInputImageTextDefault);
