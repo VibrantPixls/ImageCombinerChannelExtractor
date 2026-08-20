@@ -22,7 +22,7 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
                 return;
             }
 
-            crdPanel.Content = GetBtnString(channel);
+            btnDownloadChannel.Content = GetBtnString(channel);
             base.UpdateColoringStuff(channel);
         }
 

@@ -53,18 +53,25 @@
             </ui:Card>
         </Grid>
 
-        <StackPanel Grid.Column="1" Margin="16,0,2,0">
-            <controls:ColorChannelOutput x:Name="RedChannel"
+        <Grid Grid.Column="1" Margin="16,0,2,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <controls:ColorChannelOutput Grid.Row="0" x:Name="RedChannel"
                         ColorChannel="Red"/>
 
-            <controls:ColorChannelOutput x:Name="GreenChannel"
+            <controls:ColorChannelOutput Grid.Row="1" x:Name="GreenChannel"
                         ColorChannel="Green"/>
 
-            <controls:ColorChannelOutput x:Name="BlueChannel"
+            <controls:ColorChannelOutput Grid.Row="2" x:Name="BlueChannel"
                         ColorChannel="Blue"/>
 
-            <controls:ColorChannelOutput x:Name="AlphaChannel"
+            <controls:ColorChannelOutput Grid.Row="3" x:Name="AlphaChannel"
                         ColorChannel="Alpha"/>
-        </StackPanel>
+        </Grid>
     </Grid>
 </Page>
