@@ -33,7 +33,6 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         private void OnChannelMouseEnter(object sender, RoutedEventArgs e)
         {
             var input = (ColorChannelUserControl)sender;
-            Debug.WriteLine($"OnChannelMouseEnter on {input.ColorChannel}");
             SetHoverOverChannel(input);
         }
 
