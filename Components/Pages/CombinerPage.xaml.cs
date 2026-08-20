@@ -36,13 +36,13 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         {
             InitializeComponent();
 
-            _cachedColorInputPanels = new[]
-            {
+            _cachedColorInputPanels =
+            [
                 RedChannelInput,
                 GreenChannelInput,
                 BlueChannelInput,
                 AlphaChannelInput
-            };
+            ];
 
             brdPreviewBoxCombined.Width = SharedInfo.CombinedPreviewDefaultSize;
             brdPreviewBoxCombined.Height = SharedInfo.CombinedPreviewDefaultSize;
@@ -56,19 +56,19 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             var input = (ColorChannelInput)sender;
             string? path = e.SelectedFilePath ?? ColorChannelHelper.SelectPNGFile();
 
-            LoadChannelFromPath(input, input.ColorChannel, path);
+            LoadChannelFromPath(input, path);
         }
 
         private void OnChannelClickRemove(object sender, RoutedEventArgs e)
         {
             var input = (ColorChannelInput)sender;
-            DeleteChannel(input, input.ColorChannel);
+            DeleteChannel(input);
         }
 
         private void OnChannelMouseEnter(object sender, RoutedEventArgs e)
         {
             var input = (ColorChannelInput)sender;
-            ShowChannelPreview(input, input.ColorChannel);
+            ShowChannelPreview(input);
         }
 
         private void OnChannelMouseLeave(object sender, RoutedEventArgs e)
@@ -90,7 +90,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             }
             ColorChannelHelper.OnFilteringChanged(input);
 
-            MarkSenderPreviewDirty(input);
+            MarkSenderPreviewDirty(input.ColorChannel);
             MarkCombinedPreviewDirty();
         }
 
@@ -142,7 +142,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         #endregion
 
         #region Load images into channels
-        private void LoadChannelFromPath(ColorChannelInput sender, ColorChannelEnum channel, string? path)
+        private void LoadChannelFromPath(ColorChannelInput sender, string? path)
         {
             if (!ColorChannelHelper.DoesSenderInputChannelHaveDifferentImageForCombined(sender.ColorChannel, path))
             {
@@ -152,7 +152,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             bool successfullyLoaded = ColorChannelHelper.LoadChannelFromPath(sender, path);
             if (successfullyLoaded)
             {
-                ShowChannelPreview(sender, channel, true);
+                ShowChannelPreview(sender, true);
             }
             UpdateResolution();
 
@@ -161,7 +161,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             sender.UpdateDeleteButtonEnabled(successfullyLoaded);
         }
 
-        private void DeleteChannel(ColorChannelInput sender, ColorChannelEnum channel)
+        private void DeleteChannel(ColorChannelInput sender)
         {
             ColorChannelHelper.DeleteChannel(sender);
 
@@ -519,9 +519,9 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             StartShowingCombinedPreview();
         }
 
-        private void MarkSenderPreviewDirty(ColorChannelInput sender)
+        private void MarkSenderPreviewDirty(ColorChannelEnum channel)
         {
-            RenderOptions.SetBitmapScalingMode(imgPreviewCombiner, ColorChannelHelper.GetBitmapScalingFilteringMode(sender.ColorChannel));
+            RenderOptions.SetBitmapScalingMode(imgPreviewCombiner, ColorChannelHelper.GetBitmapScalingFilteringMode(channel));
         }
 
         private void StartShowingCombinedPreview()
@@ -539,9 +539,10 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             }
         }
 
-        private void ShowChannelPreview(ColorChannelInput sender, ColorChannelEnum channel, bool isDirty = false)
+        private void ShowChannelPreview(ColorChannelInput sender, bool isDirty = false)
         {
             bool isFromCombiner = sender.IsChannelFromCombined;
+            var channel = sender.ColorChannel;
 
             SetHoverOverChannel(sender);
 
@@ -551,7 +552,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
                 return;
             }
 
-            if (ColorChannelHelper.GetCombinedChannelsDictionary()[sender.ColorChannel].Bitmap is not { } wantedImage)
+            if (ColorChannelHelper.GetCombinedChannelsDictionary()[channel].Bitmap is not { } wantedImage)
             {
                 return;
             }
@@ -560,7 +561,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             _currentlyPreviewingType = CurrentBitmapPreviewingEnum.ColorChannel;
             lblPreviewCombined.Text = $"{channel} channel";
 
-            RenderOptions.SetBitmapScalingMode(imgPreviewCombiner, ColorChannelHelper.GetBitmapScalingFilteringMode(sender.ColorChannel));
+            RenderOptions.SetBitmapScalingMode(imgPreviewCombiner, ColorChannelHelper.GetBitmapScalingFilteringMode(channel));
             imgPreviewCombiner.ImageSource = wantedImage;
         }
 
@@ -607,7 +608,10 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 #pragma warning disable CS8602
             long estimatedTotalBytes = (long)(bitmapToSave.PixelWidth * bitmapToSave.PixelHeight * (bitmapToSave.Format.BitsPerPixel / 8) * 0.3);
 #pragma warning restore CS8602
-            if (estimatedTotalBytes <= 0) estimatedTotalBytes = 1;
+            if (estimatedTotalBytes <= 0)
+            {
+                estimatedTotalBytes = 1;
+            }
 
             var progress = new Progress<double>(percentage =>
             {
