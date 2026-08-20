@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using ImageCombinerChannelExtractor.Components.Enums;
+using System.Windows.Controls;
 
 namespace ImageCombinerChannelExtractor.Components.Classes
 {
@@ -19,5 +20,17 @@ namespace ImageCombinerChannelExtractor.Components.Classes
             ResetAllSelectedInputs();
             newPreview.SetSelected(true);
         }
+
+        #region Notifications trigger
+        protected uint TriggerNotification(string text, NotificationTypeEnum notifType = NotificationTypeEnum.Info, int autoDestroyinSec = 0)
+        {
+            return App.MainWindowReference.SpawnNotification(text, notifType, autoDestroyinSec);
+        }
+
+        protected void TriggerRemoveNotification(uint taskIdToRemove)
+        {
+            App.MainWindowReference.RemoveNotification(taskIdToRemove);
+        }
+        #endregion
     }
 }

@@ -493,18 +493,6 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
         #endregion
 
-        #region Notifications trigger
-        private uint TriggerNotification(string text, NotificationTypeEnum notifType = NotificationTypeEnum.Info, int autoDestroyinSec = 0)
-        {
-            return App.MainWindowReference.SpawnNotification(text, notifType, autoDestroyinSec);
-        }
-
-        private void TriggerRemoveNotification(uint taskIdToRemove)
-        {
-            App.MainWindowReference.RemoveNotification(taskIdToRemove);
-        }
-        #endregion
-
         #region Image previews
         private void ShowCombinedPreview()
         {
