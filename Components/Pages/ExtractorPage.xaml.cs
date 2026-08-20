@@ -9,19 +9,17 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 {
     public partial class ExtractorPage : ExtrPage
     {
-        private string? _selectedFilePath = null;
-
         public ExtractorPage()
         {
             InitializeComponent();
 
-            _cachedColorInputPanels = new[]
-            {
+            _cachedColorInputPanels =
+            [
                 RedChannel,
                 GreenChannel,
                 BlueChannel,
                 AlphaChannel
-            };
+            ];
 
             UpdateLabel(StringLinesInfo.NoInputImageTextDefault);
         }
@@ -85,7 +83,6 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            _selectedFilePath = null;
             ColorChannelHelper.DeleteChannel(this);
             imgPreviewCombiner.ImageSource = null;
             UpdateTargetResolution();
@@ -95,8 +92,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         #region Helpers
         private void ExtractFromPath(string? path)
         {
-            _selectedFilePath = path;
-            if (ColorChannelHelper.LoadChannelFromPath(this, _selectedFilePath))
+            if (ColorChannelHelper.LoadChannelFromPath(this, path))
             {
                 if (ColorChannelHelper.GetExtractedInput().Bitmap is not { } wantedImage)
                 {
