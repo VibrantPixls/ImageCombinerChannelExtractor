@@ -2,6 +2,7 @@
 using ImageCombinerChannelExtractor.Components.Classes.PageClasses;
 using ImageCombinerChannelExtractor.Components.Helpers;
 using System.Diagnostics;
+using System.IO;
 using System.Windows;
 
 namespace ImageCombinerChannelExtractor.Components.Pages
@@ -23,6 +24,9 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             };
         }
 
+        #region On ColorChannelInput events
+        #endregion
+
         private void OnChannelMouseEnter(object sender, RoutedEventArgs e)
         {
             var input = (ColorChannelUserControl)sender;
@@ -35,6 +39,35 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             ResetAllSelectedInputs();
         }
 
+        private void OnButtonDragOver(object sender, DragEventArgs e)
+        {
+            e.Effects = DragDropEffects.None;
+
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[]? files = e.Data.GetData(DataFormats.FileDrop) as string[];
+                if (files != null && files.Length > 0 && ColorChannelHelper.IsValidImageFile(files[0]))
+                {
+                    e.Effects = DragDropEffects.Copy;
+                }
+            }
+            e.Handled = true;
+        }
+
+        private void OnButtonDrop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[]? files = e.Data.GetData(DataFormats.FileDrop) as string[];
+                string? validFile = files?.FirstOrDefault(ColorChannelHelper.IsValidImageFile);
+                if (!string.IsNullOrEmpty(validFile))
+                {
+                    UpdateLabel(Path.GetFileName(validFile));
+                    ExtractFromPath(validFile);
+                }
+            }
+        }
+
         public void UpdateLabel(string labelText)
         {
             lblResolutionCombined.Text = labelText;
@@ -42,14 +75,19 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
         private void btnExtract_Click(object sender, RoutedEventArgs e)
         {
-            _selectedFilePath = ColorChannelHelper.SelectPNGFile();
+            string? path = ColorChannelHelper.SelectPNGFile();
+            ExtractFromPath(path);
+        }
+
+        private void ExtractFromPath(string? path)
+        {
+            _selectedFilePath = path;
             if (ColorChannelHelper.LoadChannelFromPath(this, _selectedFilePath))
             {
                 if (ColorChannelHelper.GetExtractedInput().Bitmap is not { } wantedImage)
                 {
                     return;
                 }
-
                 imgPreviewCombiner.ImageSource = wantedImage;
             }
         }

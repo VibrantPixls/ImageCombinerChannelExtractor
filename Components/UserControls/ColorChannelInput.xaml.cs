@@ -71,7 +71,7 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 string[]? files = e.Data.GetData(DataFormats.FileDrop) as string[];
-                if (files != null && files.Length > 0 && IsValidImageFile(files[0]))
+                if (files != null && files.Length > 0 && ColorChannelHelper.IsValidImageFile(files[0]))
                 {
                     e.Effects = DragDropEffects.Copy;
                 }
@@ -84,7 +84,7 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
                 string[]? files = e.Data.GetData(DataFormats.FileDrop) as string[];
-                string? validFile = files?.FirstOrDefault(IsValidImageFile);
+                string? validFile = files?.FirstOrDefault(ColorChannelHelper.IsValidImageFile);
                 if (!string.IsNullOrEmpty(validFile))
                 {
                     SetLabelText(Path.GetFileName(validFile));

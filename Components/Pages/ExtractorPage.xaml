@@ -23,7 +23,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <ui:Card Grid.Row="0" HorizontalAlignment="Center" Padding="8">
+            <ui:Card Grid.Row="0" HorizontalAlignment="Center" Padding="8" AllowDrop="True" DragOver="OnButtonDragOver" Drop="OnButtonDrop">
                 <StackPanel HorizontalAlignment="Center">
                     <Border x:Name="brdPreviewBoxCombined" Width="425" Height="425" CornerRadius="4" ClipToBounds="True">
                         <controls:CheckerboardPictureBox x:Name="imgPreviewCombiner" />
@@ -46,7 +46,7 @@
                                 <Border Grid.Column="0" CornerRadius="3" Margin="0,2,6,2"/>
                                 <ui:Button Grid.Column="1" Margin="0,2,6,2" x:Name="btnExtract" Appearance="Primary" Icon="{ui:SymbolIcon Image24}" HorizontalAlignment="Stretch" Height="36" Content="Extract From Combined PNG" Click="btnExtract_Click" />
                             </Grid>
-                            <ui:Button Grid.Column="1" Appearance="Transparent" Icon="{ui:SymbolIcon Dismiss24}" ToolTip="Clear input image" Height="36" Width="36" Padding="0" Foreground="White" Click="Button_Click" />
+                            <ui:Button x:Name="btnDeleteInputExtract" Grid.Column="1" Appearance="Transparent" Icon="{ui:SymbolIcon Dismiss24}" ToolTip="Clear input image" Height="36" Width="36" Padding="0" Foreground="White" Click="Button_Click" />
                         </Grid>
                         <ui:TextBlock x:Name="lblResolutionCombined" FontTypography="Caption" HorizontalAlignment="Center" Margin="0,6,0,0" />
                     </StackPanel>

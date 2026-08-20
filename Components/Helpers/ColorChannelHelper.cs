@@ -138,6 +138,16 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
             return ofd.ShowDialog() == true ? ofd.FileName : null;
         }
 
+        public static bool IsValidImageFile(string filePath)
+        {
+            if (string.IsNullOrWhiteSpace(filePath) || !File.Exists(filePath))
+            {
+                return false;
+            }
+            string extension = Path.GetExtension(filePath);
+            return SharedInfo.AllowedImageExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase);
+        }
+
         public static byte GetFilledColorChannelsAmount(bool IsCombined = true)
         {
             byte totalFilled = 0;

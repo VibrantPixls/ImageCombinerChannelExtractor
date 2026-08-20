@@ -8,7 +8,7 @@
              xmlns:classes="clr-namespace:ImageCombinerChannelExtractor.Components.Classes.UserControlChildClasses"
              mc:Ignorable="d"
              d:DesignHeight="150" d:DesignWidth="400">
-    <ui:Card x:Name="crdPanel" Padding="12" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch"  MouseEnter="OnButtonMouseEnter" MouseLeave="OnButtonMouseLeave" AllowDrop="True" DragOver="OnButtonDragOver" Drop="OnButtonDrop">
+    <ui:Card x:Name="crdPanel" Padding="12" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch"  MouseEnter="OnButtonMouseEnter" MouseLeave="OnButtonMouseLeave">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
