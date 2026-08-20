@@ -1,4 +1,5 @@
 ﻿using ImageCombinerChannelExtractor.Components.Classes;
+using ImageCombinerChannelExtractor.Components.Classes.PageClasses;
 using ImageCombinerChannelExtractor.Components.Enums;
 using ImageCombinerChannelExtractor.Components.Helpers;
 using ImageCombinerChannelExtractor.Components.Shared;
@@ -14,10 +15,8 @@ using System.Windows.Media.Imaging;
 
 namespace ImageCombinerChannelExtractor.Components.Pages
 {
-    public partial class CombinerPage : Page
+    public partial class CombinerPage : CombPage
     {
-        private readonly ColorChannelInput[] _cachedColorInputPanels;
-
         #region Image previews variables
         private const double _combinedDefaultSize = 425.0;
 
@@ -201,9 +200,10 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         {
             foreach (var panel in _cachedColorInputPanels)
             {
-                bool hasInputImage = ColorChannelHelper.DoesSenderInputChannelHaveInputImage(panel);
+                var converted = (ColorChannelInput)panel;
+                bool hasInputImage = ColorChannelHelper.DoesSenderInputChannelHaveInputImage(converted);
                 // should be a function, oh well
-                panel.cmbboxFiltering.IsEnabled = hasInputImage; // small images should be able to set filtering for pixel-art's
+                converted.cmbboxFiltering.IsEnabled = hasInputImage; // small images should be able to set filtering for pixel-art's
             }
         }
         #endregion
@@ -564,20 +564,6 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
             RenderOptions.SetBitmapScalingMode(imgPreviewCombiner, ColorChannelHelper.GetBitmapScalingFilteringMode(sender));
             imgPreviewCombiner.ImageSource = wantedImage;
-        }
-
-        private void SetHoverOverChannel(ColorChannelInput newPreview)
-        {
-            ResetAllSelectedInputs();
-            newPreview.SetSelected(true);
-        }
-
-        private void ResetAllSelectedInputs()
-        {
-            foreach (var panel in _cachedColorInputPanels)
-            {
-                panel.SetSelected(false);
-            }
         }
 
         private void ClearChannelPreview()

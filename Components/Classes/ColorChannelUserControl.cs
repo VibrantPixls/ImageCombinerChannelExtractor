@@ -1,5 +1,6 @@
 ﻿using ImageCombinerChannelExtractor.Components.Enums;
 using ImageCombinerChannelExtractor.Components.Shared;
+using System.IO;
 using System.Windows;
 using System.Windows.Media;
 
@@ -91,6 +92,16 @@ namespace ImageCombinerChannelExtractor.Components.Classes
         public virtual void SetSelected(bool selected)
         {
             UpdateBrushColors(GetColorBrush(ColorChannel, selected));
+        }
+
+        protected static bool IsValidImageFile(string filePath)
+        {
+            if (string.IsNullOrWhiteSpace(filePath) || !File.Exists(filePath))
+            {
+                return false;
+            }
+            string extension = Path.GetExtension(filePath);
+            return SharedInfo.AllowedImageExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase);
         }
     }
 }

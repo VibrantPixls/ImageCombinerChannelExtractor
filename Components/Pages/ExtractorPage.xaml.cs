@@ -1,16 +1,38 @@
-﻿using ImageCombinerChannelExtractor.Components.Helpers;
+﻿using ImageCombinerChannelExtractor.Components.Classes;
+using ImageCombinerChannelExtractor.Components.Classes.PageClasses;
+using ImageCombinerChannelExtractor.Components.Helpers;
+using System.Diagnostics;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace ImageCombinerChannelExtractor.Components.Pages
 {
-    public partial class ExtractorPage : Page
+    public partial class ExtractorPage : ExtrPage
     {
         private string? _selectedFilePath = null;
 
         public ExtractorPage()
         {
             InitializeComponent();
+
+            _cachedColorInputPanels = new[]
+            {
+                RedChannel,
+                GreenChannel,
+                BlueChannel,
+                AlphaChannel
+            };
+        }
+
+        private void OnChannelMouseEnter(object sender, RoutedEventArgs e)
+        {
+            var input = (ColorChannelUserControl)sender;
+            Debug.WriteLine($"OnChannelMouseEnter on {input.ColorChannel}");
+            SetHoverOverChannel(input);
+        }
+
+        private void OnChannelMouseLeave(object sender, RoutedEventArgs e)
+        {
+            ResetAllSelectedInputs();
         }
 
         public void UpdateLabel(string labelText)

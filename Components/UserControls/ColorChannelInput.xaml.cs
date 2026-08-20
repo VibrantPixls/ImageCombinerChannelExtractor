@@ -111,16 +111,6 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             dltBtn.IsEnabled = enabled;
         }
 
-        private static bool IsValidImageFile(string filePath)
-        {
-            if (string.IsNullOrWhiteSpace(filePath) || !File.Exists(filePath))
-            {
-                return false;
-            }
-            string extension = Path.GetExtension(filePath);
-            return SharedInfo.AllowedImageExtensions.Contains(extension, StringComparer.OrdinalIgnoreCase);
-        }
-
         protected override void UpdateColoringStuff(ColorChannelEnum channel)
         {
             if (btnColorChannelInput is null)

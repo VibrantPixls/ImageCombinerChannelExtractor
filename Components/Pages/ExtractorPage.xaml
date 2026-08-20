@@ -1,4 +1,4 @@
-﻿<Page x:Class="ImageCombinerChannelExtractor.Components.Pages.ExtractorPage"
+﻿<classes:ExtrPage x:Class="ImageCombinerChannelExtractor.Components.Pages.ExtractorPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -6,6 +6,7 @@
       xmlns:local="clr-namespace:ImageCombinerChannelExtractor.Components.Pages"
       xmlns:controls="clr-namespace:ImageCombinerChannelExtractor.Components.UserControls"
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      xmlns:classes="clr-namespace:ImageCombinerChannelExtractor.Components.Classes.PageClasses"
       mc:Ignorable="d" 
       d:DesignHeight="602" d:DesignWidth="1000"
       Title="ExtractorPage">
@@ -62,16 +63,24 @@
             </Grid.RowDefinitions>
             
             <controls:ColorChannelOutput Grid.Row="0" x:Name="RedChannel"
-                        ColorChannel="Red"/>
+                        ColorChannel="Red"
+                        ChannelMouseEnter="OnChannelMouseEnter"
+                        ChannelMouseLeave="OnChannelMouseLeave"/>
 
             <controls:ColorChannelOutput Grid.Row="1" x:Name="GreenChannel"
-                        ColorChannel="Green"/>
+                        ColorChannel="Green"
+                        ChannelMouseEnter="OnChannelMouseEnter"
+                        ChannelMouseLeave="OnChannelMouseLeave"/>
 
             <controls:ColorChannelOutput Grid.Row="2" x:Name="BlueChannel"
-                        ColorChannel="Blue"/>
+                        ColorChannel="Blue"
+                        ChannelMouseEnter="OnChannelMouseEnter"
+                        ChannelMouseLeave="OnChannelMouseLeave"/>
 
             <controls:ColorChannelOutput Grid.Row="3" x:Name="AlphaChannel"
-                        ColorChannel="Alpha"/>
+                        ColorChannel="Alpha"
+                        ChannelMouseEnter="OnChannelMouseEnter"
+                        ChannelMouseLeave="OnChannelMouseLeave"/>
         </Grid>
     </Grid>
-</Page>
+</classes:ExtrPage>
