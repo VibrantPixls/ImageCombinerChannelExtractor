@@ -136,6 +136,8 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             var notifId = App.TriggerNotification(StringLinesInfo.notificationExtracting, NotificationTypeEnum.Info);
             try
             {
+                UpdateChannelPreviews(true);
+                await Task.Delay(10000, token).ConfigureAwait(true);
                 bool extracted = await ColorChannelHelper.ExtractChannelsFromInputAsync(token);
                 if (!extracted || token.IsCancellationRequested)
                 {
@@ -158,7 +160,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             }
         }
 
-        private void UpdateChannelPreviews()
+        private void UpdateChannelPreviews(bool isLoading = false)
         {
             var extractedChannels = ColorChannelHelper.GetExtractedChannelsDictionary();
 
@@ -166,13 +168,18 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             {
                 var outputPanel = (ColorChannelOutput)panel;
 
+                if (isLoading)
+                {
+                    outputPanel.SetPreview();
+                    continue;
+                }
+
                 var channelImage = extractedChannels[outputPanel.ColorChannel].Bitmap;
                 outputPanel.SetPreview(channelImage);
                 if (channelImage == null)
                 {
 
                     outputPanel.SetLabelText($"{outputPanel.ColorChannel} channel");
-                    continue;
                 }
                 else
                 {

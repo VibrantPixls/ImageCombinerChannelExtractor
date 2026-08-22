@@ -45,6 +45,14 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             var isValid = image != null;
             btnDownloadChannel.Content = isValid ? StringLinesInfo.CrtExtractBtnDownload : StringLinesInfo.CrtExtractBtnNoInputs;
             btnDownloadChannel.IsEnabled = isValid;
+            prgrRing.Visibility = Visibility.Hidden;
+        }
+
+        public void SetPreview()
+        {
+            picboxPreview.ImageSource = null;
+            btnDownloadChannel.IsEnabled = false;
+            prgrRing.Visibility = Visibility.Visible;
         }
 
         protected override void UpdateColoringStuff(ColorChannelEnum channel)

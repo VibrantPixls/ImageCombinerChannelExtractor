@@ -16,6 +16,7 @@
             </Grid.ColumnDefinitions>
 
             <local:CheckerboardPictureBox x:Name="picboxPreview" Grid.Column="0" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" />
+            <ui:ProgressRing x:Name="prgrRing" Grid.Column="0" IsIndeterminate="True" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" Visibility="Hidden" />
             <ui:Button Grid.Column="1" x:Name="btnDownloadChannel" HorizontalAlignment="Stretch" Appearance="Secondary" Icon="{ui:SymbolIcon ImageAdd24}" Height="36" Margin="8,0,0,0" IsEnabled="False" Click="btnDownloadChannel_Click" />
         </Grid>
     </ui:Card>
