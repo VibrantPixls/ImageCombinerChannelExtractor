@@ -529,7 +529,6 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
         private void ShowChannelPreview(ColorChannelInput sender, bool isDirty = false)
         {
-            bool isFromCombiner = sender.IsChannelFromCombined;
             var channel = sender.ColorChannel;
 
             SetHoverOverChannel(sender);

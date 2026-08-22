@@ -1,7 +1,9 @@
 ﻿using ImageCombinerChannelExtractor.Components.Classes;
 using ImageCombinerChannelExtractor.Components.Classes.PageClasses;
+using ImageCombinerChannelExtractor.Components.Enums;
 using ImageCombinerChannelExtractor.Components.Helpers;
 using ImageCombinerChannelExtractor.Components.Shared;
+using ImageCombinerChannelExtractor.Components.UserControls;
 using System.IO;
 using System.Windows;
 
@@ -9,6 +11,8 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 {
     public partial class ExtractorPage : ExtrPage
     {
+        private CancellationTokenSource? _ctsExtract;
+
         public ExtractorPage()
         {
             InitializeComponent();
@@ -23,9 +27,6 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
             UpdateLabel(StringLinesInfo.NoInputImageTextDefault);
         }
-
-        #region On ColorChannelInput events
-        #endregion
 
         #region On mouse events
         private void OnChannelMouseEnter(object sender, RoutedEventArgs e)
@@ -81,16 +82,20 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             ExtractFromPath(path);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e) // delete input
         {
+            _ctsExtract?.Cancel();
+
             ColorChannelHelper.DeleteChannel(this);
             imgPreviewCombiner.ImageSource = null;
             UpdateTargetResolution();
+            ColorChannelHelper.ClearExtractedChannels();
+            UpdateChannelPreviews();
         }
         #endregion
 
         #region Helpers
-        private void ExtractFromPath(string? path)
+        private async void ExtractFromPath(string? path)
         {
             if (ColorChannelHelper.LoadChannelFromPath(this, path))
             {
@@ -100,6 +105,8 @@ namespace ImageCombinerChannelExtractor.Components.Pages
                 }
                 imgPreviewCombiner.ImageSource = wantedImage;
                 UpdateTargetResolution();
+
+                await ExtractChannelsAsync();
             }
         }
 
@@ -109,6 +116,62 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
             imgPreviewCombiner.Width = target.Width;
             imgPreviewCombiner.Height = target.Height;
+        }
+
+        private async Task ExtractChannelsAsync()
+        {
+            _ctsExtract?.Cancel();
+            _ctsExtract?.Dispose();
+            var cts = new CancellationTokenSource();
+            _ctsExtract = cts;
+            var token = cts.Token;
+
+            var notifId = TriggerNotification(StringLinesInfo.notificationExtracting, NotificationTypeEnum.Info);
+            try
+            {
+                bool extracted = await ColorChannelHelper.ExtractChannelsFromInputAsync(token);
+                if (!extracted || token.IsCancellationRequested)
+                {
+                    return;
+                }
+                UpdateChannelPreviews();
+                TriggerNotification(StringLinesInfo.notificationSuccessfullExtracting, NotificationTypeEnum.Success, SharedInfo.NotificationAutoDestroyAfterInSeconds);
+            }
+            catch (OperationCanceledException)
+            {
+                // was cancelled
+            }
+            catch (Exception ex)
+            {
+                TriggerNotification(StringLinesInfo.GetExceptionError(ex), NotificationTypeEnum.Error, SharedInfo.NotificationAutoDestroyAfterInSecondsIfException);
+            }
+            finally
+            {
+                TriggerRemoveNotification(notifId);
+            }
+        }
+
+        private void UpdateChannelPreviews()
+        {
+            var extractedChannels = ColorChannelHelper.GetExtractedChannelsDictionary();
+
+            foreach (var panel in _cachedColorInputPanels)
+            {
+                var outputPanel = (ColorChannelOutput)panel;
+
+                var channelImage = extractedChannels[outputPanel.ColorChannel].Bitmap;
+                outputPanel.SetPreview(channelImage);
+                if (channelImage == null)
+                {
+
+                    outputPanel.SetLabelText($"{outputPanel.ColorChannel} channel");
+                    continue;
+                }
+                else
+                {
+                    outputPanel.SetLabelText($"{outputPanel.ColorChannel} channel");
+                }
+            }
         }
         #endregion
     }

@@ -6,6 +6,9 @@
         public const string notificationSuccessfullCombining = "Successfully created combined image";
         public const string notificationSuccessfullCombiningExport = "Successfully exported combined image";
 
+        public const string notificationExtracting = "Started extracting channels from input image";
+        public const string notificationSuccessfullExtracting = "Successfully extracted channels from input image";
+
         public const string EnumFriendlyNameChannelFilteringBilinear = "Smooth (Bilinear)";
         public const string EnumFriendlyNameChannelFilteringNearestNeighbor = "Sharp (Nearest Neighbor)";
         public const string EnumFriendlyNameChannelFilteringBicubic = "Smooth (Bicubic)";
@@ -23,6 +26,7 @@
 
         public const string CrtExtractBtn = "Extract From Combined PNG";
         public const string CrtExtractBtnNoInputs = "No Input Image";
+        public const string CrtExtractBtnDownload = "Download";
 
         // ---------------------------
         public static string GetExceptionError(Exception ex)

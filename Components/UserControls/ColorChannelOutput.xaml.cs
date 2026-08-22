@@ -4,6 +4,7 @@ using ImageCombinerChannelExtractor.Components.Shared;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace ImageCombinerChannelExtractor.Components.UserControls
 {
@@ -14,7 +15,6 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             InitializeComponent();
 
             Loaded += (s, e) => UpdateColoringStuff(ColorChannel);
-            SetLabelText(StringLinesInfo.NoInputImageTextDefault);
         }
 
         private void OnButtonMouseEnter(object sender, MouseEventArgs e)
@@ -27,6 +27,12 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             RaiseEvent(new RoutedEventArgs(ChannelMouseLeaveEvent, this));
         }
 
+        public void SetPreview(BitmapImage? image)
+        {
+            picboxPreview.ImageSource = image;
+            btnDownloadChannel.Content = image != null ? StringLinesInfo.CrtExtractBtnDownload : StringLinesInfo.CrtExtractBtnNoInputs;
+        }
+
         protected override void UpdateColoringStuff(ColorChannelEnum channel)
         {
             if (btnDownloadChannel is null)
@@ -34,7 +40,7 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
                 return;
             }
 
-            btnDownloadChannel.Content = GetBtnString(channel);
+            btnDownloadChannel.Content = StringLinesInfo.CrtExtractBtnNoInputs;
             base.UpdateColoringStuff(channel);
         }
 
@@ -43,10 +49,5 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             base.UpdateBrushColors(wantedBrush);
             crdPanel.Background = wantedBrush;
         }
-
-        protected override string GetBtnString(ColorChannelEnum channel) => channel switch
-        {
-            _ => StringLinesInfo.CrtExtractBtnNoInputs
-        };
     }
 }
