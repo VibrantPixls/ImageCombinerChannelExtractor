@@ -57,11 +57,6 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
 
         private static async Task SaveBitmapToPngAsync(string filePath, BitmapSource bitmapToSave)
         {
-            if (bitmapToSave == null)
-            {
-                return;
-            }
-
             App.MainWindowReference.SetExtractingScreenProgress(0);
             App.MainWindowReference.ShowExtractingScreen(true);
             long estimatedTotalBytes = (long)(bitmapToSave.PixelWidth * bitmapToSave.PixelHeight * (bitmapToSave.Format.BitsPerPixel / 8) * 0.3);
