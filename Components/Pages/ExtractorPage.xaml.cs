@@ -4,8 +4,10 @@ using ImageCombinerChannelExtractor.Components.Enums;
 using ImageCombinerChannelExtractor.Components.Helpers;
 using ImageCombinerChannelExtractor.Components.Shared;
 using ImageCombinerChannelExtractor.Components.UserControls;
+using Microsoft.Win32;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace ImageCombinerChannelExtractor.Components.Pages
 {
@@ -28,7 +30,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             UpdateLabel(StringLinesInfo.NoInputImageTextDefault);
         }
 
-        #region On mouse events
+        #region On user events
         private void OnChannelMouseEnter(object sender, RoutedEventArgs e)
         {
             var input = (ColorChannelUserControl)sender;
@@ -38,6 +40,55 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         private void OnChannelMouseLeave(object sender, RoutedEventArgs e)
         {
             ResetAllSelectedInputs();
+        }
+
+        private async void OnDownloadChannel(object sender, RoutedEventArgs e)
+        {
+            var input = (ColorChannelUserControl)sender;
+            var bitmap = ColorChannelHelper.GetExtractedChannelBitmap(input.ColorChannel);
+
+            if (bitmap == null)
+            {
+                return;
+            }
+
+            var saveFileDialog = new SaveFileDialog
+            {
+                Filter = "PNG Image (*.png)|*.png",
+                DefaultExt = ".png",
+                FileName = "ExportedPreview.png",
+                Title = "Save Preview As"
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                bool gotError = false;
+                var button = sender as Button;
+                try
+                {
+                    if (button != null)
+                    {
+                        button.IsEnabled = false; // just to be sure
+                    }
+                    await DownloadHelper.SaveBitmapToPngAsync(saveFileDialog.FileName, bitmap);
+                }
+                catch (Exception ex)
+                {
+                    TriggerNotification(StringLinesInfo.GetExceptionError(ex), NotificationTypeEnum.Error, SharedInfo.NotificationAutoDestroyAfterInSecondsIfException);
+                }
+                finally
+                {
+                    if (button != null)
+                    {
+                        button.IsEnabled = true;
+                    }
+
+                    if (!gotError)
+                    {
+                        TriggerNotification(StringLinesInfo.notificationSuccessfullCombiningExport, NotificationTypeEnum.Success, SharedInfo.NotificationAutoDestroyAfterInSeconds);
+                    }
+                }
+            }
         }
 
         private void OnButtonDragOver(object sender, DragEventArgs e)

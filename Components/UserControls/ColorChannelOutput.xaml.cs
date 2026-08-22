@@ -17,6 +17,18 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             Loaded += (s, e) => UpdateColoringStuff(ColorChannel);
         }
 
+        public static readonly RoutedEvent ChannelDownloadClickEvent = EventManager.RegisterRoutedEvent(nameof(ChannelDownloadClickEvent), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ColorChannelOutputClass));
+        public event RoutedEventHandler ChannelDownloadClick
+        {
+            add => AddHandler(ChannelDownloadClickEvent, value);
+            remove => RemoveHandler(ChannelDownloadClickEvent, value);
+        }
+
+        private void btnDownloadChannel_Click(object sender, RoutedEventArgs e)
+        {
+            RaiseEvent(new RoutedEventArgs(ChannelDownloadClickEvent, this));
+        }
+
         private void OnButtonMouseEnter(object sender, MouseEventArgs e)
         {
             RaiseEvent(new RoutedEventArgs(ChannelMouseEnterEvent, this));

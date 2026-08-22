@@ -46,6 +46,11 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
             return _extracterChannels;
         }
 
+        public static BitmapSource? GetExtractedChannelBitmap(ColorChannelEnum colorChannel)
+        {
+            return _extracterChannels[colorChannel].Bitmap;
+        }
+
         public static ChannelSlot GetExtractedInput()
         {
             return _extractorInput;

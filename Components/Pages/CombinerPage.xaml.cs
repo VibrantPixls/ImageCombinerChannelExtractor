@@ -119,7 +119,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
                     {
                         button.IsEnabled = false; // just to be sure
                     }
-                    await SavePreviewCacheToPngAsync(saveFileDialog.FileName);
+                    await DownloadHelper.SaveBitmapToPngAsync(saveFileDialog.FileName, _combinedPreviewCache);
                 }
                 catch (Exception ex)
                 {
