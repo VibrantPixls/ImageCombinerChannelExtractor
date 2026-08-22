@@ -10,7 +10,7 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
 {
     public static class DownloadHelper
     {
-        public async static void SaveBitmapAsPNG(Button? sender, BitmapSource? bitmapToSave)
+        public async static void SaveBitmapAsPNG(Button? sender, BitmapSource? bitmapToSave, string fileName)
         {
             if (sender == null || bitmapToSave == null)
             {
@@ -21,8 +21,8 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
             {
                 Filter = "PNG Image (*.png)|*.png",
                 DefaultExt = ".png",
-                FileName = "ExportedPreview.png",
-                Title = "Save Preview As"
+                FileName = $"{fileName}.png",
+                Title = StringLinesInfo.SaveFileDialogTitle
             };
 
             if (saveFileDialog.ShowDialog() == true)

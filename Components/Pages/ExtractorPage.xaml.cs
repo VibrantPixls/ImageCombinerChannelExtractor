@@ -43,7 +43,8 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         private async void OnDownloadChannel(object sender, RoutedEventArgs e)
         {
             var input = (ColorChannelOutput)sender;
-            DownloadHelper.SaveBitmapAsPNG(input.btnDownloadChannel, ColorChannelHelper.GetExtractedChannelBitmap(input.ColorChannel));
+            var channel = input.ColorChannel;
+            DownloadHelper.SaveBitmapAsPNG(input.btnDownloadChannel, ColorChannelHelper.GetExtractedChannelBitmap(channel), StringLinesInfo.GetDownloadImgFileNameExtractedChannel(channel));
         }
 
         private void OnButtonDragOver(object sender, DragEventArgs e)

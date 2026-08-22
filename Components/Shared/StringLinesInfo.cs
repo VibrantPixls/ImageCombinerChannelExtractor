@@ -1,4 +1,6 @@
-﻿namespace ImageCombinerChannelExtractor.Components.Shared
+﻿using ImageCombinerChannelExtractor.Components.Enums;
+
+namespace ImageCombinerChannelExtractor.Components.Shared
 {
     public static class StringLinesInfo
     {
@@ -27,6 +29,13 @@
         public const string CrtExtractBtn = "Extract From Combined PNG";
         public const string CrtExtractBtnNoInputs = "No Input Image";
         public const string CrtExtractBtnDownload = "Download";
+
+        public const string SaveFileDialogTitle = "Save Preview As";
+        public const string DownloadImgFileNameCombined = "CombinedImage";
+        public static string GetDownloadImgFileNameExtractedChannel(ColorChannelEnum colorChannel)
+        {
+            return $"ExtractedChannel{colorChannel}";
+        }
 
         // ---------------------------
         public static string GetExceptionError(Exception ex)

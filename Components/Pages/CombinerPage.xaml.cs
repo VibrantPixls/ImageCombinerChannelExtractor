@@ -95,7 +95,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
         private async void btnCreateCombined_Click(object sender, RoutedEventArgs e) // export file
         {
-            DownloadHelper.SaveBitmapAsPNG(sender as Button, _combinedPreviewCache);
+            DownloadHelper.SaveBitmapAsPNG(sender as Button, _combinedPreviewCache, StringLinesInfo.DownloadImgFileNameCombined);
         }
         #endregion
 
