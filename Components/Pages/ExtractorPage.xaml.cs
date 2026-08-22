@@ -4,10 +4,8 @@ using ImageCombinerChannelExtractor.Components.Enums;
 using ImageCombinerChannelExtractor.Components.Helpers;
 using ImageCombinerChannelExtractor.Components.Shared;
 using ImageCombinerChannelExtractor.Components.UserControls;
-using Microsoft.Win32;
 using System.IO;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace ImageCombinerChannelExtractor.Components.Pages
 {
@@ -44,51 +42,8 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
         private async void OnDownloadChannel(object sender, RoutedEventArgs e)
         {
-            var input = (ColorChannelUserControl)sender;
-            var bitmap = ColorChannelHelper.GetExtractedChannelBitmap(input.ColorChannel);
-
-            if (bitmap == null)
-            {
-                return;
-            }
-
-            var saveFileDialog = new SaveFileDialog
-            {
-                Filter = "PNG Image (*.png)|*.png",
-                DefaultExt = ".png",
-                FileName = "ExportedPreview.png",
-                Title = "Save Preview As"
-            };
-
-            if (saveFileDialog.ShowDialog() == true)
-            {
-                bool gotError = false;
-                var button = sender as Button;
-                try
-                {
-                    if (button != null)
-                    {
-                        button.IsEnabled = false; // just to be sure
-                    }
-                    await DownloadHelper.SaveBitmapToPngAsync(saveFileDialog.FileName, bitmap);
-                }
-                catch (Exception ex)
-                {
-                    TriggerNotification(StringLinesInfo.GetExceptionError(ex), NotificationTypeEnum.Error, SharedInfo.NotificationAutoDestroyAfterInSecondsIfException);
-                }
-                finally
-                {
-                    if (button != null)
-                    {
-                        button.IsEnabled = true;
-                    }
-
-                    if (!gotError)
-                    {
-                        TriggerNotification(StringLinesInfo.notificationSuccessfullCombiningExport, NotificationTypeEnum.Success, SharedInfo.NotificationAutoDestroyAfterInSeconds);
-                    }
-                }
-            }
+            var input = (ColorChannelOutput)sender;
+            DownloadHelper.SaveBitmapAsPNG(input.btnDownloadChannel, ColorChannelHelper.GetExtractedChannelBitmap(input.ColorChannel));
         }
 
         private void OnButtonDragOver(object sender, DragEventArgs e)
@@ -177,7 +132,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             _ctsExtract = cts;
             var token = cts.Token;
 
-            var notifId = TriggerNotification(StringLinesInfo.notificationExtracting, NotificationTypeEnum.Info);
+            var notifId = App.TriggerNotification(StringLinesInfo.notificationExtracting, NotificationTypeEnum.Info);
             try
             {
                 bool extracted = await ColorChannelHelper.ExtractChannelsFromInputAsync(token);
@@ -186,7 +141,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
                     return;
                 }
                 UpdateChannelPreviews();
-                TriggerNotification(StringLinesInfo.notificationSuccessfullExtracting, NotificationTypeEnum.Success, SharedInfo.NotificationAutoDestroyAfterInSeconds);
+                App.TriggerNotification(StringLinesInfo.notificationSuccessfullExtracting, NotificationTypeEnum.Success, SharedInfo.NotificationAutoDestroyAfterInSeconds);
             }
             catch (OperationCanceledException)
             {
@@ -194,11 +149,11 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             }
             catch (Exception ex)
             {
-                TriggerNotification(StringLinesInfo.GetExceptionError(ex), NotificationTypeEnum.Error, SharedInfo.NotificationAutoDestroyAfterInSecondsIfException);
+                App.TriggerNotification(StringLinesInfo.GetExceptionError(ex), NotificationTypeEnum.Error, SharedInfo.NotificationAutoDestroyAfterInSecondsIfException);
             }
             finally
             {
-                TriggerRemoveNotification(notifId);
+                App.TriggerRemoveNotification(notifId);
             }
         }
 

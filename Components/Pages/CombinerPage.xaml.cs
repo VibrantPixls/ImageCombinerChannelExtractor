@@ -5,7 +5,6 @@ using ImageCombinerChannelExtractor.Components.Helpers;
 using ImageCombinerChannelExtractor.Components.Shared;
 using ImageCombinerChannelExtractor.Components.Stream;
 using ImageCombinerChannelExtractor.Components.UserControls;
-using Microsoft.Win32;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -96,48 +95,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
         private async void btnCreateCombined_Click(object sender, RoutedEventArgs e) // export file
         {
-            if (_combinedPreviewCache == null)
-            {
-                return;
-            }
-
-            var saveFileDialog = new SaveFileDialog
-            {
-                Filter = "PNG Image (*.png)|*.png",
-                DefaultExt = ".png",
-                FileName = "ExportedPreview.png",
-                Title = "Save Preview As"
-            };
-
-            if (saveFileDialog.ShowDialog() == true)
-            {
-                bool gotError = false;
-                var button = sender as Button;
-                try
-                {
-                    if (button != null)
-                    {
-                        button.IsEnabled = false; // just to be sure
-                    }
-                    await DownloadHelper.SaveBitmapToPngAsync(saveFileDialog.FileName, _combinedPreviewCache);
-                }
-                catch (Exception ex)
-                {
-                    TriggerNotification(StringLinesInfo.GetExceptionError(ex), NotificationTypeEnum.Error, SharedInfo.NotificationAutoDestroyAfterInSecondsIfException);
-                }
-                finally
-                {
-                    if (button != null)
-                    {
-                        button.IsEnabled = true;
-                    }
-
-                    if (!gotError)
-                    {
-                        TriggerNotification(StringLinesInfo.notificationSuccessfullCombiningExport, NotificationTypeEnum.Success, SharedInfo.NotificationAutoDestroyAfterInSeconds);
-                    }
-                }
-            }
+            DownloadHelper.SaveBitmapAsPNG(sender as Button, _combinedPreviewCache);
         }
         #endregion
 
@@ -233,7 +191,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             _ctsCombined = cts;
             var token = cts.Token;
 
-            var notifInt = TriggerNotification(StringLinesInfo.notificationCombining, NotificationTypeEnum.Combining);
+            var notifInt = App.TriggerNotification(StringLinesInfo.notificationCombining, NotificationTypeEnum.Combining);
             try
             {
                 //await Task.Delay(10, token).ConfigureAwait(true);
@@ -252,7 +210,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
                     btnCreateCombined.IsEnabled = true;
                     btnCreateCombined.Content = StringLinesInfo.CrtCombinedBtn;
 
-                    TriggerNotification(StringLinesInfo.notificationSuccessfullCombining, NotificationTypeEnum.Success, SharedInfo.NotificationAutoDestroyAfterInSeconds);
+                    App.TriggerNotification(StringLinesInfo.notificationSuccessfullCombining, NotificationTypeEnum.Success, SharedInfo.NotificationAutoDestroyAfterInSeconds);
                 }
             }
             catch (OperationCanceledException)
@@ -261,7 +219,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             }
             finally
             {
-                TriggerRemoveNotification(notifInt);
+                App.TriggerRemoveNotification(notifInt);
             }
         }
 
