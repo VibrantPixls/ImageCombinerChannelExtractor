@@ -137,7 +137,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             try
             {
                 UpdateChannelPreviews(true);
-                await Task.Delay(10000, token).ConfigureAwait(true);
+                //await Task.Delay(10000, token).ConfigureAwait(true);
                 bool extracted = await ColorChannelHelper.ExtractChannelsFromInputAsync(token);
                 if (!extracted || token.IsCancellationRequested)
                 {
