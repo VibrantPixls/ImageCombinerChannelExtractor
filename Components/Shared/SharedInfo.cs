@@ -1,5 +1,6 @@
 ﻿using ImageCombinerChannelExtractor.Components.Helpers;
 using System.IO;
+using System.Text;
 using System.Windows.Media;
 
 namespace ImageCombinerChannelExtractor.Components.Shared
@@ -7,23 +8,32 @@ namespace ImageCombinerChannelExtractor.Components.Shared
     public static class SharedInfo
     {
         // image files
-        public static readonly string[] AllowedImageExtensions = { ".png", ".jpg", ".jpeg" };
-        public static readonly string OpenFileDialogFilter;
-        public static readonly string[] AllowedImageExtensionsSaving = { ".png" };
-        public static readonly string SaveFileDialogFilter;
+        public static IReadOnlyList<string> AllowedImageExtensions { get; } = [".png", ".jpg", ".jpeg"];
+        public static string OpenFileDialogFilter { get; } = BuildFileDialogFilter(AllowedImageExtensions);
+        public static IReadOnlyList<string> AllowedImageExtensionsSaving { get; } = [".png"];
+        public static string SaveFileDialogFilter { get; } = BuildFileDialogFilter(AllowedImageExtensionsSaving);
 
-        static SharedInfo()
+        private static string BuildFileDialogFilter(IReadOnlyList<string> extensions)
         {
-            // image files
-            OpenFileDialogFilter = ConvertedExtentions(AllowedImageExtensions);
-            SaveFileDialogFilter = ConvertedExtentions(AllowedImageExtensionsSaving);
-        }
+            if (extensions == null || extensions.Count == 0)
+            {
+                return string.Empty;
+            }
 
-        private static string ConvertedExtentions(string[] extensions)
-        {
-            var extsWithoutDot = extensions.Select(ext => ext.TrimStart('.').ToLower()).ToArray();
-            string combinedPattern = string.Join(";", extsWithoutDot.Select(ext => $"*.{ext}"));
-            string individualFilters = string.Join("|", extsWithoutDot.Select(ext => $"{ext.ToUpper()} Files (*.{ext})|*.{ext}"));
+            var combinedPattern = new StringBuilder();
+            var individualFilters = new StringBuilder();
+            for (int i = 0; i < extensions.Count; i++)
+            {
+                string ext = extensions[i].TrimStart('.').ToLowerInvariant();
+                string extUpper = ext.ToUpperInvariant();
+                if (i > 0)
+                {
+                    combinedPattern.Append(';');
+                    individualFilters.Append('|');
+                }
+                combinedPattern.Append("*.").Append(ext);
+                individualFilters.Append(extUpper).Append(" Files (*.").Append(ext).Append(")|*.").Append(ext);
+            }
             return $"All Supported Images ({combinedPattern})|{combinedPattern}|{individualFilters}";
         }
 
