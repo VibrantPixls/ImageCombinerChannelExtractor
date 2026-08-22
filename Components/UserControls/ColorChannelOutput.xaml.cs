@@ -30,7 +30,9 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
         public void SetPreview(BitmapImage? image)
         {
             picboxPreview.ImageSource = image;
-            btnDownloadChannel.Content = image != null ? StringLinesInfo.CrtExtractBtnDownload : StringLinesInfo.CrtExtractBtnNoInputs;
+            var isValid = image != null;
+            btnDownloadChannel.Content = isValid ? StringLinesInfo.CrtExtractBtnDownload : StringLinesInfo.CrtExtractBtnNoInputs;
+            btnDownloadChannel.IsEnabled = isValid;
         }
 
         protected override void UpdateColoringStuff(ColorChannelEnum channel)
