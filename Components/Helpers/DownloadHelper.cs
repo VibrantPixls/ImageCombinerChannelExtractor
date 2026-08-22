@@ -19,8 +19,8 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
 
             var saveFileDialog = new SaveFileDialog
             {
-                Filter = "PNG Image (*.png)|*.png",
-                DefaultExt = ".png",
+                Filter = SharedInfo.SaveFileDialogFilter,
+                DefaultExt = SharedInfo.AllowedImageExtensionsSaving[0],
                 FileName = $"{fileName}.png",
                 Title = StringLinesInfo.SaveFileDialogTitle
             };
@@ -59,6 +59,7 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
         {
             App.MainWindowReference.SetExtractingScreenProgress(0);
             App.MainWindowReference.ShowExtractingScreen(true);
+
             long estimatedTotalBytes = (long)(bitmapToSave.PixelWidth * bitmapToSave.PixelHeight * (bitmapToSave.Format.BitsPerPixel / 8) * 0.3);
             if (estimatedTotalBytes <= 0)
             {

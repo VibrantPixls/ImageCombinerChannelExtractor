@@ -9,14 +9,22 @@ namespace ImageCombinerChannelExtractor.Components.Shared
         // image files
         public static readonly string[] AllowedImageExtensions = { ".png", ".jpg", ".jpeg" };
         public static readonly string OpenFileDialogFilter;
+        public static readonly string[] AllowedImageExtensionsSaving = { ".png" };
+        public static readonly string SaveFileDialogFilter;
 
         static SharedInfo()
         {
             // image files
-            var extsWithoutDot = AllowedImageExtensions.Select(ext => ext.TrimStart('.').ToLower()).ToArray();
+            OpenFileDialogFilter = ConvertedExtentions(AllowedImageExtensions);
+            SaveFileDialogFilter = ConvertedExtentions(AllowedImageExtensionsSaving);
+        }
+
+        private static string ConvertedExtentions(string[] extensions)
+        {
+            var extsWithoutDot = extensions.Select(ext => ext.TrimStart('.').ToLower()).ToArray();
             string combinedPattern = string.Join(";", extsWithoutDot.Select(ext => $"*.{ext}"));
             string individualFilters = string.Join("|", extsWithoutDot.Select(ext => $"{ext.ToUpper()} Files (*.{ext})|*.{ext}"));
-            OpenFileDialogFilter = $"All Supported Images ({combinedPattern})|{combinedPattern}|{individualFilters}";
+            return $"All Supported Images ({combinedPattern})|{combinedPattern}|{individualFilters}";
         }
 
         // image files
