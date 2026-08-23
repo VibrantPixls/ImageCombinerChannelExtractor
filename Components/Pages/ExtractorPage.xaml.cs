@@ -104,17 +104,15 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         #region Helpers
         private async void ExtractFromPath(string? path)
         {
-            if (ColorChannelHelper.LoadChannelFromPath(this, path))
+            if (!ColorChannelHelper.LoadChannelFromPath(this, path) || ColorChannelHelper.GetExtractedInput().Bitmap is not { } wantedImage)
             {
-                if (ColorChannelHelper.GetExtractedInput().Bitmap is not { } wantedImage)
-                {
-                    return;
-                }
-                imgPreviewCombiner.ImageSource = wantedImage;
-                UpdateTargetResolution();
-
-                await ExtractChannelsAsync();
+                btnDeleteInputExtract.IsEnabled = false;
+                return;
             }
+            imgPreviewCombiner.ImageSource = wantedImage;
+            btnDeleteInputExtract.IsEnabled = true;
+            UpdateTargetResolution();
+            await ExtractChannelsAsync();
         }
 
         private void UpdateTargetResolution()
