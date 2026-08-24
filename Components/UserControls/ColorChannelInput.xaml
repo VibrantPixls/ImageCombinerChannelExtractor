@@ -9,11 +9,11 @@
              xmlns:helpers="clr-namespace:ImageCombinerChannelExtractor.Components.Helpers"
              xmlns:classes="clr-namespace:ImageCombinerChannelExtractor.Components.Classes.UserControlChildClasses"
              mc:Ignorable="d"
-             d:DesignHeight="120.6" d:DesignWidth="466"
+             d:DesignHeight="110" d:DesignWidth="466"
              x:Name="Root">
     <Grid VerticalAlignment="Center">
-        <ui:Card x:Name="crdPanel" MouseEnter="OnButtonMouseEnter" MouseLeave="OnButtonMouseLeave" AllowDrop="True" DragOver="OnButtonDragOver" Drop="OnButtonDrop">
-            <Grid>
+        <ui:Card x:Name="crdPanel" MouseEnter="OnButtonMouseEnter" MouseLeave="OnButtonMouseLeave" AllowDrop="True" DragOver="OnButtonDragOver" Drop="OnButtonDrop" Padding="14,14,14,14">
+            <Grid VerticalAlignment="Center">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
