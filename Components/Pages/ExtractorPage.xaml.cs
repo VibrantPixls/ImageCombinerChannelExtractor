@@ -55,7 +55,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         private void OnButtonDragOver(object sender, DragEventArgs e)
         {
             e.Effects = DragDropEffects.None;
-            if (FileDropHelper.IsFileValidForDragOver(e))
+            if (FileDropHelper.IsFileValid(e))
             {
                 e.Effects = DragDropEffects.Copy;
             }

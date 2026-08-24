@@ -73,7 +73,7 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
         {
             e.Effects = DragDropEffects.None;
 
-            if (FileDropHelper.IsFileValidForDragOver(e))
+            if (FileDropHelper.IsFileValid(e))
             {
                 e.Effects = DragDropEffects.Copy;
             }

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using ImageCombinerChannelExtractor.Components.Helpers;
+using System.Windows;
 
 namespace ImageCombinerChannelExtractor.Components.Interfaces
 {
@@ -8,7 +9,7 @@ namespace ImageCombinerChannelExtractor.Components.Interfaces
 
         void DraggingIntoWindow(object sender, DragEventArgs e)
         {
-            SetDraggingOver(true);
+            SetDraggingOver(FileDropHelper.IsFileValid(e));
         }
 
         void DraggingLeaveWindow(object sender, DragEventArgs e)

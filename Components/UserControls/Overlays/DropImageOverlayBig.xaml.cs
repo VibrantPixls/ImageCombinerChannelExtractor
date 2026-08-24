@@ -1,5 +1,4 @@
-﻿using ImageCombinerChannelExtractor.Components.Enums;
-using ImageCombinerChannelExtractor.Components.Helpers;
+﻿using ImageCombinerChannelExtractor.Components.Helpers;
 using System.Windows.Controls;
 
 namespace ImageCombinerChannelExtractor.Components.UserControls
