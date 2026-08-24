@@ -11,8 +11,8 @@
              mc:Ignorable="d"
              d:DesignHeight="120.6" d:DesignWidth="466"
              x:Name="Root">
-    <Grid>
-        <ui:Card x:Name="crdPanel" Padding="12" MouseEnter="OnButtonMouseEnter" MouseLeave="OnButtonMouseLeave" AllowDrop="True" DragOver="OnButtonDragOver" Drop="OnButtonDrop">
+    <Grid VerticalAlignment="Center">
+        <ui:Card x:Name="crdPanel" MouseEnter="OnButtonMouseEnter" MouseLeave="OnButtonMouseLeave" AllowDrop="True" DragOver="OnButtonDragOver" Drop="OnButtonDrop">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -48,7 +48,7 @@
                 </Grid>
             </Grid>
         </ui:Card>
-        <controls:DropImageOverlay x:Name="dropOvrl" Grid.Row="0" Visibility="Visible" IsHitTestVisible="False" Panel.ZIndex="1" />
+        <controls:DropImageOverlay x:Name="dropOvrl" Grid.Row="0" Visibility="Hidden" IsHitTestVisible="False" Panel.ZIndex="1" />
     </Grid>
 </classes:ColorChannelInputClass>
     

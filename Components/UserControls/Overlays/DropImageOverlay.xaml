@@ -6,11 +6,11 @@
              xmlns:local="clr-namespace:ImageCombinerChannelExtractor.Components.UserControls"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              mc:Ignorable="d" 
-             d:DesignHeight="114.62" d:DesignWidth="466">
-    <ui:Card Background="{DynamicResource SolidBackgroundFillColorBaseBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="0,4,0,0">
-        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,5">
-            <ui:SymbolIcon Symbol="ImageAdd24" FontSize="48" Foreground="{DynamicResource AccentFillColorDefaultBrush}" HorizontalAlignment="Center" />
-            <TextBlock Text="Drop Image" FontWeight="SemiBold" FontSize="16" Foreground="{DynamicResource TextFillColorPrimaryBrush}" TextAlignment="Center" />
+             d:DesignHeight="110" d:DesignWidth="466">
+    <ui:Card Background="{DynamicResource SolidBackgroundFillColorBaseBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal" Margin="0,0,4,0">
+            <ui:SymbolIcon Symbol="ImageAdd24" FontSize="60" Foreground="{DynamicResource AccentFillColorDefaultBrush}" HorizontalAlignment="Center" Margin="0,0,5,0" />
+            <TextBlock Text="Drop Image" FontWeight="SemiBold" FontSize="18" Foreground="{DynamicResource TextFillColorPrimaryBrush}" TextAlignment="Center" VerticalAlignment="Center" />
         </StackPanel>
     </ui:Card>
 </UserControl>

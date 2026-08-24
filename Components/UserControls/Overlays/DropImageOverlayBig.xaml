@@ -6,12 +6,12 @@
              xmlns:local="clr-namespace:ImageCombinerChannelExtractor.Components.UserControls"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              mc:Ignorable="d" 
-             d:DesignHeight="400" d:DesignWidth="400">
+             d:DesignHeight="534.92" d:DesignWidth="443">
     <ui:Card Background="{DynamicResource SolidBackgroundFillColorBaseBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
         <Grid>
-            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                <ui:SymbolIcon Symbol="ImageAdd24" FontSize="48" Foreground="{DynamicResource AccentFillColorDefaultBrush}" HorizontalAlignment="Center" Margin="0,0,0,8" />
-                <TextBlock Text="Drop Image" FontWeight="SemiBold" FontSize="16" Foreground="{DynamicResource TextFillColorPrimaryBrush}" TextAlignment="Center" />
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,10">
+                <ui:SymbolIcon Symbol="ImageAdd24" FontSize="125" Foreground="{DynamicResource AccentFillColorDefaultBrush}" HorizontalAlignment="Center" />
+                <TextBlock Text="Drop Image" FontWeight="SemiBold" FontSize="24" Foreground="{DynamicResource TextFillColorPrimaryBrush}" TextAlignment="Center" />
             </StackPanel>
         </Grid>
     </ui:Card>
