@@ -81,10 +81,12 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             lblResolutionCombined.Text = labelText;
         }
 
+        #region Interfaces
         public void SetDraggingOver(bool draggingOver)
         {
             dropOvrl.Visibility = draggingOver ? Visibility.Visible : Visibility.Hidden;
         }
+        #endregion
 
         #region On input image
         private void btnExtract_Click(object sender, RoutedEventArgs e)

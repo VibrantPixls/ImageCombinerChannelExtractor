@@ -34,12 +34,14 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             SetLabelText(StringLinesInfo.NoInputImageTextDefault);
         }
 
+        #region Variables
         public static readonly DependencyProperty SelectedFilteringProperty = DependencyProperty.Register(nameof(SelectedFiltering), typeof(ChannelFilteringMode), typeof(ColorChannelInput), new PropertyMetadata(ChannelFilteringMode.Bicubic));
         public ChannelFilteringMode SelectedFiltering
         {
             get => (ChannelFilteringMode)GetValue(SelectedFilteringProperty);
             set => SetValue(SelectedFilteringProperty, value);
         }
+        #endregion
 
         #region Interaction events
         public static readonly RoutedEvent FilteringChangedEvent = EventManager.RegisterRoutedEvent(nameof(FilteringChanged), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ColorChannelInput));
@@ -106,16 +108,19 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
         }
         #endregion
 
+        #region Interfaces
         public void SetDraggingOver(bool draggingOver)
         {
             dropOvrl.Visibility = draggingOver ? Visibility.Visible : Visibility.Hidden;
         }
+        #endregion
 
         public void UpdateDeleteButtonEnabled(bool enabled)
         {
             dltBtn.IsEnabled = enabled;
         }
 
+        #region Overrides
         protected override void UpdateColoringStuff(ColorChannelEnum channel)
         {
             if (btnColorChannelInput is null)
@@ -140,5 +145,6 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             ColorChannelEnum.Alpha => StringLinesInfo.ClrChnBtnAlpha,
             _ => StringLinesInfo.ClrChnBtnRed
         };
+        #endregion
     }
 }

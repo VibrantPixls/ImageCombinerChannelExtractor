@@ -17,13 +17,16 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             Loaded += (s, e) => UpdateColoringStuff(ColorChannel);
         }
 
+        #region Variables
         public static readonly RoutedEvent ChannelDownloadClickEvent = EventManager.RegisterRoutedEvent(nameof(ChannelDownloadClickEvent), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ColorChannelOutputClass));
         public event RoutedEventHandler ChannelDownloadClick
         {
             add => AddHandler(ChannelDownloadClickEvent, value);
             remove => RemoveHandler(ChannelDownloadClickEvent, value);
         }
+        #endregion
 
+        #region User input
         private void btnDownloadChannel_Click(object sender, RoutedEventArgs e)
         {
             RaiseEvent(new RoutedEventArgs(ChannelDownloadClickEvent, this));
@@ -38,6 +41,7 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
         {
             RaiseEvent(new RoutedEventArgs(ChannelMouseLeaveEvent, this));
         }
+        #endregion
 
         public void SetPreview(BitmapImage? image)
         {
@@ -55,6 +59,7 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             prgrRing.Visibility = Visibility.Visible;
         }
 
+        #region Overrides
         protected override void UpdateColoringStuff(ColorChannelEnum channel)
         {
             if (btnDownloadChannel is null)
@@ -71,5 +76,6 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             base.UpdateBrushColors(wantedBrush);
             crdPanel.Background = wantedBrush;
         }
+        #endregion
     }
 }
