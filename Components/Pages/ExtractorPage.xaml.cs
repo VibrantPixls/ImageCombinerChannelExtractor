@@ -2,6 +2,7 @@
 using ImageCombinerChannelExtractor.Components.Classes.PageClasses;
 using ImageCombinerChannelExtractor.Components.Enums;
 using ImageCombinerChannelExtractor.Components.Helpers;
+using ImageCombinerChannelExtractor.Components.Interfaces;
 using ImageCombinerChannelExtractor.Components.Shared;
 using ImageCombinerChannelExtractor.Components.UserControls;
 using System.IO;
@@ -9,13 +10,17 @@ using System.Windows;
 
 namespace ImageCombinerChannelExtractor.Components.Pages
 {
-    public partial class ExtractorPage : ExtrPage
+    public partial class ExtractorPage : ExtrPage, DragOverInterface
     {
         private CancellationTokenSource? _ctsExtract;
 
         public ExtractorPage()
         {
             InitializeComponent();
+
+            DragOverInterface dragHandler = this;
+            crdPanel.DragEnter += dragHandler.DraggingIntoWindow;
+            crdPanel.DragLeave += dragHandler.DraggingLeaveWindow;
 
             _cachedColorInputPanels =
             [
@@ -50,29 +55,21 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         private void OnButtonDragOver(object sender, DragEventArgs e)
         {
             e.Effects = DragDropEffects.None;
-
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            if (FileDropHelper.IsFileValidForDragOver(e))
             {
-                string[]? files = e.Data.GetData(DataFormats.FileDrop) as string[];
-                if (files != null && files.Length > 0 && ColorChannelHelper.IsValidImageFile(files[0]))
-                {
-                    e.Effects = DragDropEffects.Copy;
-                }
+                e.Effects = DragDropEffects.Copy;
             }
             e.Handled = true;
         }
 
         private void OnButtonDrop(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            SetDraggingOver(false);
+            var result = FileDropHelper.IsFileValidAndReturnValidFile(e);
+            if (result.isValid)
             {
-                string[]? files = e.Data.GetData(DataFormats.FileDrop) as string[];
-                string? validFile = files?.FirstOrDefault(ColorChannelHelper.IsValidImageFile);
-                if (!string.IsNullOrEmpty(validFile))
-                {
-                    UpdateLabel(Path.GetFileName(validFile));
-                    ExtractFromPath(validFile);
-                }
+                UpdateLabel(Path.GetFileName(result.validFile));
+                ExtractFromPath(result.validFile);
             }
         }
         #endregion
@@ -80,6 +77,11 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         public void UpdateLabel(string labelText)
         {
             lblResolutionCombined.Text = labelText;
+        }
+
+        public void SetDraggingOver(bool draggingOver)
+        {
+            dropOvrl.Visibility = draggingOver ? Visibility.Visible : Visibility.Hidden;
         }
 
         #region On input image

@@ -2,6 +2,7 @@
 using ImageCombinerChannelExtractor.Components.Classes.UserControlChildClasses;
 using ImageCombinerChannelExtractor.Components.Enums;
 using ImageCombinerChannelExtractor.Components.Helpers;
+using ImageCombinerChannelExtractor.Components.Interfaces;
 using ImageCombinerChannelExtractor.Components.Shared;
 using System.IO;
 using System.Windows;
@@ -11,11 +12,15 @@ using System.Windows.Media;
 
 namespace ImageCombinerChannelExtractor.Components.UserControls
 {
-    public partial class ColorChannelInput : ColorChannelInputClass
+    public partial class ColorChannelInput : ColorChannelInputClass, DragOverInterface
     {
         public ColorChannelInput()
         {
             InitializeComponent();
+
+            DragOverInterface dragHandler = this;
+            crdPanel.DragEnter += dragHandler.DraggingIntoWindow;
+            crdPanel.DragLeave += dragHandler.DraggingLeaveWindow;
 
             foreach (ChannelFilteringMode value in Enum.GetValues(typeof(ChannelFilteringMode)))
             {
@@ -68,28 +73,20 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
         {
             e.Effects = DragDropEffects.None;
 
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            if (FileDropHelper.IsFileValidForDragOver(e))
             {
-                string[]? files = e.Data.GetData(DataFormats.FileDrop) as string[];
-                if (files != null && files.Length > 0 && ColorChannelHelper.IsValidImageFile(files[0]))
-                {
-                    e.Effects = DragDropEffects.Copy;
-                }
+                e.Effects = DragDropEffects.Copy;
             }
             e.Handled = true;
         }
 
         private void OnButtonDrop(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            var result = FileDropHelper.IsFileValidAndReturnValidFile(e);
+            if (result.isValid)
             {
-                string[]? files = e.Data.GetData(DataFormats.FileDrop) as string[];
-                string? validFile = files?.FirstOrDefault(ColorChannelHelper.IsValidImageFile);
-                if (!string.IsNullOrEmpty(validFile))
-                {
-                    SetLabelText(Path.GetFileName(validFile));
-                    RaiseEvent(new FileSelectedEventArgs(ChannelClickEvent, this, validFile));
-                }
+                SetLabelText(Path.GetFileName(result.validFile));
+                RaiseEvent(new FileSelectedEventArgs(ChannelClickEvent, this, result.validFile));
             }
         }
 
@@ -106,6 +103,12 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             RaiseEvent(new RoutedEventArgs(FilteringChangedEvent, this));
         }
         #endregion
+
+        public void SetDraggingOver(bool draggingOver)
+        {
+            dropOvrl.Visibility = draggingOver ? Visibility.Visible : Visibility.Hidden;
+        }
+
         public void UpdateDeleteButtonEnabled(bool enabled)
         {
             dltBtn.IsEnabled = enabled;

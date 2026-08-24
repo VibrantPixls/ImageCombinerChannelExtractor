@@ -7,6 +7,7 @@
                  xmlns:controls="clr-namespace:ImageCombinerChannelExtractor.Components.UserControls"
                  xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
                  xmlns:pages="clr-namespace:ImageCombinerChannelExtractor.Components.Pages"
+                 xmlns:classes="clr-namespace:ImageCombinerChannelExtractor.Components.Classes.PageClasses"
                  mc:Ignorable="d"
                  d:Background="#1C1C1C"
                  Title="Image Combiner &amp; Channel Extractor" 

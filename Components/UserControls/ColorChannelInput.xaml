@@ -5,46 +5,50 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ImageCombinerChannelExtractor.Components.UserControls"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:controls="clr-namespace:ImageCombinerChannelExtractor.Components.UserControls"
+             xmlns:helpers="clr-namespace:ImageCombinerChannelExtractor.Components.Helpers"
              xmlns:classes="clr-namespace:ImageCombinerChannelExtractor.Components.Classes.UserControlChildClasses"
              mc:Ignorable="d"
-             d:DesignHeight="150" d:DesignWidth="400"
+             d:DesignHeight="120.6" d:DesignWidth="466"
              x:Name="Root">
+    <Grid>
+        <ui:Card x:Name="crdPanel" Padding="12" MouseEnter="OnButtonMouseEnter" MouseLeave="OnButtonMouseLeave" AllowDrop="True" DragOver="OnButtonDragOver" Drop="OnButtonDrop">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-    <ui:Card x:Name="crdPanel" Margin="0,0,0,8" Padding="12" MouseEnter="OnButtonMouseEnter" MouseLeave="OnButtonMouseLeave" AllowDrop="True" DragOver="OnButtonDragOver" Drop="OnButtonDrop">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-
-            <Grid Grid.Row="0" Margin="0,0,0,8">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-
-                <Grid Grid.Column="0" Margin="0,0,8,0">
+                <Grid Grid.Row="0" Margin="0,0,0,8">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="6"/>
                         <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
 
-                    <Border Grid.Column="0" CornerRadius="3" Margin="0,2,6,2"/>
-                    <ui:Button x:Name="btnColorChannelInput" Grid.Column="1" HorizontalAlignment="Stretch" Appearance="Secondary" Icon="{ui:SymbolIcon ImageAdd24}" Click="OnButtonClick" Height="36" Foreground="White" />
+                    <Grid Grid.Column="0" Margin="0,0,8,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="6"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="0" CornerRadius="3" Margin="0,2,6,2"/>
+                        <ui:Button x:Name="btnColorChannelInput" Grid.Column="1" HorizontalAlignment="Stretch" Appearance="Secondary" Icon="{ui:SymbolIcon ImageAdd24}" Click="OnButtonClick" Height="36" Foreground="White" />
+                    </Grid>
+                    <ui:Button x:Name="dltBtn" Grid.Column="1" Appearance="Transparent" Icon="{ui:SymbolIcon Dismiss24}" Click="OnButtonClickRemove" ToolTip="Clear input image" Height="36" Width="36" Padding="0" />
                 </Grid>
-                <ui:Button x:Name="dltBtn" Grid.Column="1" Appearance="Transparent" Icon="{ui:SymbolIcon Dismiss24}" Click="OnButtonClickRemove" ToolTip="Clear input image" Height="36" Width="36" Padding="0" />
-            </Grid>
 
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1.1*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1.1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
 
-                <ui:TextBlock Grid.Column="0" x:Name="lblSelectedFile" Text="{Binding LabelTextContent, ElementName=Root}" VerticalAlignment="Center" Padding="8,0,4,0" TextTrimming="WordEllipsis"/>
-                <ComboBox Grid.Column="1" x:Name="cmbboxFiltering" SelectionChanged="OnFilteringChange" HorizontalAlignment="Stretch" IsEnabled="False"/>
+                    <ui:TextBlock Grid.Column="0" x:Name="lblSelectedFile" Text="{Binding LabelTextContent, ElementName=Root}" VerticalAlignment="Center" Padding="8,0,4,0" TextTrimming="WordEllipsis"/>
+                    <ComboBox Grid.Column="1" x:Name="cmbboxFiltering" SelectionChanged="OnFilteringChange" HorizontalAlignment="Stretch" IsEnabled="False"/>
+                </Grid>
             </Grid>
-        </Grid>
-    </ui:Card>
+        </ui:Card>
+        <controls:DropImageOverlay x:Name="dropOvrl" Grid.Row="0" Visibility="Visible" IsHitTestVisible="False" Panel.ZIndex="1" />
+    </Grid>
 </classes:ColorChannelInputClass>
     

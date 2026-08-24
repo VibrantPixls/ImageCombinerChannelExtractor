@@ -53,8 +53,8 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         private void OnChannelClick(object sender, FileSelectedEventArgs e)
         {
             var input = (ColorChannelInput)sender;
+            input.SetDraggingOver(false);
             string? path = e.SelectedFilePath ?? ColorChannelHelper.SelectPNGFile();
-
             LoadChannelFromPath(input, path);
         }
 

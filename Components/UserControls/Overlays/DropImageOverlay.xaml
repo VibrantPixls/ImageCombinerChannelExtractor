@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="ImageCombinerChannelExtractor.Components.UserControls.DropImageOverlay"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ImageCombinerChannelExtractor.Components.UserControls"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             mc:Ignorable="d" 
+             d:DesignHeight="114.62" d:DesignWidth="466">
+    <ui:Card Background="{DynamicResource SolidBackgroundFillColorBaseBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="0,4,0,0">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,5">
+            <ui:SymbolIcon Symbol="ImageAdd24" FontSize="48" Foreground="{DynamicResource AccentFillColorDefaultBrush}" HorizontalAlignment="Center" />
+            <TextBlock Text="Drop Image" FontWeight="SemiBold" FontSize="16" Foreground="{DynamicResource TextFillColorPrimaryBrush}" TextAlignment="Center" />
+        </StackPanel>
+    </ui:Card>
+</UserControl>
