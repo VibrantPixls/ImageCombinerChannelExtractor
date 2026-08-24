@@ -1,9 +1,28 @@
-﻿using System.Windows.Media;
+﻿using ImageCombinerChannelExtractor.Components.Enums;
+using ImageCombinerChannelExtractor.Components.Shared;
+using System.Windows.Media;
 
 namespace ImageCombinerChannelExtractor.Components.Helpers
 {
     public static class ColorHelper
     {
+        private static readonly Brush[] _brushes =
+        [
+            SharedInfo.MainColorRed, SharedInfo.MainColorRedBright, SharedInfo.MainColorRedOpaque,
+            SharedInfo.MainColorGreen, SharedInfo.MainColorGreenBright, SharedInfo.MainColorGreenOpaque,
+            SharedInfo.MainColorBlue, SharedInfo.MainColorBlueBright, SharedInfo.MainColorBlueOpaque,
+            SharedInfo.MainColorAlpha, SharedInfo.MainColorAlphaBright, SharedInfo.MainColorAlphaOpaque
+        ];
+
+        public static Brush GetColorBrush(ColorChannelEnum channel, ColorBrushTypeEnum brushType = ColorBrushTypeEnum.Normal)
+        {
+            return _brushes[(byte)channel * 3 + (byte)brushType];
+        }
+        public static Brush GetColorBrushForMaster()
+        {
+            return SharedInfo.MainColorMasterOpaque;
+        }
+
         public static Color GetMediaColorHueAdjusted(Color color, float degrees)
         {
             float r = color.R / 255f;
@@ -112,6 +131,16 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
             byte gb = (byte)MathF.Round(MathF.Min(255f, g * scale * 255f));
             byte bb = (byte)MathF.Round(MathF.Min(255f, b * scale * 255f));
 
+            return Color.FromArgb(color.A, rb, gb, bb);
+        }
+
+        public static Color GetMediaColorDesaturated(Color color, float amount)
+        {
+            amount = MathF.Max(0f, MathF.Min(1f, amount));
+            float grayscale = 0.299f * color.R + 0.587f * color.G + 0.114f * color.B;
+            byte rb = (byte)MathF.Round(color.R + (grayscale - color.R) * amount);
+            byte gb = (byte)MathF.Round(color.G + (grayscale - color.G) * amount);
+            byte bb = (byte)MathF.Round(color.B + (grayscale - color.B) * amount);
             return Color.FromArgb(color.A, rb, gb, bb);
         }
     }

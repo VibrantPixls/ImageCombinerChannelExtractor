@@ -48,7 +48,7 @@
                 </Grid>
             </Grid>
         </ui:Card>
-        <controls:DropImageOverlay x:Name="dropOvrl" Grid.Row="0" Visibility="Hidden" IsHitTestVisible="False" Panel.ZIndex="1" />
+        <controls:DropImageOverlay x:Name="dropOvrl" Grid.Row="0" Visibility="Hidden" IsHitTestVisible="False" Panel.ZIndex="1" ColorChannel="{Binding ColorChannel, ElementName=Root}" />
     </Grid>
 </classes:ColorChannelInputClass>
     

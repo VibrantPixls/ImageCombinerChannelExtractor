@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using ImageCombinerChannelExtractor.Components.Enums;
+using ImageCombinerChannelExtractor.Components.Helpers;
+using System.Windows.Controls;
 
 namespace ImageCombinerChannelExtractor.Components.UserControls
 {
@@ -7,6 +9,7 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
         public DropImageOverlayBig()
         {
             InitializeComponent();
+            bgrPnl.Background = ColorHelper.GetColorBrushForMaster();
         }
     }
 }

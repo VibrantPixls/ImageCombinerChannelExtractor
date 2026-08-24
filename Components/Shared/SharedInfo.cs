@@ -1,6 +1,7 @@
 ﻿using ImageCombinerChannelExtractor.Components.Helpers;
 using System.IO;
 using System.Text;
+using System.Windows;
 using System.Windows.Media;
 
 namespace ImageCombinerChannelExtractor.Components.Shared
@@ -49,28 +50,68 @@ namespace ImageCombinerChannelExtractor.Components.Shared
         }
 
         // colors
-        //const float _brightenAmount = 0.1f;
-        const float _brightenAmount = 1.1f;
+        const float _brightenAmount = 0.1f;
+        const float _darkenAmount = -0.1f;
+        const float _desaturateAmount = 0.7f;
         private static readonly Color SharedColors_Red = Color.FromRgb(177, 0, 8);
         private static readonly Color SharedColors_Red_Bright = ColorHelper.GetMediaColorBrighter(SharedColors_Red, _brightenAmount);
+        private static readonly Color SharedColors_Red_Dark = ColorHelper.GetMediaColorBrighter(ColorHelper.GetMediaColorDesaturated(SharedColors_Red, _desaturateAmount), _darkenAmount);
 
         private static readonly Color SharedColors_Green = ColorHelper.GetMediaColorHueAdjusted(SharedColors_Red, 120);
         private static readonly Color SharedColors_Green_Bright = ColorHelper.GetMediaColorBrighter(SharedColors_Green, _brightenAmount);
+        private static readonly Color SharedColors_Green_Dark = ColorHelper.GetMediaColorBrighter(ColorHelper.GetMediaColorDesaturated(SharedColors_Green, _desaturateAmount), _darkenAmount * 2);
 
         private static readonly Color SharedColors_Blue = ColorHelper.GetMediaColorHueAdjusted(SharedColors_Red, 240);
         private static readonly Color SharedColors_Blue_Bright = ColorHelper.GetMediaColorBrighter(SharedColors_Blue, _brightenAmount);
+        private static readonly Color SharedColors_Blue_Dark = ColorHelper.GetMediaColorBrighter(ColorHelper.GetMediaColorDesaturated(SharedColors_Blue, _desaturateAmount), _darkenAmount / 4);
 
         private static readonly Color SharedColors_White = Color.FromRgb(68, 68, 68);
         private static readonly Color SharedColors_White_Bright = ColorHelper.GetMediaColorBrighter(SharedColors_White, _brightenAmount / 2);
+        private static readonly Color SharedColors_White_Dark = ColorHelper.GetMediaColorBrighter(ColorHelper.GetMediaColorDesaturated(SharedColors_White, _desaturateAmount / 2), _darkenAmount);
 
-        public static readonly Brush MainColorRed = new SolidColorBrush(SharedColors_Red);
-        public static readonly Brush MainColorRedBright = new SolidColorBrush(SharedColors_Red_Bright);
-        public static readonly Brush MainColorGreen = new SolidColorBrush(SharedColors_Green);
-        public static readonly Brush MainColorGreenBright = new SolidColorBrush(SharedColors_Green_Bright);
-        public static readonly Brush MainColorBlue = new SolidColorBrush(SharedColors_Blue);
-        public static readonly Brush MainColorBlueBright = new SolidColorBrush(SharedColors_Blue_Bright);
-        public static readonly Brush MainColorAlpha = new SolidColorBrush(SharedColors_White);
-        public static readonly Brush MainColorAlphaBright = new SolidColorBrush(SharedColors_White_Bright);
+        private static readonly Color SharedColors_Master = GetThemeColor("SolidBackgroundFillColorBaseBrush", Color.FromRgb(32, 32, 32));
+
+        const byte _normalValue = 12;
+        const byte _brightValue = (byte)(_normalValue * 1.2f);
+        const byte _opaqueValue = 226;
+        public static readonly Brush MainColorRed = CreateFrozenBrush(SharedColors_Red, _normalValue);
+        public static readonly Brush MainColorRedBright = CreateFrozenBrush(SharedColors_Red_Bright, _brightValue);
+        public static readonly Brush MainColorRedOpaque = CreateFrozenBrush(SharedColors_Red_Dark, _opaqueValue);
+        public static readonly Brush MainColorGreen = CreateFrozenBrush(SharedColors_Green, _normalValue);
+        public static readonly Brush MainColorGreenBright = CreateFrozenBrush(SharedColors_Green_Bright, _brightValue);
+        public static readonly Brush MainColorGreenOpaque = CreateFrozenBrush(SharedColors_Green_Dark, _opaqueValue);
+        public static readonly Brush MainColorBlue = CreateFrozenBrush(SharedColors_Blue, _normalValue);
+        public static readonly Brush MainColorBlueBright = CreateFrozenBrush(SharedColors_Blue_Bright, _brightValue);
+        public static readonly Brush MainColorBlueOpaque = CreateFrozenBrush(SharedColors_Blue_Dark, _opaqueValue);
+        public static readonly Brush MainColorAlpha = CreateFrozenBrush(SharedColors_White, _normalValue);
+        public static readonly Brush MainColorAlphaBright = CreateFrozenBrush(SharedColors_White_Bright, _brightValue);
+        public static readonly Brush MainColorAlphaOpaque = CreateFrozenBrush(SharedColors_White_Dark, _opaqueValue);
+
+        public static readonly Brush MainColorMasterOpaque = CreateFrozenBrush(SharedColors_Master, _opaqueValue);
+
+        private static SolidColorBrush CreateFrozenBrush(Color color, byte alpha)
+        {
+            var brush = new SolidColorBrush(Color.FromArgb(alpha, color.R, color.G, color.B));
+            brush.Freeze();
+            return brush;
+        }
+
+        private static Color GetThemeColor(string resourceKey, Color fallbackColor)
+        {
+            if (Application.Current != null)
+            {
+                var resource = Application.Current.TryFindResource(resourceKey);
+                if (resource is SolidColorBrush brush)
+                {
+                    return brush.Color;
+                }
+                if (resource is Color color)
+                {
+                    return color;
+                }
+            }
+            return fallbackColor;
+        }
 
         // notification delays
         public const int NotificationAutoDestroyAfterInSeconds = 3;

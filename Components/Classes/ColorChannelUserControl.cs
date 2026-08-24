@@ -1,5 +1,5 @@
 ﻿using ImageCombinerChannelExtractor.Components.Enums;
-using ImageCombinerChannelExtractor.Components.Shared;
+using ImageCombinerChannelExtractor.Components.Helpers;
 using System.Windows;
 using System.Windows.Media;
 
@@ -65,25 +65,17 @@ namespace ImageCombinerChannelExtractor.Components.Classes
 
         protected virtual void UpdateBrushColors(Brush wantedBrush)
         {
-            wantedBrush.Opacity = 0.05;
+
         }
 
         protected virtual void UpdateColoringStuff(ColorChannelEnum channel)
         {
-            UpdateBrushColors(GetColorBrush(channel));
+            UpdateBrushColors(ColorHelper.GetColorBrush(channel));
         }
-
-        protected static Brush GetColorBrush(ColorChannelEnum channel, bool isBright = false) => channel switch
-        {
-            ColorChannelEnum.Green => isBright ? SharedInfo.MainColorGreenBright : SharedInfo.MainColorGreen,
-            ColorChannelEnum.Blue => isBright ? SharedInfo.MainColorBlueBright : SharedInfo.MainColorBlue,
-            ColorChannelEnum.Alpha => isBright ? SharedInfo.MainColorAlphaBright : SharedInfo.MainColorAlpha,
-            _ => isBright ? SharedInfo.MainColorRedBright : SharedInfo.MainColorRed
-        };
 
         public virtual void SetSelected(bool selected)
         {
-            UpdateBrushColors(GetColorBrush(ColorChannel, selected));
+            UpdateBrushColors(ColorHelper.GetColorBrush(ColorChannel, selected ? ColorBrushTypeEnum.Bright : ColorBrushTypeEnum.Normal));
         }
     }
 }

@@ -9,7 +9,7 @@ namespace ImageCombinerChannelExtractor
         {
             InitializeComponent();
 
-            Loaded += (s, e) => MainNavigation.Navigate(typeof(Components.Pages.ExtractorPage));
+            Loaded += (s, e) => MainNavigation.Navigate(typeof(Components.Pages.CombinerPage));
         }
 
         #region Extracting screen trigger
