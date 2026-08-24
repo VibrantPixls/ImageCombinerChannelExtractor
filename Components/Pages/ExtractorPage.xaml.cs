@@ -68,7 +68,9 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             var result = FileDropHelper.IsFileValidAndReturnValidFile(e);
             if (result.isValid)
             {
+#pragma warning disable CS8604
                 UpdateLabel(Path.GetFileName(result.validFile));
+#pragma warning restore CS8604
                 ExtractFromPath(result.validFile);
             }
         }

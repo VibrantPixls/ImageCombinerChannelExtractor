@@ -85,7 +85,9 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             var result = FileDropHelper.IsFileValidAndReturnValidFile(e);
             if (result.isValid)
             {
+#pragma warning disable CS8604
                 SetLabelText(Path.GetFileName(result.validFile));
+#pragma warning restore CS8604
                 RaiseEvent(new FileSelectedEventArgs(ChannelClickEvent, this, result.validFile));
             }
         }
