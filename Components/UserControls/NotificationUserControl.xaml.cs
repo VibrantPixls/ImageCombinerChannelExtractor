@@ -12,9 +12,8 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             InitializeComponent();
             LayoutTransform = new ScaleTransform { ScaleY = -1 };
 
-            //Icon.Text = WindowsIconHelper.GetWindowsIcon(type);
             TaskInfoBar.Title = NotificationText;
-            TaskInfoBar.Severity = WindowsIconHelper.GetSeverity(type);
+            TaskInfoBar.Severity = VisualsHelper.GetSeverity(type);
         }
 
         public void SetSecondsLeft(int secondsLeft)
