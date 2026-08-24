@@ -5,6 +5,7 @@ using ImageCombinerChannelExtractor.Components.Helpers;
 using ImageCombinerChannelExtractor.Components.Interfaces;
 using ImageCombinerChannelExtractor.Components.Shared;
 using ImageCombinerChannelExtractor.Components.UserControls;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 
@@ -124,6 +125,8 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         private void UpdateTargetResolution()
         {
             var target = ColorChannelHelper.GetTargetResolution();
+
+            Debug.WriteLine($"combiner width - {target.Width} x {target.Height}");
 
             imgPreviewCombiner.Width = target.Width;
             imgPreviewCombiner.Height = target.Height;
