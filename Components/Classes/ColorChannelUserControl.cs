@@ -14,13 +14,6 @@ namespace ImageCombinerChannelExtractor.Components.Classes
             get => (ColorChannelEnum)GetValue(ColorChannelProperty);
             set => SetValue(ColorChannelProperty, value);
         }
-
-        public static readonly DependencyProperty IsChannelFromCombinedProperty = DependencyProperty.Register(nameof(IsChannelFromCombined), typeof(bool), typeof(ColorChannelUserControl), new PropertyMetadata(true));
-        public bool IsChannelFromCombined
-        {
-            get => (bool)GetValue(IsChannelFromCombinedProperty);
-            set => SetValue(IsChannelFromCombinedProperty, value);
-        }
         #endregion
 
         #region Mouse events
