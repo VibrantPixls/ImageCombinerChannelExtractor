@@ -4,20 +4,22 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
 {
     public class FileDropHelper
     {
-        private static string? _cachedFilePath;
+        private static string? _lastCheckedFilePath;
+        private static string? _cachedValidFilePath;
 
         private static string? IsValidFile(DragEventArgs e)
         {
             if (e.Data.GetData(DataFormats.FileDrop) is not string[] files)
             {
-                _cachedFilePath = null;
+                _lastCheckedFilePath = null;
+                _cachedValidFilePath = null;
                 return null;
             }
 
             string firstFile = files[0];
-            if (string.Equals(_cachedFilePath, firstFile, StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(_lastCheckedFilePath, firstFile, StringComparison.OrdinalIgnoreCase))
             {
-                return _cachedFilePath;
+                return _cachedValidFilePath;
             }
 
             string? validFile = null;
@@ -25,7 +27,8 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
             {
                 validFile = firstFile;
             }
-            _cachedFilePath = firstFile;
+            _lastCheckedFilePath = firstFile;
+            _cachedValidFilePath = ColorChannelHelper.IsValidImageFile(firstFile) ? firstFile : null;
             return validFile;
         }
 
