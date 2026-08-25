@@ -114,7 +114,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         {
             if (!ColorChannelHelper.LoadChannelFromPath(this, path) || ColorChannelHelper.GetExtractedInput().Bitmap is not { } wantedImage)
             {
-                btnDeleteInputExtract.IsEnabled = false;
+                btnDeleteInputExtract.IsEnabled = imgPreviewCombiner.ImageSource != null;
                 return;
             }
             imgPreviewCombiner.ImageSource = wantedImage;
