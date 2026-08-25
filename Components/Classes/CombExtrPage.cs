@@ -4,7 +4,7 @@ namespace ImageCombinerChannelExtractor.Components.Classes
 {
     public partial class CombExtrPage : Page
     {
-        public required ReadOnlyMemory<ColorChannelUserControl> _cachedColorInputPanels;
+        public required ColorChannelUserControl[] _cachedColorInputPanels;
         private ColorChannelUserControl? _currentlySelectedPanel;
 
 

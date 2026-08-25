@@ -171,7 +171,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         private void UpdateChannelPreviews(bool isLoading = false)
         {
             Dictionary<ColorChannelEnum, ChannelSlot> extractedChannels = ColorChannelHelper.GetExtractedChannelsDictionary();
-            foreach (ColorChannelUserControl panel in _cachedColorInputPanels.Span)
+            foreach (ColorChannelUserControl panel in _cachedColorInputPanels)
             {
                 ColorChannelOutput outputPanel = (ColorChannelOutput)panel;
 

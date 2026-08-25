@@ -153,7 +153,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
         private void UpdateFilteringComboboxEnable()
         {
-            foreach (ColorChannelUserControl panel in _cachedColorInputPanels.Span)
+            foreach (ColorChannelUserControl panel in _cachedColorInputPanels)
             {
                 ColorChannelInput converted = (ColorChannelInput)panel;
                 bool hasInputImage = ColorChannelHelper.DoesSenderInputChannelHaveInputImageForCombined(converted.ColorChannel);
