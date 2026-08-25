@@ -3,9 +3,8 @@ using ImageCombinerChannelExtractor.Components.Classes.PageClasses;
 using ImageCombinerChannelExtractor.Components.Enums;
 using ImageCombinerChannelExtractor.Components.Helpers;
 using ImageCombinerChannelExtractor.Components.Shared;
-using ImageCombinerChannelExtractor.Components.Stream;
+using ImageCombinerChannelExtractor.Components.Structs;
 using ImageCombinerChannelExtractor.Components.UserControls;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -52,7 +51,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         #region On ColorChannelInput events
         private void OnChannelClick(object sender, FileSelectedEventArgs e)
         {
-            var input = (ColorChannelInput)sender;
+            ColorChannelInput input = (ColorChannelInput)sender;
             input.SetDraggingOver(false);
             string? path = e.SelectedFilePath ?? ColorChannelHelper.SelectPNGFile();
             LoadChannelFromPath(input, path);
@@ -60,13 +59,13 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
         private void OnChannelClickRemove(object sender, RoutedEventArgs e)
         {
-            var input = (ColorChannelInput)sender;
+            ColorChannelInput input = (ColorChannelInput)sender;
             DeleteChannel(input);
         }
 
         private void OnChannelMouseEnter(object sender, RoutedEventArgs e)
         {
-            var input = (ColorChannelInput)sender;
+            ColorChannelInput input = (ColorChannelInput)sender;
             ShowChannelPreview(input);
         }
 
@@ -82,7 +81,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
         private void OnFilteringChanged(object sender, RoutedEventArgs e)
         {
-            var input = (ColorChannelInput)sender;
+            ColorChannelInput input = (ColorChannelInput)sender;
             if (!ColorChannelHelper.DoesSenderInputChannelHaveInputImageForCombined(input.ColorChannel)) // should pass for pixel arts
             {
                 return;
@@ -154,9 +153,9 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
         private void UpdateFilteringComboboxEnable()
         {
-            foreach (var panel in _cachedColorInputPanels)
+            foreach (ColorChannelUserControl panel in _cachedColorInputPanels)
             {
-                var converted = (ColorChannelInput)panel;
+                ColorChannelInput converted = (ColorChannelInput)panel;
                 bool hasInputImage = ColorChannelHelper.DoesSenderInputChannelHaveInputImageForCombined(converted.ColorChannel);
                 // should be a function, oh well
                 converted.cmbboxFiltering.IsEnabled = hasInputImage; // small images should be able to set filtering for pixel-art's
@@ -187,9 +186,9 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
             _ctsCombined?.Cancel();
             _ctsCombined?.Dispose();
-            var cts = new CancellationTokenSource();
+            CancellationTokenSource cts = new CancellationTokenSource();
             _ctsCombined = cts;
-            var token = cts.Token;
+            CancellationToken token = cts.Token;
 
             var notifInt = App.TriggerNotification(StringLinesInfo.notificationCombining, NotificationTypeEnum.Combining);
             try
@@ -197,7 +196,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
                 //await Task.Delay(10, token).ConfigureAwait(true);
 
                 // Snapshot it before doing anything
-                var snapshot = new Dictionary<ColorChannelEnum, ChannelSlot>(ColorChannelHelper.GetCombinedChannelsDictionary());
+                Dictionary<ColorChannelEnum, ChannelSlot> snapshot = new Dictionary<ColorChannelEnum, ChannelSlot>(ColorChannelHelper.GetCombinedChannelsDictionary());
 
                 BitmapSource? result = await Task.Run(() => BuildCombinedImage(snapshot, token), token).ConfigureAwait(true);
 
@@ -225,7 +224,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
         private static BitmapSource? BuildCombinedImage(Dictionary<ColorChannelEnum, ChannelSlot> channels, CancellationToken token)
         {
-            var sources = channels.Where(kv => kv.Value?.Bitmap != null).ToDictionary(kv => kv.Key, kv => kv.Value!);
+            Dictionary<ColorChannelEnum, ChannelSlot> sources = channels.Where(kv => kv.Value?.Bitmap != null).ToDictionary(kv => kv.Key, kv => kv.Value!);
             if (sources.Count == 0)
             {
                 return null;
@@ -273,11 +272,11 @@ namespace ImageCombinerChannelExtractor.Components.Pages
                 return null;
             }
 
-            var source = (BitmapSource)image;
+            BitmapSource source = image;
             int nativeW = source.PixelWidth;
             int nativeH = source.PixelHeight;
 
-            var grayscaleConverter = new FormatConvertedBitmap(source, PixelFormats.Gray8, null, 0);
+            FormatConvertedBitmap grayscaleConverter = new FormatConvertedBitmap(source, PixelFormats.Gray8, null, 0);
             var nativeBuffer = new byte[nativeW * nativeH];
             grayscaleConverter.CopyPixels(nativeBuffer, nativeW, 0);
 
@@ -487,7 +486,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
         private void ShowChannelPreview(ColorChannelInput sender, bool isDirty = false)
         {
-            var channel = sender.ColorChannel;
+            ColorChannelEnum channel = sender.ColorChannel;
 
             SetHoverOverChannel(sender);
 
@@ -531,7 +530,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         #region Helpers
         private void UpdateTargetResolutionCombined()
         {
-            var target = ColorChannelHelper.GetCombinedImageTargetResolution();
+            CombinedImageTargetStruct target = ColorChannelHelper.GetCombinedImageTargetResolution();
 
             _resolutionCombinedOutputWidth = target.TargetOutputWidth;
             _resolutionCombinedOutputHeight = target.TargetOutputHeight;

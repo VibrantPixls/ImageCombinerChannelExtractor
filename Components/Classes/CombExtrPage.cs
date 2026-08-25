@@ -8,7 +8,7 @@ namespace ImageCombinerChannelExtractor.Components.Classes
 
         protected void ResetAllSelectedInputs()
         {
-            foreach (var panel in _cachedColorInputPanels)
+            foreach (ColorChannelUserControl panel in _cachedColorInputPanels)
             {
                 panel.SetSelected(false);
             }

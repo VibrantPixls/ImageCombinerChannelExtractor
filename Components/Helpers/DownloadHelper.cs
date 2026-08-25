@@ -17,7 +17,7 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
                 return;
             }
 
-            var saveFileDialog = new SaveFileDialog
+            SaveFileDialog saveFileDialog = new SaveFileDialog
             {
                 Filter = SharedInfo.SaveFileDialogFilter,
                 DefaultExt = SharedInfo.AllowedImageExtensionsSaving[0],
@@ -66,18 +66,18 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
                 estimatedTotalBytes = 1;
             }
 
-            var progress = new Progress<double>(percentage =>
+            Progress<double> progress = new Progress<double>(percentage =>
             {
                 App.MainWindowReference.SetExtractingScreenProgress(percentage);
             });
 
             await Task.Run(() =>
             {
-                var encoder = new PngBitmapEncoder();
+                PngBitmapEncoder encoder = new PngBitmapEncoder();
                 encoder.Frames.Add(BitmapFrame.Create(bitmapToSave));
 
-                using var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 65536, options: FileOptions.SequentialScan);
-                using var progressStream = new FileExportingStreamer(fileStream, bytesWritten =>
+                using FileStream fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 65536, options: FileOptions.SequentialScan);
+                using FileExportingStreamer progressStream = new FileExportingStreamer(fileStream, bytesWritten =>
                 {
                     double percent = Math.Min(99.0, ((double)bytesWritten / estimatedTotalBytes) * 100.0);
                     ((IProgress<double>)progress).Report(percent);

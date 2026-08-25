@@ -16,8 +16,8 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
 
         public uint SpawnNotification(string text, NotificationTypeEnum notifType = NotificationTypeEnum.Info, int autoDestroyinSec = 0)
         {
-            var notifId = GetCurrentNotificationInt();
-            var notif = new DoingTaskNotif(notifType, text);
+            uint notifId = GetCurrentNotificationInt();
+            DoingTaskNotif notif = new DoingTaskNotif(notifType, text);
             _notifications.Add(notifId, notif);
             NotificationContainer.Children.Insert(0, notif);
 

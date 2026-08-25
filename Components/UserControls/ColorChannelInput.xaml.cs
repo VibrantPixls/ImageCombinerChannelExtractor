@@ -84,7 +84,7 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
 
         private void OnButtonDrop(object sender, DragEventArgs e)
         {
-            var result = FileDropHelper.IsFileValidAndReturnValidFile(e);
+            (bool isValid, string? validFile) result = FileDropHelper.IsFileValidAndReturnValidFile(e);
             if (result.isValid)
             {
 #pragma warning disable CS8604
@@ -98,7 +98,7 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
         {
             if (cmbboxFiltering.SelectedIndex >= 0)
             {
-                var modes = Enum.GetValues(typeof(ChannelFilteringMode));
+                Array modes = Enum.GetValues(typeof(ChannelFilteringMode));
                 if (cmbboxFiltering.SelectedIndex < modes.Length)
                 {
                     SelectedFiltering = (ChannelFilteringMode)modes.GetValue(cmbboxFiltering.SelectedIndex)!;
