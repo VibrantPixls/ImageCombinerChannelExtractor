@@ -539,49 +539,6 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             imgPreviewCombiner.Width = target.PreviewImageWidth;
             imgPreviewCombiner.Height = target.PreviewImageHeight;
         }
-
-        private async Task SavePreviewCacheToPngAsync(string filePath)
-        {
-            // null check already done beforehand
-#pragma warning disable CS8600
-            BitmapSource bitmapToSave = _combinedPreviewCache;
-#pragma warning restore CS8600
-
-            App.MainWindowReference.SetExtractingScreenProgress(0);
-            App.MainWindowReference.ShowExtractingScreen(true);
-
-#pragma warning disable CS8602
-            long estimatedTotalBytes = (long)(bitmapToSave.PixelWidth * bitmapToSave.PixelHeight * (bitmapToSave.Format.BitsPerPixel / 8) * 0.3);
-#pragma warning restore CS8602
-            if (estimatedTotalBytes <= 0)
-            {
-                estimatedTotalBytes = 1;
-            }
-
-            var progress = new Progress<double>(percentage =>
-            {
-                App.MainWindowReference.SetExtractingScreenProgress(percentage);
-            });
-
-            await Task.Run(() =>
-            {
-                var encoder = new PngBitmapEncoder();
-                encoder.Frames.Add(BitmapFrame.Create(bitmapToSave));
-
-                using var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 65536, options: FileOptions.SequentialScan);
-                using var progressStream = new FileExportingStreamer(fileStream, bytesWritten =>
-                {
-                    double percent = Math.Min(99.0, ((double)bytesWritten / estimatedTotalBytes) * 100.0);
-                    ((IProgress<double>)progress).Report(percent);
-                });
-
-                encoder.Save(progressStream);
-            });
-            App.MainWindowReference.SetExtractingScreenProgress(100);
-            // delay after hitting 100%
-            await Task.Delay(SharedInfo.OverlayKeepOnScreenAfterFinishForInMilliseconds).ConfigureAwait(true);
-            App.MainWindowReference.ShowExtractingScreen(false);
-        }
         #endregion
     }
 }
