@@ -77,12 +77,17 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
                 encoder.Frames.Add(BitmapFrame.Create(bitmapToSave));
 
                 using FileStream fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 65536, options: FileOptions.SequentialScan);
+                int lastReportedPercent = -1;
                 using FileExportingStreamer progressStream = new FileExportingStreamer(fileStream, bytesWritten =>
                 {
                     double percent = Math.Min(99.0, ((double)bytesWritten / estimatedTotalBytes) * 100.0);
-                    ((IProgress<double>)progress).Report(percent);
+                    int wholePercent = (int)percent;
+                    if (wholePercent != lastReportedPercent)
+                    {
+                        lastReportedPercent = wholePercent;
+                        ((IProgress<double>)progress).Report(wholePercent);
+                    }
                 });
-
                 encoder.Save(progressStream);
             });
             App.MainWindowReference.SetExtractingScreenProgress(100);
