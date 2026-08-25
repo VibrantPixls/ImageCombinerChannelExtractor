@@ -1,54 +1,107 @@
-﻿using ImageCombinerChannelExtractor.Components.Enums;
+﻿using ImageCombinerChannelExtractor.Components.Classes;
+using ImageCombinerChannelExtractor.Components.Enums;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace ImageCombinerChannelExtractor.Components.UserControls
 {
     public partial class NotificationWidget : UserControl
     {
-        private readonly static Dictionary<uint, DoingTaskNotif> _notifications = new Dictionary<uint, DoingTaskNotif>();
-        private static uint _currentNotificationNumber = 0;
+        private readonly Dictionary<uint, NotificationInfo> _notifications = [];
+        private readonly List<uint> _activeTimedIds = [];
+        private readonly DispatcherTimer _timer;
+        private uint _currentNotificationNumber = 0;
 
         public NotificationWidget()
         {
             InitializeComponent();
+
+            _timer = new DispatcherTimer(DispatcherPriority.Background)
+            {
+                Interval = TimeSpan.FromSeconds(1)
+            };
+            _timer.Tick += OnTimerTick;
+        }
+
+        private void OnTimerTick(object? sender, EventArgs e)
+        {
+            DateTime now = DateTime.UtcNow;
+            for (int i = _activeTimedIds.Count - 1; i >= 0; i--)
+            {
+                uint id = _activeTimedIds[i];
+                if (!_notifications.TryGetValue(id, out NotificationInfo? state))
+                {
+                    _activeTimedIds.RemoveAt(i);
+                    continue;
+                }
+
+                double remainingSeconds = (state.TargetExpiration - now).TotalSeconds;
+                int secondsLeft = (int)Math.Ceiling(remainingSeconds);
+                if (secondsLeft <= 0)
+                {
+                    _activeTimedIds.RemoveAt(i);
+                    RemoveNotificationInternal(id, state);
+                }
+                else
+                {
+                    state.Notif.SetSecondsLeft(secondsLeft);
+                }
+            }
+
+            if (_activeTimedIds.Count == 0)
+            {
+                _timer.Stop();
+            }
         }
 
         public uint SpawnNotification(string text, NotificationTypeEnum notifType = NotificationTypeEnum.Info, int autoDestroyinSec = 0)
         {
             uint notifId = GetCurrentNotificationInt();
             DoingTaskNotif notif = new DoingTaskNotif(notifType, text);
-            _notifications.Add(notifId, notif);
+            NotificationInfo state = new NotificationInfo(notif, autoDestroyinSec);
+
+            _notifications.Add(notifId, state);
             NotificationContainer.Children.Insert(0, notif);
 
-            if (autoDestroyinSec > 0)
+            if (state.IsTimed)
             {
-                AutoRemoveNotification(notifId, notif, autoDestroyinSec);
+                notif.SetSecondsLeft(autoDestroyinSec);
+                _activeTimedIds.Add(notifId);
+
+                if (!_timer.IsEnabled)
+                {
+                    _timer.Start();
+                }
             }
             return notifId;
         }
 
-        private async void AutoRemoveNotification(uint notifId, DoingTaskNotif notif, int amountOfSecondsToWait)
-        {
-            for (int i = amountOfSecondsToWait; i >= 0; i--)
-            {
-                notif.SetSecondsLeft(i);
-                await Task.Delay(1000);
-            }
-            RemoveNotification(notifId);
-        }
-
         public void RemoveNotification(uint taskIdToRemove)
         {
-            if (!_notifications.TryGetValue(taskIdToRemove, out DoingTaskNotif? notif))
+            if (_notifications.TryGetValue(taskIdToRemove, out NotificationInfo? state))
             {
-                return;
+                if (state.IsTimed)
+                {
+                    _activeTimedIds.Remove(taskIdToRemove);
+                }
+
+                RemoveNotificationInternal(taskIdToRemove, state);
+                if (_activeTimedIds.Count == 0 && _timer.IsEnabled)
+                {
+                    _timer.Stop();
+                }
             }
-            NotificationContainer.Children.Remove(notif);
-            _notifications.Remove(taskIdToRemove);
         }
 
         #region Helpers
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void RemoveNotificationInternal(uint id, NotificationInfo state)
+        {
+            NotificationContainer.Children.Remove(state.Notif);
+            _notifications.Remove(id);
+        }
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private uint GetCurrentNotificationInt()
         {
