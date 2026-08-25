@@ -40,7 +40,7 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
 
         public void RemoveNotification(uint taskIdToRemove)
         {
-            if (!_notifications.TryGetValue(taskIdToRemove, out var notif))
+            if (!_notifications.TryGetValue(taskIdToRemove, out DoingTaskNotif? notif))
             {
                 return;
             }

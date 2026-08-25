@@ -4,20 +4,25 @@ namespace ImageCombinerChannelExtractor.Components.Classes
 {
     public partial class CombExtrPage : Page
     {
-        public required ColorChannelUserControl[] _cachedColorInputPanels;
+        public required ReadOnlyMemory<ColorChannelUserControl> _cachedColorInputPanels;
+        private ColorChannelUserControl? _currentlySelectedPanel;
+
 
         protected void ResetAllSelectedInputs()
         {
-            foreach (ColorChannelUserControl panel in _cachedColorInputPanels)
-            {
-                panel.SetSelected(false);
-            }
+            _currentlySelectedPanel?.SetSelected(false);
+            _currentlySelectedPanel = null;
         }
 
         protected void SetHoverOverChannel(ColorChannelUserControl newPreview)
         {
-            ResetAllSelectedInputs();
+            if (ReferenceEquals(_currentlySelectedPanel, newPreview))
+            {
+                return;
+            }
+            _currentlySelectedPanel?.SetSelected(false);
             newPreview.SetSelected(true);
+            _currentlySelectedPanel = newPreview;
         }
     }
 }

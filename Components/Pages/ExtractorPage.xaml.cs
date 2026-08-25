@@ -24,13 +24,13 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             crdPanel.DragEnter += dragHandler.DraggingIntoWindow;
             crdPanel.DragLeave += dragHandler.DraggingLeaveWindow;
 
-            _cachedColorInputPanels =
-            [
+            _cachedColorInputPanels = new[]
+            {
                 RedChannel,
                 GreenChannel,
                 BlueChannel,
                 AlphaChannel
-            ];
+            };
 
             UpdateLabel(StringLinesInfo.NoInputImageTextDefault);
         }
@@ -141,7 +141,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             _ctsExtract = cts;
             CancellationToken token = cts.Token;
 
-            var notifId = App.TriggerNotification(StringLinesInfo.notificationExtracting, NotificationTypeEnum.Info);
+            uint notifId = App.TriggerNotification(StringLinesInfo.notificationExtracting, NotificationTypeEnum.Info);
             try
             {
                 UpdateChannelPreviews(true);
@@ -171,7 +171,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         private void UpdateChannelPreviews(bool isLoading = false)
         {
             Dictionary<ColorChannelEnum, ChannelSlot> extractedChannels = ColorChannelHelper.GetExtractedChannelsDictionary();
-            foreach (ColorChannelUserControl panel in _cachedColorInputPanels)
+            foreach (ColorChannelUserControl panel in _cachedColorInputPanels.Span)
             {
                 ColorChannelOutput outputPanel = (ColorChannelOutput)panel;
 

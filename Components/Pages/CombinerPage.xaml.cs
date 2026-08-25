@@ -34,13 +34,13 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         {
             InitializeComponent();
 
-            _cachedColorInputPanels =
-            [
+            _cachedColorInputPanels = new[]
+            {
                 RedChannelInput,
                 GreenChannelInput,
                 BlueChannelInput,
                 AlphaChannelInput
-            ];
+            };
 
             brdPreviewBoxCombined.Width = SharedInfo.CombinedPreviewDefaultSize;
             brdPreviewBoxCombined.Height = SharedInfo.CombinedPreviewDefaultSize;
@@ -153,7 +153,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
         private void UpdateFilteringComboboxEnable()
         {
-            foreach (ColorChannelUserControl panel in _cachedColorInputPanels)
+            foreach (ColorChannelUserControl panel in _cachedColorInputPanels.Span)
             {
                 ColorChannelInput converted = (ColorChannelInput)panel;
                 bool hasInputImage = ColorChannelHelper.DoesSenderInputChannelHaveInputImageForCombined(converted.ColorChannel);
@@ -190,7 +190,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             _ctsCombined = cts;
             CancellationToken token = cts.Token;
 
-            var notifInt = App.TriggerNotification(StringLinesInfo.notificationCombining, NotificationTypeEnum.Combining);
+            uint notifInt = App.TriggerNotification(StringLinesInfo.notificationCombining, NotificationTypeEnum.Combining);
             try
             {
                 //await Task.Delay(10, token).ConfigureAwait(true);
@@ -277,7 +277,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             int nativeH = source.PixelHeight;
 
             FormatConvertedBitmap grayscaleConverter = new FormatConvertedBitmap(source, PixelFormats.Gray8, null, 0);
-            var nativeBuffer = new byte[nativeW * nativeH];
+            byte[] nativeBuffer = new byte[nativeW * nativeH];
             grayscaleConverter.CopyPixels(nativeBuffer, nativeW, 0);
 
             token.ThrowIfCancellationRequested();
@@ -310,7 +310,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
                 return resized;
             }
 
-            var canvas = new byte[targetWidth * targetHeight];
+            byte[] canvas = new byte[targetWidth * targetHeight];
             int offsetX = (targetWidth - drawWidth) / 2;
             int offsetY = (targetHeight - drawHeight) / 2;
 
@@ -330,7 +330,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
                 return src;
             }
 
-            var dst = new byte[dstW * dstH];
+            byte[] dst = new byte[dstW * dstH];
             double xRatio = (double)srcW / dstW;
             double yRatio = (double)srcH / dstH;
 
@@ -356,7 +356,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
                 return src;
             }
 
-            var dst = new byte[dstW * dstH];
+            byte[] dst = new byte[dstW * dstH];
             double xRatio = dstW > 1 ? (double)(srcW - 1) / (dstW - 1) : 0;
             double yRatio = dstH > 1 ? (double)(srcH - 1) / (dstH - 1) : 0;
 
@@ -393,7 +393,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
                 return src;
             }
 
-            var dst = new byte[dstW * dstH];
+            byte[] dst = new byte[dstW * dstH];
             double xRatio = (double)srcW / dstW;
             double yRatio = (double)srcH / dstH;
 
