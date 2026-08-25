@@ -145,6 +145,13 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
             }
         }
 
+        #region Public getters
+        public static (double Width, double Height) GetExtractorOutputImageTargetResolution(BitmapImage image)
+        {
+            return GetScaledDimensions(image.Width, image.Height, SharedInfo.ExtractorPreviewOutputDefaultSize);
+        }
+        #endregion
+
         #region Private helpers
         private static byte[] ExtractSingleChannelBuffer(byte[] pixels, int width, int height, int stride, int byteOffset, CancellationToken token)
         {

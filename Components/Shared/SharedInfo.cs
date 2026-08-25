@@ -123,5 +123,6 @@ namespace ImageCombinerChannelExtractor.Components.Shared
         // preview sizes
         public const double CombinedPreviewDefaultSize = 425.0;
         public const double ExtractorPreviewDefaultSize = 425.0;
+        public const double ExtractorPreviewOutputDefaultSize = 116.5;
     }
 }

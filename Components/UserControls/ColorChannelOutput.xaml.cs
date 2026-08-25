@@ -1,5 +1,6 @@
 ﻿using ImageCombinerChannelExtractor.Components.Classes.UserControlChildClasses;
 using ImageCombinerChannelExtractor.Components.Enums;
+using ImageCombinerChannelExtractor.Components.Helpers;
 using ImageCombinerChannelExtractor.Components.Shared;
 using System.Windows;
 using System.Windows.Input;
@@ -13,6 +14,7 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
         public ColorChannelOutput()
         {
             InitializeComponent();
+            SetImageResolution(SharedInfo.ExtractorPreviewOutputDefaultSize);
 
             Loaded += (s, e) => UpdateColoringStuff(ColorChannel);
         }
@@ -47,6 +49,17 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
         {
             picboxPreview.ImageSource = image;
             var isValid = image != null;
+            if (isValid)
+            {
+#pragma warning disable CS8604
+                var res = ColorChannelHelper.GetExtractorOutputImageTargetResolution(image);
+#pragma warning restore CS8604
+                SetImageResolution(res.Width, res.Height);
+            }
+            else
+            {
+                SetImageResolution(SharedInfo.ExtractorPreviewOutputDefaultSize);
+            }
             btnDownloadChannel.Content = isValid ? StringLinesInfo.CrtExtractBtnDownload : StringLinesInfo.CrtExtractBtnNoInputs;
             btnDownloadChannel.IsEnabled = isValid;
             prgrRing.Visibility = Visibility.Hidden;
@@ -55,8 +68,20 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
         public void SetPreview()
         {
             picboxPreview.ImageSource = null;
+            SetImageResolution(SharedInfo.ExtractorPreviewOutputDefaultSize);
             btnDownloadChannel.IsEnabled = false;
             prgrRing.Visibility = Visibility.Visible;
+        }
+
+        private void SetImageResolution(double size)
+        {
+            SetImageResolution(size, size);
+        }
+
+        private void SetImageResolution(double width, double height)
+        {
+            picboxPreview.Width = width;
+            picboxPreview.Height = height;
         }
 
         #region Overrides
