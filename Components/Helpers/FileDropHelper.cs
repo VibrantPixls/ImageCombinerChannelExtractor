@@ -23,12 +23,13 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
             }
 
             string? validFile = null;
-            if (ColorChannelHelper.IsValidImageFile(firstFile))
+            var isValid = ColorChannelHelper.IsValidImageFile(firstFile);
+            if (isValid)
             {
                 validFile = firstFile;
             }
             _lastCheckedFilePath = firstFile;
-            _cachedValidFilePath = ColorChannelHelper.IsValidImageFile(firstFile) ? firstFile : null;
+            _cachedValidFilePath = isValid ? firstFile : null;
             return validFile;
         }
 
