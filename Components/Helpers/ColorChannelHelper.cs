@@ -63,7 +63,7 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
             {
                 return (SharedInfo.ExtractorPreviewDefaultSize, SharedInfo.ExtractorPreviewDefaultSize);
             }
-            var size = _extractorInput.BitmapSize;
+            (int Width, int Height) size = _extractorInput.BitmapSize;
             return GetScaledDimensions(size.Width, size.Height, SharedInfo.ExtractorPreviewDefaultSize);
         }
 
@@ -93,7 +93,7 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
                 return false;
             }
 
-            var converted = new FormatConvertedBitmap(source, PixelFormats.Bgra32, null, 0);
+            FormatConvertedBitmap converted = new FormatConvertedBitmap(source, PixelFormats.Bgra32, null, 0);
             int width = converted.PixelWidth;
             int height = converted.PixelHeight;
             int stride = width * 4;
@@ -102,11 +102,11 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
             converted.CopyPixels(pixels, stride, 0);
 
             string inputPath = _extractorInput.FilePath;
-            var extracted = await Task.Run(() => BuildChannelBitmaps(pixels, width, height, stride, token), token).ConfigureAwait(true);
+            (ColorChannelEnum Channel, BitmapImage Image)[] extracted = await Task.Run(() => BuildChannelBitmaps(pixels, width, height, stride, token), token).ConfigureAwait(true);
 
             token.ThrowIfCancellationRequested();
 
-            foreach (var (channel, bitmapImage) in extracted)
+            foreach ((ColorChannelEnum channel, BitmapImage? bitmapImage) in extracted)
             {
                 AddBitmap(_extracterChannels[channel], bitmapImage, inputPath);
             }
@@ -115,7 +115,7 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
 
         private static (ColorChannelEnum Channel, BitmapImage Image)[] BuildChannelBitmaps(byte[] pixels, int width, int height, int stride, CancellationToken token)
         {
-            var channels = new (ColorChannelEnum Channel, int ByteOffset)[]
+            (ColorChannelEnum Channel, int ByteOffset)[] channels = new (ColorChannelEnum Channel, int ByteOffset)[]
             {
                 // Bgra32 order
                 (ColorChannelEnum.Blue, 0),
@@ -124,10 +124,10 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
                 (ColorChannelEnum.Alpha, 3),
             };
 
-            var results = new (ColorChannelEnum, BitmapImage)[channels.Length];
+            (ColorChannelEnum, BitmapImage)[] results = new (ColorChannelEnum, BitmapImage)[channels.Length];
             Parallel.For(0, channels.Length, new ParallelOptions { CancellationToken = token }, i =>
             {
-                var (channel, byteOffset) = channels[i];
+                (ColorChannelEnum channel, int byteOffset) = channels[i];
                 byte[] channelPixels = ExtractSingleChannelBuffer(pixels, width, height, stride, byteOffset, token);
 
                 BitmapSource grayscale = BitmapSource.Create(width, height, 96, 96, PixelFormats.Gray8, null, channelPixels, width);
@@ -139,7 +139,7 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
 
         public static void ClearExtractedChannels()
         {
-            foreach (var slot in _extracterChannels.Values)
+            foreach (ChannelSlot slot in _extracterChannels.Values)
             {
                 ClearBitmap(slot);
             }
@@ -176,14 +176,14 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
 
         private static BitmapImage ConvertToBitmapImage(BitmapSource source)
         {
-            var encoder = new PngBitmapEncoder();
+            PngBitmapEncoder encoder = new PngBitmapEncoder();
             encoder.Frames.Add(BitmapFrame.Create(source));
 
-            using var stream = new MemoryStream();
+            using MemoryStream stream = new MemoryStream();
             encoder.Save(stream);
             stream.Position = 0;
 
-            var bitmapImage = new BitmapImage();
+            BitmapImage bitmapImage = new BitmapImage();
             bitmapImage.BeginInit();
             bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
             bitmapImage.StreamSource = stream;
@@ -207,9 +207,9 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
             int maxWidth = 0;
             int maxHeight = 0;
 
-            foreach (var entry in _combinerChannels)
+            foreach (KeyValuePair<ColorChannelEnum, ChannelSlot> entry in _combinerChannels)
             {
-                var bitmap = entry.Value.Bitmap;
+                BitmapImage? bitmap = entry.Value.Bitmap;
                 if (bitmap is null)
                 {
                     continue;
@@ -260,9 +260,9 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
         public static byte GetFilledCombinedColorChannelsAmount()
         {
             byte totalFilled = 0;
-            foreach (var channel in _combinerChannels)
+            foreach (KeyValuePair<ColorChannelEnum, ChannelSlot> channel in _combinerChannels)
             {
-                var bitmap = channel.Value.Bitmap;
+                BitmapImage? bitmap = channel.Value.Bitmap;
                 if (bitmap != null)
                 {
                     totalFilled++;
@@ -276,9 +276,9 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
             int firstWidth = -1;
             int firstHeight = -1;
 
-            foreach (var channel in _combinerChannels)
+            foreach (KeyValuePair<ColorChannelEnum, ChannelSlot> channel in _combinerChannels)
             {
-                var bitmap = channel.Value.Bitmap;
+                BitmapImage? bitmap = channel.Value.Bitmap;
                 if (bitmap == null)
                 {
                     continue;
@@ -316,7 +316,7 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
         public static bool DoesAnyChannelHaveInputImagesForCombined()
         {
             bool someChannelHasAInputImage = false;
-            foreach (var source in _combinerChannels)
+            foreach (KeyValuePair<ColorChannelEnum, ChannelSlot> source in _combinerChannels)
             {
                 if (source.Value.Bitmap != null)
                 {
@@ -386,8 +386,8 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
         private static BitmapImage LoadImageIndependent(string path)
         {
             // Make sure the input file doesn't lock
-            var bitmap = new BitmapImage();
-            using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
+            BitmapImage bitmap = new BitmapImage();
+            using (FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 bitmap.BeginInit();
                 bitmap.CacheOption = BitmapCacheOption.OnLoad;

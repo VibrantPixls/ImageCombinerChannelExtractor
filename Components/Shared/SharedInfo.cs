@@ -21,8 +21,8 @@ namespace ImageCombinerChannelExtractor.Components.Shared
                 return string.Empty;
             }
 
-            var combinedPattern = new StringBuilder();
-            var individualFilters = new StringBuilder();
+            StringBuilder combinedPattern = new StringBuilder();
+            StringBuilder individualFilters = new StringBuilder();
             for (int i = 0; i < extensions.Count; i++)
             {
                 string ext = extensions[i].TrimStart('.').ToLowerInvariant();
@@ -91,7 +91,7 @@ namespace ImageCombinerChannelExtractor.Components.Shared
 
         private static SolidColorBrush CreateFrozenBrush(Color color, byte alpha)
         {
-            var brush = new SolidColorBrush(Color.FromArgb(alpha, color.R, color.G, color.B));
+            SolidColorBrush brush = new SolidColorBrush(Color.FromArgb(alpha, color.R, color.G, color.B));
             brush.Freeze();
             return brush;
         }
@@ -100,7 +100,7 @@ namespace ImageCombinerChannelExtractor.Components.Shared
         {
             if (Application.Current != null)
             {
-                var resource = Application.Current.TryFindResource(resourceKey);
+                object resource = Application.Current.TryFindResource(resourceKey);
                 if (resource is SolidColorBrush brush)
                 {
                     return brush.Color;

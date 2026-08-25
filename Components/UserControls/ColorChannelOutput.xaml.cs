@@ -48,11 +48,11 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
         public void SetPreview(BitmapImage? image)
         {
             picboxPreview.ImageSource = image;
-            var isValid = image != null;
+            bool isValid = image != null;
             if (isValid)
             {
 #pragma warning disable CS8604
-                var res = ColorChannelHelper.GetExtractorOutputImageTargetResolution(image);
+                (double Width, double Height) res = ColorChannelHelper.GetExtractorOutputImageTargetResolution(image);
 #pragma warning restore CS8604
                 SetImageResolution(res.Width, res.Height);
             }

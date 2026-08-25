@@ -8,6 +8,7 @@ using ImageCombinerChannelExtractor.Components.UserControls;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace ImageCombinerChannelExtractor.Components.Pages
 {
@@ -37,7 +38,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         #region On user events
         private void OnChannelMouseEnter(object sender, RoutedEventArgs e)
         {
-            var input = (ColorChannelUserControl)sender;
+            ColorChannelUserControl input = (ColorChannelUserControl)sender;
             SetHoverOverChannel(input);
         }
 
@@ -48,8 +49,8 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
         private async void OnDownloadChannel(object sender, RoutedEventArgs e)
         {
-            var input = (ColorChannelOutput)sender;
-            var channel = input.ColorChannel;
+            ColorChannelOutput input = (ColorChannelOutput)sender;
+            ColorChannelEnum channel = input.ColorChannel;
             DownloadHelper.SaveBitmapAsPNG(input.btnDownloadChannel, ColorChannelHelper.GetExtractedChannelBitmap(channel), StringLinesInfo.GetDownloadImgFileNameExtractedChannel(channel));
         }
 
@@ -66,7 +67,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         private void OnButtonDrop(object sender, DragEventArgs e)
         {
             SetDraggingOver(false);
-            var result = FileDropHelper.IsFileValidAndReturnValidFile(e);
+            (bool isValid, string? validFile) result = FileDropHelper.IsFileValidAndReturnValidFile(e);
             if (result.isValid)
             {
 #pragma warning disable CS8604
@@ -124,7 +125,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
         private void UpdateTargetResolution()
         {
-            var target = ColorChannelHelper.GetTargetResolution();
+            (double Width, double Height) target = ColorChannelHelper.GetTargetResolution();
 
             Debug.WriteLine($"combiner width - {target.Width} x {target.Height}");
 
@@ -136,9 +137,9 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         {
             _ctsExtract?.Cancel();
             _ctsExtract?.Dispose();
-            var cts = new CancellationTokenSource();
+            CancellationTokenSource cts = new CancellationTokenSource();
             _ctsExtract = cts;
-            var token = cts.Token;
+            CancellationToken token = cts.Token;
 
             var notifId = App.TriggerNotification(StringLinesInfo.notificationExtracting, NotificationTypeEnum.Info);
             try
@@ -169,10 +170,10 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
         private void UpdateChannelPreviews(bool isLoading = false)
         {
-            var extractedChannels = ColorChannelHelper.GetExtractedChannelsDictionary();
-            foreach (var panel in _cachedColorInputPanels)
+            Dictionary<ColorChannelEnum, ChannelSlot> extractedChannels = ColorChannelHelper.GetExtractedChannelsDictionary();
+            foreach (ColorChannelUserControl panel in _cachedColorInputPanels)
             {
-                var outputPanel = (ColorChannelOutput)panel;
+                ColorChannelOutput outputPanel = (ColorChannelOutput)panel;
 
                 if (isLoading)
                 {
@@ -180,7 +181,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
                     continue;
                 }
 
-                var channelImage = extractedChannels[outputPanel.ColorChannel].Bitmap;
+                BitmapImage? channelImage = extractedChannels[outputPanel.ColorChannel].Bitmap;
                 outputPanel.SetPreview(channelImage);
                 if (channelImage == null)
                 {
