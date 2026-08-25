@@ -170,7 +170,6 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         private void UpdateChannelPreviews(bool isLoading = false)
         {
             var extractedChannels = ColorChannelHelper.GetExtractedChannelsDictionary();
-
             foreach (var panel in _cachedColorInputPanels)
             {
                 var outputPanel = (ColorChannelOutput)panel;
