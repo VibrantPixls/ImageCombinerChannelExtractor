@@ -63,6 +63,7 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
 
             _notifications.Add(notifId, state);
             NotificationContainer.Children.Insert(0, notif);
+            scrlViewer.ScrollToEnd();
 
             if (state.IsTimed)
             {
