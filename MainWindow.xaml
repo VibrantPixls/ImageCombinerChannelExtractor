@@ -34,6 +34,6 @@
         </ui:NavigationView>
 
         <controls:ExportingScreen x:Name="loadingScreen" Grid.Row="1" Visibility="Collapsed"/>
-        <controls:NotificationWidget x:Name="notificationWidget" Grid.Row="1" Margin="650,485,16,16" />
+        <controls:NotificationWidget x:Name="notificationWidget" Grid.Row="1" Margin="664,436,16,16" Width="400" Height="150"/>
     </Grid>
 </ui:FluentWindow>

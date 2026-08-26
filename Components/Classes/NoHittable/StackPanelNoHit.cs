@@ -1,9 +1,9 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace ImageCombinerChannelExtractor.Components.Classes
+namespace ImageCombinerChannelExtractor.Components.Classes.NoHittable
 {
-    public class ScrollViewerNoHit : ScrollViewer
+    public class StackPanelNoHit : StackPanel
     {
         protected override HitTestResult? HitTestCore(PointHitTestParameters hitTestParameters)
         {
