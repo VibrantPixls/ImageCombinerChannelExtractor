@@ -87,12 +87,7 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
         #region Overrides
         protected override void UpdateColoringStuff(ColorChannelEnum channel)
         {
-            if (btnDownloadChannel is null)
-            {
-                return;
-            }
-
-            btnDownloadChannel.Content = StringLinesInfo.CrtExtractBtnNoInputs;
+            btnDownloadChannel.Content = picboxPreview.ImageSource != null ? StringLinesInfo.GetCrtExtractBtnDownload(channel) : StringLinesInfo.CrtExtractBtnNoInputs;
             base.UpdateColoringStuff(channel);
         }
 
