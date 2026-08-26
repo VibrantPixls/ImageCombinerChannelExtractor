@@ -128,7 +128,7 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
                 return;
             }
 
-            btnColorChannelInput.Content = GetBtnString(channel);
+            btnColorChannelInput.Content = StringLinesInfo.GetClrChnBtn(channel);
             base.UpdateColoringStuff(channel);
         }
 

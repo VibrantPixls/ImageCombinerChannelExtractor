@@ -59,11 +59,6 @@ namespace ImageCombinerChannelExtractor.Components.Classes
             LabelTextContent = lblText;
         }
 
-        protected virtual string GetBtnString(ColorChannelEnum channel)
-        {
-            return StringLinesInfo.GetClrChnBtn(channel);
-        }
-
         protected virtual void UpdateBrushColors(Brush wantedBrush)
         {
 
