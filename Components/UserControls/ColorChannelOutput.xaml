@@ -7,7 +7,7 @@
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              xmlns:classes="clr-namespace:ImageCombinerChannelExtractor.Components.Classes.UserControlChildClasses"
              mc:Ignorable="d"
-             d:DesignHeight="142.5" d:DesignWidth="466">
+             d:DesignHeight="134.5" d:DesignWidth="466">
     <ui:Card x:Name="crdPanel" Padding="12" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch"  MouseEnter="OnButtonMouseEnter" MouseLeave="OnButtonMouseLeave">
         <Grid>
             <Grid.ColumnDefinitions>
@@ -15,7 +15,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Grid x:Name="prBoxGrid" Grid.Column="0" >
+            <Grid x:Name="prBoxGrid" Grid.Column="0">
                 <local:CheckerboardPictureBox x:Name="picboxPreview" />
             </Grid>
             <ui:ProgressRing x:Name="prgrRing" Grid.Column="0" IsIndeterminate="True" Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" Visibility="Hidden" />

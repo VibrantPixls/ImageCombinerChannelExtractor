@@ -68,25 +68,25 @@
                         ColorChannel="red"
                         ChannelMouseEnter="OnChannelMouseEnter"
                         ChannelMouseLeave="OnChannelMouseLeave"
-                        ChannelDownloadClick="OnDownloadChannel"/>
+                        ChannelDownloadClick="OnDownloadChannel" Margin="0,0,0,4"/>
 
             <controls:ColorChannelOutput Grid.Row="1" x:Name="GreenChannel"
                         ColorChannel="green"
                         ChannelMouseEnter="OnChannelMouseEnter"
                         ChannelMouseLeave="OnChannelMouseLeave"
-                        ChannelDownloadClick="OnDownloadChannel"/>
+                        ChannelDownloadClick="OnDownloadChannel" Margin="0,4,0,4"/>
 
             <controls:ColorChannelOutput Grid.Row="2" x:Name="BlueChannel"
                         ColorChannel="blue"
                         ChannelMouseEnter="OnChannelMouseEnter"
                         ChannelMouseLeave="OnChannelMouseLeave"
-                        ChannelDownloadClick="OnDownloadChannel"/>
+                        ChannelDownloadClick="OnDownloadChannel" Margin="0,4,0,4" Height="132"/>
 
             <controls:ColorChannelOutput Grid.Row="3" x:Name="AlphaChannel"
                         ColorChannel="alpha"
                         ChannelMouseEnter="OnChannelMouseEnter"
                         ChannelMouseLeave="OnChannelMouseLeave"
-                        ChannelDownloadClick="OnDownloadChannel"/>
+                        ChannelDownloadClick="OnDownloadChannel" Margin="0,4,0,4"/>
         </Grid>
     </Grid>
 </classes:ExtrPage>
