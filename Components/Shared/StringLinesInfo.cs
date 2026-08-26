@@ -11,6 +11,11 @@ namespace ImageCombinerChannelExtractor.Components.Shared
         public const string notificationExtracting = "Started extracting channels from input image";
         public const string notificationSuccessfullExtracting = "Successfully extracted channels from input image";
 
+        public static string GetNotificationWillBeRemovedText(int secondsLeft)
+        {
+            return $"This message wil be deleted in {secondsLeft} seconds";
+        }
+
         public const string EnumFriendlyNameChannelFilteringBilinear = "Smooth (Bilinear)";
         public const string EnumFriendlyNameChannelFilteringNearestNeighbor = "Sharp (Nearest Neighbor)";
         public const string EnumFriendlyNameChannelFilteringBicubic = "Smooth (Bicubic)";

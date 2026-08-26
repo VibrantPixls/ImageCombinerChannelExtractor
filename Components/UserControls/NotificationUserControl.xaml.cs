@@ -1,5 +1,6 @@
 ﻿using ImageCombinerChannelExtractor.Components.Enums;
 using ImageCombinerChannelExtractor.Components.Helpers;
+using ImageCombinerChannelExtractor.Components.Shared;
 using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -27,7 +28,7 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
 
         public void SetSecondsLeft(int secondsLeft)
         {
-            TaskInfoBar.Message = $"This message wil be deleted in {secondsLeft} seconds";
+            TaskInfoBar.Message = StringLinesInfo.GetNotificationWillBeRemovedText(secondsLeft);
         }
 
         private void OnIsOpenChanged(object? sender, EventArgs e)
