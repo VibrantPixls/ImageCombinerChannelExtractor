@@ -8,11 +8,7 @@ namespace ImageCombinerChannelExtractor.Components.Classes
         protected override HitTestResult? HitTestCore(PointHitTestParameters hitTestParameters)
         {
             HitTestResult? result = base.HitTestCore(hitTestParameters);
-            if (result != null && result.VisualHit == this)
-            {
-                return null;
-            }
-            return result;
+            return result?.VisualHit == this ? null : result;
         }
     }
 }
