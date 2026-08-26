@@ -58,7 +58,8 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
         public uint SpawnNotification(string text, NotificationTypeEnum notifType = NotificationTypeEnum.Info, int autoDestroyinSec = 0)
         {
             uint notifId = GetCurrentNotificationInt();
-            DoingTaskNotif notif = new DoingTaskNotif(notifType, text);
+            DoingTaskNotif notif = new DoingTaskNotif(notifType, text, notifId);
+            notif.CloseRequested += OnNotificationCloseRequested;
             NotificationInfo state = new NotificationInfo(notif, autoDestroyinSec);
 
             _notifications.Add(notifId, state);
@@ -97,8 +98,15 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
 
         #region Helpers
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private void OnNotificationCloseRequested(uint notifId)
+        {
+            RemoveNotification(notifId);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void RemoveNotificationInternal(uint id, NotificationInfo state)
         {
+            state.Notif.CloseRequested -= OnNotificationCloseRequested;
             NotificationContainer.Children.Remove(state.Notif);
             _notifications.Remove(id);
         }

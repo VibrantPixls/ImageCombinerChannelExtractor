@@ -4,17 +4,18 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ImageCombinerChannelExtractor.Components.UserControls"
+             xmlns:classes="clr-namespace:ImageCombinerChannelExtractor.Components.Classes"
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="200">
-    <ScrollViewer x:Name="scrlViewer" VerticalScrollBarVisibility="Hidden">
-        <ScrollViewer.OpacityMask>
+    <classes:ScrollViewerNoHit x:Name="scrlViewer" VerticalScrollBarVisibility="Hidden" Foreground="{x:Null}" Background="{x:Null}" BorderBrush="{x:Null}" Focusable="False" >
+        <classes:ScrollViewerNoHit.OpacityMask>
             <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                 <GradientStop Color="#00000000" Offset="0.0" />
                 <GradientStop Color="#FF000000" Offset="0.1" />
                 <GradientStop Color="#FF000000" Offset="1.0" />
             </LinearGradientBrush>
-        </ScrollViewer.OpacityMask>
-        
+        </classes:ScrollViewerNoHit.OpacityMask>
+
         <StackPanel x:Name="NotificationContainer" RenderTransformOrigin="0.5,0.5" >
             <StackPanel.RenderTransform>
                 <TransformGroup>
@@ -22,5 +23,5 @@
                 </TransformGroup>
             </StackPanel.RenderTransform>
         </StackPanel>
-    </ScrollViewer>
+    </classes:ScrollViewerNoHit>
 </UserControl>
