@@ -34,13 +34,13 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         {
             InitializeComponent();
 
-            _cachedColorInputPanels = new[]
-            {
+            _cachedColorInputPanels =
+            [
                 RedChannelInput,
                 GreenChannelInput,
                 BlueChannelInput,
                 AlphaChannelInput
-            };
+            ];
 
             brdPreviewBoxCombined.Width = SharedInfo.CombinedPreviewDefaultSize;
             brdPreviewBoxCombined.Height = SharedInfo.CombinedPreviewDefaultSize;

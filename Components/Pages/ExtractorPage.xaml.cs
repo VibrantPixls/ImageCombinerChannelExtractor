@@ -24,13 +24,13 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             crdPanel.DragEnter += dragHandler.DraggingIntoWindow;
             crdPanel.DragLeave += dragHandler.DraggingLeaveWindow;
 
-            _cachedColorInputPanels = new[]
-            {
+            _cachedColorInputPanels =
+            [
                 RedChannel,
                 GreenChannel,
                 BlueChannel,
                 AlphaChannel
-            };
+            ];
 
             UpdateLabel(StringLinesInfo.NoInputImageTextDefault);
         }
