@@ -62,8 +62,8 @@ namespace ImageCombinerChannelExtractor.Components.Shared
         private static readonly Color SharedColors_Green_Dark = ColorHelper.GetMediaColorBrighter(ColorHelper.GetMediaColorDesaturated(SharedColors_Green, _desaturateAmount), _darkenAmount * 2);
 
         private static readonly Color SharedColors_Blue = ColorHelper.GetMediaColorHueAdjusted(SharedColors_Red, 240);
-        private static readonly Color SharedColors_Blue_Bright = ColorHelper.GetMediaColorBrighter(SharedColors_Blue, _brightenAmount);
-        private static readonly Color SharedColors_Blue_Dark = ColorHelper.GetMediaColorBrighter(ColorHelper.GetMediaColorDesaturated(SharedColors_Blue, _desaturateAmount), _darkenAmount / 4);
+        private static readonly Color SharedColors_Blue_Bright = ColorHelper.GetMediaColorBrighter(SharedColors_Blue, _brightenAmount * 2);
+        private static readonly Color SharedColors_Blue_Dark = ColorHelper.GetMediaColorBrighter(ColorHelper.GetMediaColorDesaturated(SharedColors_Blue, _desaturateAmount), _darkenAmount / 16);
 
         private static readonly Color SharedColors_White = Color.FromRgb(68, 68, 68);
         private static readonly Color SharedColors_White_Bright = ColorHelper.GetMediaColorBrighter(SharedColors_White, _brightenAmount / 2);
