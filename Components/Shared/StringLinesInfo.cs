@@ -16,6 +16,9 @@ namespace ImageCombinerChannelExtractor.Components.Shared
             return $"This message wil be deleted in {secondsLeft} seconds";
         }
 
+        public const string notificationException = "EXCEPTION!";
+        public const string notificationExceptionDescr = "Check the error.log for more info";
+
         public const string EnumFriendlyNameChannelFilteringBilinear = "Smooth (Bilinear)";
         public const string EnumFriendlyNameChannelFilteringNearestNeighbor = "Sharp (Nearest Neighbor)";
         public const string EnumFriendlyNameChannelFilteringBicubic = "Smooth (Bicubic)";
@@ -42,12 +45,6 @@ namespace ImageCombinerChannelExtractor.Components.Shared
         public static string GetDownloadImgFileNameExtractedChannel(ColorChannelEnum colorChannel)
         {
             return $"ExtractedChannel{colorChannel}";
-        }
-
-        // ---------------------------
-        public static string GetExceptionError(Exception ex)
-        {
-            return $"Export Exception: {ex}";
         }
     }
 }

@@ -13,7 +13,7 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
         public event Action<uint>? CloseRequested;
 
         private readonly uint index = 0;
-        public DoingTaskNotif(NotificationTypeEnum type, string NotificationText, uint index)
+        public DoingTaskNotif(NotificationTypeEnum type, string NotificationText, string description, uint index)
         {
             InitializeComponent();
             LayoutTransform = new ScaleTransform { ScaleY = -1 };
@@ -21,6 +21,7 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             this.index = index;
 
             TaskInfoBar.Title = NotificationText;
+            TaskInfoBar.Message = description;
             TaskInfoBar.Severity = VisualsHelper.GetSeverity(type);
 
             DependencyPropertyDescriptor.FromProperty(InfoBar.IsOpenProperty, typeof(InfoBar))?.AddValueChanged(TaskInfoBar, OnIsOpenChanged);

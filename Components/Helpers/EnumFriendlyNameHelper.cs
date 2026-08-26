@@ -14,5 +14,15 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
                 _ => StringLinesInfo.EnumFriendlyNameChannelFilteringBicubic
             };
         }
+
+        public static string GetLogName(NotificationTypeEnum value)
+        {
+            return value switch
+            {
+                NotificationTypeEnum.Error => "[ERROR]",
+                NotificationTypeEnum.Warning => "[WARNING]",
+                _ => "[INFO]"
+            };
+        }
     }
 }

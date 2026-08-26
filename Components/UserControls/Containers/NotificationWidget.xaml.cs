@@ -55,10 +55,10 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             }
         }
 
-        public uint SpawnNotification(string text, NotificationTypeEnum notifType = NotificationTypeEnum.Info, int autoDestroyinSec = 0)
+        public uint SpawnNotification(string text, string description, NotificationTypeEnum notifType = NotificationTypeEnum.Info, int autoDestroyinSec = 0)
         {
             uint notifId = GetCurrentNotificationInt();
-            DoingTaskNotif notif = new DoingTaskNotif(notifType, text, notifId);
+            DoingTaskNotif notif = new DoingTaskNotif(notifType, text, description, notifId);
             notif.CloseRequested += OnNotificationCloseRequested;
             NotificationInfo state = new NotificationInfo(notif, autoDestroyinSec);
 

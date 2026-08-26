@@ -38,7 +38,8 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
                 }
                 catch (Exception ex)
                 {
-                    App.TriggerNotification(StringLinesInfo.GetExceptionError(ex), NotificationTypeEnum.Error, SharedInfo.NotificationAutoDestroyAfterInSecondsIfException);
+                    LogHelper.Log(ex, nameof(SaveBitmapAsPNG));
+                    App.TriggerNotification(StringLinesInfo.notificationException, StringLinesInfo.notificationExceptionDescr, NotificationTypeEnum.Error);
                 }
                 finally
                 {
