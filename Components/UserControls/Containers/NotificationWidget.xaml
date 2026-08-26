@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ImageCombinerChannelExtractor.Components.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="200">
-    <ScrollViewer x:Name="scrlViewer">
+    <ScrollViewer x:Name="scrlViewer" VerticalScrollBarVisibility="Hidden">
         <StackPanel x:Name="NotificationContainer" RenderTransformOrigin="0.5,0.5" >
             <StackPanel.RenderTransform>
                 <TransformGroup>
