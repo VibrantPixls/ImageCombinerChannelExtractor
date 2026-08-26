@@ -1,6 +1,5 @@
 ﻿using ImageCombinerChannelExtractor.Components.Enums;
 using ImageCombinerChannelExtractor.Components.Helpers;
-using ImageCombinerChannelExtractor.Components.Shared;
 using System.Windows;
 using System.Windows.Media;
 
