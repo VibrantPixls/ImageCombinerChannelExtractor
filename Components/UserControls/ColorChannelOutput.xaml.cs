@@ -14,6 +14,9 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
         public ColorChannelOutput()
         {
             InitializeComponent();
+
+            prBoxGrid.Width = SharedInfo.ExtractorPreviewOutputDefaultSize;
+            prBoxGrid.Height = SharedInfo.ExtractorPreviewOutputDefaultSize;
             SetImageResolution(SharedInfo.ExtractorPreviewOutputDefaultSize);
 
             Loaded += (s, e) => UpdateColoringStuff(ColorChannel);
