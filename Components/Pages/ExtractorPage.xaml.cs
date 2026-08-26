@@ -186,7 +186,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
                 if (channelImage == null)
                 {
 
-                    outputPanel.SetLabelText($"{outputPanel.ColorChannel} channel");
+                    outputPanel.SetLabelText(StringLinesInfo.NoInputImageTextDefault);
                 }
                 else
                 {
