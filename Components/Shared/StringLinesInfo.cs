@@ -16,11 +16,10 @@ namespace ImageCombinerChannelExtractor.Components.Shared
         public const string EnumFriendlyNameChannelFilteringBicubic = "Smooth (Bicubic)";
 
         public const string NoInputImageTextDefault = "No Image Selected";
-
-        public const string ClrChnBtnRed = "Select Image for the red channel";
-        public const string ClrChnBtnGreen = "Select Image for the red channel";
-        public const string ClrChnBtnBlue = "Select Image for the blue channel";
-        public const string ClrChnBtnAlpha = "Select Image for the alpha channel";
+        public static string GetClrChnBtn(ColorChannelEnum colorChannel)
+        {
+            return $"Select image for the {colorChannel} channel";
+        }
 
         public const string CrtCombinedBtn = "Create Combined PNG";
         public const string CrtCombinedBtnNoInputs = "No Input Images";

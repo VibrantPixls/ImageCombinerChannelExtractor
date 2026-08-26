@@ -1,5 +1,6 @@
 ﻿using ImageCombinerChannelExtractor.Components.Enums;
 using ImageCombinerChannelExtractor.Components.Helpers;
+using ImageCombinerChannelExtractor.Components.Shared;
 using System.Windows;
 using System.Windows.Media;
 
@@ -58,10 +59,10 @@ namespace ImageCombinerChannelExtractor.Components.Classes
             LabelTextContent = lblText;
         }
 
-        protected virtual string GetBtnString(ColorChannelEnum channel) => channel switch
+        protected virtual string GetBtnString(ColorChannelEnum channel)
         {
-            _ => string.Empty
-        };
+            return StringLinesInfo.GetClrChnBtn(channel);
+        }
 
         protected virtual void UpdateBrushColors(Brush wantedBrush)
         {

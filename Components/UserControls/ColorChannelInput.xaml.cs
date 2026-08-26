@@ -137,14 +137,6 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             base.UpdateBrushColors(wantedBrush);
             crdPanel.Background = wantedBrush;
         }
-
-        protected override string GetBtnString(ColorChannelEnum channel) => channel switch
-        {
-            ColorChannelEnum.green => StringLinesInfo.ClrChnBtnGreen,
-            ColorChannelEnum.blue => StringLinesInfo.ClrChnBtnBlue,
-            ColorChannelEnum.alpha => StringLinesInfo.ClrChnBtnAlpha,
-            _ => StringLinesInfo.ClrChnBtnRed
-        };
         #endregion
     }
 }
