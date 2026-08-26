@@ -8,7 +8,7 @@ namespace ImageCombinerChannelExtractor.Components.Classes
     public partial class ColorChannelUserControl : System.Windows.Controls.UserControl
     {
         #region Variables
-        public static readonly DependencyProperty ColorChannelProperty = DependencyProperty.Register(nameof(ColorChannel), typeof(ColorChannelEnum), typeof(ColorChannelUserControl), new PropertyMetadata(ColorChannelEnum.Red));
+        public static readonly DependencyProperty ColorChannelProperty = DependencyProperty.Register(nameof(ColorChannel), typeof(ColorChannelEnum), typeof(ColorChannelUserControl), new PropertyMetadata(ColorChannelEnum.red));
         public ColorChannelEnum ColorChannel
         {
             get => (ColorChannelEnum)GetValue(ColorChannelProperty);

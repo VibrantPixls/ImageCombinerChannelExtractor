@@ -2,9 +2,9 @@
 {
     public enum ColorChannelEnum : byte
     {
-        Red,
-        Green,
-        Blue,
-        Alpha
+        red,
+        green,
+        blue,
+        alpha
     }
 }

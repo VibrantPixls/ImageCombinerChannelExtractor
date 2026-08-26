@@ -23,18 +23,18 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
         {
             _combinerChannels = new Dictionary<ColorChannelEnum, ChannelSlot>
             {
-                [ColorChannelEnum.Red] = new ChannelSlot(),
-                [ColorChannelEnum.Green] = new ChannelSlot(),
-                [ColorChannelEnum.Blue] = new ChannelSlot(),
-                [ColorChannelEnum.Alpha] = new ChannelSlot(),
+                [ColorChannelEnum.red] = new ChannelSlot(),
+                [ColorChannelEnum.green] = new ChannelSlot(),
+                [ColorChannelEnum.blue] = new ChannelSlot(),
+                [ColorChannelEnum.alpha] = new ChannelSlot(),
             };
 
             _extracterChannels = new Dictionary<ColorChannelEnum, ChannelSlot>
             {
-                [ColorChannelEnum.Red] = new ChannelSlot(),
-                [ColorChannelEnum.Green] = new ChannelSlot(),
-                [ColorChannelEnum.Blue] = new ChannelSlot(),
-                [ColorChannelEnum.Alpha] = new ChannelSlot(),
+                [ColorChannelEnum.red] = new ChannelSlot(),
+                [ColorChannelEnum.green] = new ChannelSlot(),
+                [ColorChannelEnum.blue] = new ChannelSlot(),
+                [ColorChannelEnum.alpha] = new ChannelSlot(),
             };
             _extractorInput = new ChannelSlot();
         }
@@ -118,10 +118,10 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
             (ColorChannelEnum Channel, int ByteOffset)[] channels = new (ColorChannelEnum Channel, int ByteOffset)[]
             {
                 // Bgra32 order
-                (ColorChannelEnum.Blue, 0),
-                (ColorChannelEnum.Green, 1),
-                (ColorChannelEnum.Red, 2),
-                (ColorChannelEnum.Alpha, 3),
+                (ColorChannelEnum.blue, 0),
+                (ColorChannelEnum.green, 1),
+                (ColorChannelEnum.red, 2),
+                (ColorChannelEnum.alpha, 3),
             };
 
             (ColorChannelEnum, BitmapImage)[] results = new (ColorChannelEnum, BitmapImage)[channels.Length];

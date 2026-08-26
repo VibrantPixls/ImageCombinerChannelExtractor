@@ -65,25 +65,25 @@
             </Grid.RowDefinitions>
             
             <controls:ColorChannelOutput Grid.Row="0" x:Name="RedChannel"
-                        ColorChannel="Red"
+                        ColorChannel="red"
                         ChannelMouseEnter="OnChannelMouseEnter"
                         ChannelMouseLeave="OnChannelMouseLeave"
                         ChannelDownloadClick="OnDownloadChannel"/>
 
             <controls:ColorChannelOutput Grid.Row="1" x:Name="GreenChannel"
-                        ColorChannel="Green"
+                        ColorChannel="green"
                         ChannelMouseEnter="OnChannelMouseEnter"
                         ChannelMouseLeave="OnChannelMouseLeave"
                         ChannelDownloadClick="OnDownloadChannel"/>
 
             <controls:ColorChannelOutput Grid.Row="2" x:Name="BlueChannel"
-                        ColorChannel="Blue"
+                        ColorChannel="blue"
                         ChannelMouseEnter="OnChannelMouseEnter"
                         ChannelMouseLeave="OnChannelMouseLeave"
                         ChannelDownloadClick="OnDownloadChannel"/>
 
             <controls:ColorChannelOutput Grid.Row="3" x:Name="AlphaChannel"
-                        ColorChannel="Alpha"
+                        ColorChannel="alpha"
                         ChannelMouseEnter="OnChannelMouseEnter"
                         ChannelMouseLeave="OnChannelMouseLeave"
                         ChannelDownloadClick="OnDownloadChannel"/>

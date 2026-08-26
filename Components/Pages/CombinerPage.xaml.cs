@@ -232,10 +232,10 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
             token.ThrowIfCancellationRequested();
 
-            byte[]? r = GetChannelGrayscaleBuffer(sources.GetValueOrDefault(ColorChannelEnum.Red), _resolutionCombinedOutputWidth, _resolutionCombinedOutputHeight, token);
-            byte[]? g = GetChannelGrayscaleBuffer(sources.GetValueOrDefault(ColorChannelEnum.Green), _resolutionCombinedOutputWidth, _resolutionCombinedOutputHeight, token);
-            byte[]? b = GetChannelGrayscaleBuffer(sources.GetValueOrDefault(ColorChannelEnum.Blue), _resolutionCombinedOutputWidth, _resolutionCombinedOutputHeight, token);
-            byte[]? a = GetChannelGrayscaleBuffer(sources.GetValueOrDefault(ColorChannelEnum.Alpha), _resolutionCombinedOutputWidth, _resolutionCombinedOutputHeight, token);
+            byte[]? r = GetChannelGrayscaleBuffer(sources.GetValueOrDefault(ColorChannelEnum.red), _resolutionCombinedOutputWidth, _resolutionCombinedOutputHeight, token);
+            byte[]? g = GetChannelGrayscaleBuffer(sources.GetValueOrDefault(ColorChannelEnum.green), _resolutionCombinedOutputWidth, _resolutionCombinedOutputHeight, token);
+            byte[]? b = GetChannelGrayscaleBuffer(sources.GetValueOrDefault(ColorChannelEnum.blue), _resolutionCombinedOutputWidth, _resolutionCombinedOutputHeight, token);
+            byte[]? a = GetChannelGrayscaleBuffer(sources.GetValueOrDefault(ColorChannelEnum.alpha), _resolutionCombinedOutputWidth, _resolutionCombinedOutputHeight, token);
 
             token.ThrowIfCancellationRequested();
 

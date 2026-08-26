@@ -140,9 +140,9 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
 
         protected override string GetBtnString(ColorChannelEnum channel) => channel switch
         {
-            ColorChannelEnum.Green => StringLinesInfo.ClrChnBtnGreen,
-            ColorChannelEnum.Blue => StringLinesInfo.ClrChnBtnBlue,
-            ColorChannelEnum.Alpha => StringLinesInfo.ClrChnBtnAlpha,
+            ColorChannelEnum.green => StringLinesInfo.ClrChnBtnGreen,
+            ColorChannelEnum.blue => StringLinesInfo.ClrChnBtnBlue,
+            ColorChannelEnum.alpha => StringLinesInfo.ClrChnBtnAlpha,
             _ => StringLinesInfo.ClrChnBtnRed
         };
         #endregion

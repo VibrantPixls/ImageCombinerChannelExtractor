@@ -19,7 +19,7 @@
 
         <StackPanel Grid.Column="0" Margin="16,0,2,0">
             <controls:ColorChannelInput x:Name="RedChannelInput"
-                                    ColorChannel="Red"
+                                    ColorChannel="red"
                                     ChannelClick="OnChannelClick"
                                     ChannelClickRemove="OnChannelClickRemove"
                                     ChannelMouseEnter="OnChannelMouseEnter"
@@ -27,7 +27,7 @@
                                     FilteringChanged="OnFilteringChanged" Height="110" Margin="0,0,0,4"/>
 
             <controls:ColorChannelInput x:Name="GreenChannelInput"
-                                    ColorChannel="Green"
+                                    ColorChannel="green"
                                     ChannelClick="OnChannelClick"
                                     ChannelClickRemove="OnChannelClickRemove"
                                     ChannelMouseEnter="OnChannelMouseEnter"
@@ -35,7 +35,7 @@
                                     FilteringChanged="OnFilteringChanged" Height="110" Margin="0,4,0,4"/>
 
             <controls:ColorChannelInput x:Name="BlueChannelInput"
-                                    ColorChannel="Blue"
+                                    ColorChannel="blue"
                                     ChannelClick="OnChannelClick"
                                     ChannelClickRemove="OnChannelClickRemove"
                                     ChannelMouseEnter="OnChannelMouseEnter"
@@ -43,7 +43,7 @@
                                     FilteringChanged="OnFilteringChanged" Height="110" Margin="0,4,0,4"/>
 
             <controls:ColorChannelInput x:Name="AlphaChannelInput"
-                                    ColorChannel="Alpha"
+                                    ColorChannel="alpha"
                                     ChannelClick="OnChannelClick"
                                     ChannelClickRemove="OnChannelClickRemove"
                                     ChannelMouseEnter="OnChannelMouseEnter"
