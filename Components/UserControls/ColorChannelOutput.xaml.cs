@@ -1,6 +1,5 @@
 ﻿using ImageCombinerChannelExtractor.Components.Classes.UserControlChildClasses;
 using ImageCombinerChannelExtractor.Components.Enums;
-using ImageCombinerChannelExtractor.Components.Helpers;
 using ImageCombinerChannelExtractor.Components.Shared;
 using System.Windows;
 using System.Windows.Input;
@@ -48,24 +47,19 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
         }
         #endregion
 
-        public void SetPreview(BitmapImage? image)
+        public void SetPreview(BitmapImage? image, (double Width, double Height) res)
         {
             picboxPreview.ImageSource = image;
+            SetImageResolution(res.Width, res.Height);
             bool isValid = image != null;
-            if (isValid)
-            {
-#pragma warning disable CS8604
-                (double Width, double Height) res = ColorChannelHelper.GetExtractorOutputImageTargetResolution(image);
-#pragma warning restore CS8604
-                SetImageResolution(res.Width, res.Height);
-            }
-            else
-            {
-                SetImageResolution(SharedInfo.ExtractorPreviewOutputDefaultSize);
-            }
             btnDownloadChannel.Content = isValid ? StringLinesInfo.GetCrtExtractBtnDownload(ColorChannel) : StringLinesInfo.CrtExtractBtnNoInputs;
             btnDownloadChannel.IsEnabled = isValid;
             prgrRing.Visibility = Visibility.Hidden;
+        }
+
+        public void SetPreview(BitmapImage? image)
+        {
+            SetPreview(image, (SharedInfo.ExtractorPreviewOutputDefaultSize, SharedInfo.ExtractorPreviewOutputDefaultSize));
         }
 
         public void SetPreview()

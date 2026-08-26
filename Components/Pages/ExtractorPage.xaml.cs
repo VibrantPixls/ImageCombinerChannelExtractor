@@ -170,27 +170,34 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
         private void UpdateChannelPreviews(bool isLoading = false)
         {
+            if (isLoading)
+            {
+                foreach (ColorChannelUserControl panel in _cachedColorInputPanels)
+                {
+                    if (panel is ColorChannelOutput outputPanel)
+                    {
+                        outputPanel.SetPreview();
+                    }
+                }
+                return;
+            }
+
             Dictionary<ColorChannelEnum, ChannelSlot> extractedChannels = ColorChannelHelper.GetExtractedChannelsDictionary();
             foreach (ColorChannelUserControl panel in _cachedColorInputPanels)
             {
                 ColorChannelOutput outputPanel = (ColorChannelOutput)panel;
 
-                if (isLoading)
-                {
-                    outputPanel.SetPreview();
-                    continue;
-                }
-
                 BitmapImage? channelImage = extractedChannels[outputPanel.ColorChannel].Bitmap;
-                outputPanel.SetPreview(channelImage);
-                if (channelImage == null)
+                if (channelImage != null)
                 {
-
-                    outputPanel.SetLabelText(StringLinesInfo.NoInputImageTextDefault);
+                    (double Width, double Height) targetRes = ColorChannelHelper.GetExtractorOutputImageTargetResolution(channelImage);
+                    outputPanel.SetPreview(channelImage, targetRes);
+                    outputPanel.SetLabelText($"{outputPanel.ColorChannel} channel");
                 }
                 else
                 {
-                    outputPanel.SetLabelText($"{outputPanel.ColorChannel} channel");
+                    outputPanel.SetPreview(channelImage);
+                    outputPanel.SetLabelText(StringLinesInfo.NoInputImageTextDefault);
                 }
             }
         }
