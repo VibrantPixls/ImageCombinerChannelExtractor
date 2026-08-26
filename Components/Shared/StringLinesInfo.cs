@@ -28,7 +28,10 @@ namespace ImageCombinerChannelExtractor.Components.Shared
 
         public const string CrtExtractBtn = "Extract From Combined PNG";
         public const string CrtExtractBtnNoInputs = "No Input Image";
-        public const string CrtExtractBtnDownload = "Download";
+        public static string GetCrtExtractBtnDownload(ColorChannelEnum colorChannel)
+        {
+            return $"Download image of the {colorChannel} channel";
+        }
 
         public const string SaveFileDialogTitle = "Save Preview As";
         public const string DownloadImgFileNameCombined = "CombinedImage";

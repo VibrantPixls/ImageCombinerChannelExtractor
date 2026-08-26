@@ -60,7 +60,7 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             {
                 SetImageResolution(SharedInfo.ExtractorPreviewOutputDefaultSize);
             }
-            btnDownloadChannel.Content = isValid ? StringLinesInfo.CrtExtractBtnDownload : StringLinesInfo.CrtExtractBtnNoInputs;
+            btnDownloadChannel.Content = isValid ? StringLinesInfo.GetCrtExtractBtnDownload(ColorChannel) : StringLinesInfo.CrtExtractBtnNoInputs;
             btnDownloadChannel.IsEnabled = isValid;
             prgrRing.Visibility = Visibility.Hidden;
         }
