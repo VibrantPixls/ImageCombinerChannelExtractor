@@ -15,6 +15,7 @@
     <Copyright>Vibrant Pixels</Copyright>
     <RepositoryUrl>https://github.com/VibrantPixls/ImageCombinerChannelExtractor</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Description>A Windows WPF tool for combining images into RGBA textures and extracting color channels from PNG/JPG files. Ideal for game developers and texture artists.</Description>
   </PropertyGroup>
 
   <ItemGroup>
