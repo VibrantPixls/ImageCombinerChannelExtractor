@@ -2,6 +2,7 @@
 using ImageCombinerChannelExtractor.Components.Settings;
 using ImageCombinerChannelExtractor.Components.Shared;
 using System.Windows;
+using System.Windows.Controls;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
@@ -15,6 +16,7 @@ namespace ImageCombinerChannelExtractor
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+            Wpf.Ui.Controls.Button.ClickModeProperty.OverrideMetadata(typeof(Wpf.Ui.Controls.Button), new FrameworkPropertyMetadata(ClickMode.Press));
             ApplySavedSettings();
         }
 
