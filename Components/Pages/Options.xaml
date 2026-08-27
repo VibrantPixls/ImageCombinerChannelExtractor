@@ -5,6 +5,8 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:ImageCombinerChannelExtractor.Components.Pages"
       xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      xmlns:uiAppearance="clr-namespace:Wpf.Ui.Appearance;assembly=Wpf.Ui"
+      xmlns:settingEnums="clr-namespace:ImageCombinerChannelExtractor.Components.Settings.Enums"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Options">
@@ -21,8 +23,8 @@
                     <TextBlock Text="Color Theme"/>
                 </ui:CardControl.Header>
                 <ComboBox x:Name="ThemeComboBox" Width="200" SelectionChanged="ThemeComboBox_SelectionChanged">
-                    <ComboBoxItem Content="Light" Tag="Light"/>
-                    <ComboBoxItem Content="Dark" Tag="Dark"/>
+                    <ComboBoxItem Content="Light" Tag="{x:Static uiAppearance:ApplicationTheme.Light}"/>
+                    <ComboBoxItem Content="Dark" Tag="{x:Static uiAppearance:ApplicationTheme.Dark}"/>
                 </ComboBox>
             </ui:CardControl>
 
@@ -34,8 +36,8 @@
                     <TextBlock Text="Startup Page"/>
                 </ui:CardControl.Header>
                 <ComboBox x:Name="StartupPageComboBox" Width="200" SelectionChanged="StartupPageComboBox_SelectionChanged">
-                    <ComboBoxItem Content="Combiner" Tag="Combiner"/>
-                    <ComboBoxItem Content="Extractor" Tag="Extractor"/>
+                    <ComboBoxItem Content="Combiner" Tag="{x:Static settingEnums:StartupPageEnum.Combiner}"/>
+                    <ComboBoxItem Content="Extractor" Tag="{x:Static settingEnums:StartupPageEnum.Extractor}"/>
                 </ComboBox>
             </ui:CardControl>
         </StackPanel>

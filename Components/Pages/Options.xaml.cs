@@ -48,7 +48,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
                 return;
             }
 
-            if (ThemeComboBox.SelectedItem is ComboBoxItem selected && Enum.TryParse<ApplicationTheme>(selected.Tag?.ToString(), out ApplicationTheme theme))
+            if (ThemeComboBox.SelectedItem is ComboBoxItem { Tag: ApplicationTheme theme })
             {
                 SettingsHelper.SetThemeMode(theme);
                 App.ApplyTheme(theme);
@@ -62,7 +62,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
                 return;
             }
 
-            if (StartupPageComboBox.SelectedItem is ComboBoxItem selected && Enum.TryParse<StartupPageEnum>(selected.Tag?.ToString(), out StartupPageEnum page))
+            if (StartupPageComboBox.SelectedItem is ComboBoxItem { Tag: StartupPageEnum page })
             {
                 SettingsHelper.SetStartupPage(page);
             }
