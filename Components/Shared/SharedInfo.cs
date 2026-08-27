@@ -136,15 +136,7 @@ namespace ImageCombinerChannelExtractor.Components.Shared
 
         public static void UpdateColorBrushes(ApplicationTheme theme)
         {
-            switch(theme)
-            {
-                case ApplicationTheme.Light:
-                    UpdateMainColors(-1f);
-                    break;
-                default:
-                    UpdateMainColors();
-                    break;
-            }
+            UpdateMainColors(theme == ApplicationTheme.Light ? -1f : 1);
         }
 
         public static readonly Color ApplicationAccentColor = Color.FromRgb(0, 120, 212);
