@@ -27,9 +27,9 @@
 
         <ui:NavigationView Grid.Row="1" x:Name="MainNavigation" PaneDisplayMode="LeftFluent" TransitionDuration="300" IsBackButtonVisible="Collapsed" IsFooterSeparatorVisible="False" IsPaneToggleVisible="False" HeaderVisibility="Collapsed">
             <ui:NavigationView.MenuItems>
-                <ui:NavigationViewItem Content="Combiner" Icon="{ui:SymbolIcon Layer20}" TargetPageType="{x:Type pages:CombinerPage}" Width="80" NavigationCacheMode="Required" />
-                <ui:NavigationViewItem Content="Extractor" Icon="{ui:SymbolIcon BoardSplit28}" TargetPageType="{x:Type pages:ExtractorPage}" Width="80" NavigationCacheMode="Required" />
-                <ui:NavigationViewItem Content="Options" Icon="{ui:SymbolIcon Settings28}" TargetPageType="{x:Type pages:Options}" Width="80" NavigationCacheMode="Required" />
+                <ui:NavigationViewItem Content="Combiner" Icon="{ui:SymbolIcon Layer20}" TargetPageType="{x:Type pages:CombinerPage}" Width="80" NavigationCacheMode="Required" ClickMode="Press" />
+                <ui:NavigationViewItem Content="Extractor" Icon="{ui:SymbolIcon BoardSplit28}" TargetPageType="{x:Type pages:ExtractorPage}" Width="80" NavigationCacheMode="Required" ClickMode="Press" />
+                <ui:NavigationViewItem Content="Options" Icon="{ui:SymbolIcon Settings28}" TargetPageType="{x:Type pages:Options}" Width="80" NavigationCacheMode="Required" ClickMode="Press" />
             </ui:NavigationView.MenuItems>
         </ui:NavigationView>
 
