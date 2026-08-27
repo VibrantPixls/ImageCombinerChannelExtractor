@@ -87,6 +87,9 @@ namespace ImageCombinerChannelExtractor.Components.Shared
         public static readonly Color ApplicationAccentColorLight = ColorHelper.GetMediaColorBrighter(BaseAccentColor, 0.15f);
         public static readonly Color ApplicationAccentColorDark = ColorHelper.GetMediaColorBrighter(BaseAccentColor, -0.175f);
 
+        public const float UserChannelOpacityActive = 1.0f;
+        public const float UserChannelOpacityInActive = 0.7f;
+
         private static SolidColorBrush UpdateBrush(this SolidColorBrush brush, Color color, byte alpha)
         {
             Color targetColor = color with { A = alpha };
@@ -118,7 +121,7 @@ namespace ImageCombinerChannelExtractor.Components.Shared
 
             SharedColors_Master = GetThemeColorColor("SolidBackgroundFillColorBaseBrush", Color.FromRgb(32, 32, 32));
 
-            const byte _normalAlphaValue = 12;
+            const byte _normalAlphaValue = 36;
             const byte _brightAlphaValue = (byte)(_normalAlphaValue * 1.2f);
             const byte _opaqueAlphaValue = 226;
             MainColorRed.UpdateBrush(SharedColors_Red, _normalAlphaValue);

@@ -118,6 +118,8 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
         public void UpdateDeleteButtonEnabled(bool enabled)
         {
             dltBtn.IsEnabled = enabled;
+            // also update visual opacity
+            crdPanel.Opacity = enabled ? SharedInfo.UserChannelOpacityActive : SharedInfo.UserChannelOpacityInActive;
         }
 
         #region Overrides

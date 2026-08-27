@@ -55,6 +55,8 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             btnDownloadChannel.Content = isValid ? StringLinesInfo.GetCrtExtractBtnDownload(ColorChannel) : StringLinesInfo.CrtExtractBtnNoInputs;
             btnDownloadChannel.IsEnabled = isValid;
             prgrRing.Visibility = Visibility.Hidden;
+            // also update visual opacity
+            crdPanel.Opacity = isValid ? SharedInfo.UserChannelOpacityActive : SharedInfo.UserChannelOpacityInActive;
         }
 
         public void SetPreview(BitmapImage? image)
@@ -68,6 +70,8 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
             SetImageResolution(SharedInfo.ExtractorPreviewOutputDefaultSize);
             btnDownloadChannel.IsEnabled = false;
             prgrRing.Visibility = Visibility.Visible;
+            // also update visual opacity
+            crdPanel.Opacity = SharedInfo.UserChannelOpacityInActive;
         }
 
         private void SetImageResolution(double size)
