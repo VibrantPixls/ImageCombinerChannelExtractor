@@ -15,7 +15,6 @@
                  MinHeight="650" MaxHeight="650"
                  MinWidth="1080" MaxWidth="1080"
                  WindowStartupLocation="CenterScreen"
-                 WindowBackdropType="Mica"
                  ExtendsContentIntoTitleBar="True" WindowStyle="None" ResizeMode="NoResize" SnapsToDevicePixels="True">
 
     <Grid>
@@ -24,12 +23,13 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <ui:TitleBar Grid.Row="0" Title="                   Image Combiner &amp; Channel Extractor" CanMaximize="False" ShowMaximize="False" ApplicationTheme="Dark" />
+        <ui:TitleBar Grid.Row="0" Title="                   Image Combiner &amp; Channel Extractor" CanMaximize="False" ShowMaximize="False" />
 
         <ui:NavigationView Grid.Row="1" x:Name="MainNavigation" PaneDisplayMode="LeftFluent" TransitionDuration="300" IsBackButtonVisible="Collapsed" IsFooterSeparatorVisible="False" IsPaneToggleVisible="False" HeaderVisibility="Collapsed">
             <ui:NavigationView.MenuItems>
                 <ui:NavigationViewItem Content="Combiner" Icon="{ui:SymbolIcon Layer20}" TargetPageType="{x:Type pages:CombinerPage}" Width="80" NavigationCacheMode="Required" />
                 <ui:NavigationViewItem Content="Extractor" Icon="{ui:SymbolIcon BoardSplit28}" TargetPageType="{x:Type pages:ExtractorPage}" Width="80" NavigationCacheMode="Required" />
+                <ui:NavigationViewItem Content="Options" Icon="{ui:SymbolIcon Settings28}" TargetPageType="{x:Type pages:Options}" Width="80" NavigationCacheMode="Required" />
             </ui:NavigationView.MenuItems>
         </ui:NavigationView>
 

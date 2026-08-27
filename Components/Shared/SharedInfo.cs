@@ -96,6 +96,8 @@ namespace ImageCombinerChannelExtractor.Components.Shared
             return brush;
         }
 
+        public static readonly Color ApplicationAccentColor = Color.FromRgb(0, 120, 212);
+
         private static Color GetThemeColor(string resourceKey, Color fallbackColor)
         {
             if (Application.Current != null)
@@ -114,7 +116,7 @@ namespace ImageCombinerChannelExtractor.Components.Shared
         }
 
         // notification delays
-        public const int NotificationAutoDestroyAfterInSeconds = 300;
+        public const int NotificationAutoDestroyAfterInSeconds = 3;
 
         // extracting overlay
         public const int OverlayKeepOnScreenAfterFinishForInMilliseconds = 400;
