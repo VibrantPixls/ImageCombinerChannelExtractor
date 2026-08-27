@@ -1,5 +1,6 @@
 ﻿using ImageCombinerChannelExtractor.Components.Settings;
 using ImageCombinerChannelExtractor.Components.Settings.Enums;
+using System.Reflection;
 using System.Windows.Controls;
 using Wpf.Ui.Appearance;
 
@@ -13,6 +14,12 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         {
             InitializeComponent();
             SetInitialSelection();
+
+            Version? version = Assembly.GetEntryAssembly()?.GetName().Version;
+            if (version != null)
+            {
+                VersionText.Text = $"Version {version.Major}.{version.Minor}.{version.Build}";
+            }
             _isInitializing = false;
         }
 

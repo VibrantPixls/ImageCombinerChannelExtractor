@@ -59,6 +59,9 @@
                         <StackPanel>
                             <TextBlock Text="About" FontSize="20" Margin="0,0,0,12" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
 
+                            <TextBlock VerticalAlignment="Center" Text="Vibrant Pixels" FontSize="16" FontWeight="DemiBold" Padding="0,0,0,4"/>
+                            <TextBlock x:Name="VersionText" VerticalAlignment="Center" Text="Version 1.0.0" FontSize="16" Padding="0,0,0,12" FontWeight="Light"/>
+                            
                             <StackPanel Orientation="Horizontal">
                                 <ui:Anchor Icon="{ui:SymbolIcon HomeDataBase24}" Content="Visit repository" NavigateUri="https://github.com/VibrantPixls/ImageCombinerChannelExtractor" Margin="0,0,12,0"/>
                                 <ui:Anchor Icon="{ui:SymbolIcon Bug24}" Content="Report bugs" NavigateUri="https://github.com/VibrantPixls/ImageCombinerChannelExtractor/issues"/>
