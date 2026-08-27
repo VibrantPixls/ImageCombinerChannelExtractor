@@ -28,6 +28,7 @@ namespace ImageCombinerChannelExtractor
         {
             ApplicationAccentColorManager.Apply(SharedInfo.ApplicationAccentColor, theme);
             ApplicationThemeManager.Apply(theme, WindowBackdropType.None, false);
+            SharedInfo.UpdateColorBrushes(theme);
         }
         #endregion
         #endregion
