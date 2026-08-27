@@ -11,18 +11,31 @@
 
     <Grid Margin="32,16,32,16">
         <StackPanel>
-            <TextBlock Text="Settings" FontSize="20" FontWeight="Medium" Margin="0,0,0,12" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+            <TextBlock Text="Settings" FontSize="20" Margin="0,0,0,12" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
 
-            <ui:CardControl Margin="0,0,0,8">
+            <ui:CardControl>
                 <ui:CardControl.Icon>
                     <ui:SymbolIcon Symbol="PaintBrush24"/>
                 </ui:CardControl.Icon>
                 <ui:CardControl.Header>
-                    <TextBlock Text="Color Theme" FontWeight="Medium"/>
+                    <TextBlock Text="Color Theme"/>
                 </ui:CardControl.Header>
                 <ComboBox x:Name="ThemeComboBox" Width="200" SelectionChanged="ThemeComboBox_SelectionChanged">
                     <ComboBoxItem Content="Light" Tag="Light"/>
                     <ComboBoxItem Content="Dark" Tag="Dark"/>
+                </ComboBox>
+            </ui:CardControl>
+
+            <ui:CardControl>
+                <ui:CardControl.Icon>
+                    <ui:SymbolIcon Symbol="CalendarWeekStart28"/>
+                </ui:CardControl.Icon>
+                <ui:CardControl.Header>
+                    <TextBlock Text="Startup Page"/>
+                </ui:CardControl.Header>
+                <ComboBox x:Name="StartupPageComboBox" Width="200" SelectionChanged="StartupPageComboBox_SelectionChanged">
+                    <ComboBoxItem Content="Combiner" Tag="Combiner"/>
+                    <ComboBoxItem Content="Extractor" Tag="Extractor"/>
                 </ComboBox>
             </ui:CardControl>
         </StackPanel>

@@ -1,4 +1,5 @@
 ﻿using ImageCombinerChannelExtractor.Components.Enums;
+using ImageCombinerChannelExtractor.Components.Settings;
 using Wpf.Ui.Controls;
 
 namespace ImageCombinerChannelExtractor
@@ -9,7 +10,7 @@ namespace ImageCombinerChannelExtractor
         {
             InitializeComponent();
 
-            Loaded += (s, e) => MainNavigation.Navigate(typeof(Components.Pages.Options));
+            Loaded += (s, e) => MainNavigation.Navigate(SettingsHelper.GetStartupPage());
         }
 
         #region Extracting screen trigger

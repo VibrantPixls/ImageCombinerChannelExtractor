@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using ImageCombinerChannelExtractor.Components.Settings.Enums;
+using System.IO;
 using System.Text.Json;
 using Wpf.Ui.Appearance;
 
@@ -61,6 +62,21 @@ namespace ImageCombinerChannelExtractor.Components.Settings
         public static void SetThemeMode(ApplicationTheme theme)
         {
             _settingsFile.ColorThemeMode = theme;
+            Save();
+        }
+
+        public static Type GetStartupPage() => _settingsFile.StartupPage switch
+        {
+            StartupPageEnum.Extractor => typeof(Pages.ExtractorPage),
+            _ => typeof(Pages.CombinerPage)
+        };
+        public static StartupPageEnum GetStartupPageEnum()
+        {
+            return _settingsFile.StartupPage;
+        }
+        public static void SetStartupPage(StartupPageEnum page)
+        {
+            _settingsFile.StartupPage = page;
             Save();
         }
         #endregion
