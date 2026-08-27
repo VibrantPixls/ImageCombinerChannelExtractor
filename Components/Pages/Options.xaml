@@ -13,33 +13,49 @@
 
     <Grid Margin="32,16,32,16">
         <StackPanel>
-            <TextBlock Text="Settings" FontSize="20" Margin="0,0,0,12" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+            <TextBlock Text="Settings" FontSize="24" Margin="0,0,0,6" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
 
-            <ui:CardControl>
-                <ui:CardControl.Icon>
-                    <ui:SymbolIcon Symbol="PaintBrush24"/>
-                </ui:CardControl.Icon>
-                <ui:CardControl.Header>
-                    <TextBlock Text="Color Theme"/>
-                </ui:CardControl.Header>
-                <ComboBox x:Name="ThemeComboBox" Width="200" SelectionChanged="ThemeComboBox_SelectionChanged">
-                    <ComboBoxItem Content="Light" Tag="{x:Static uiAppearance:ApplicationTheme.Light}"/>
-                    <ComboBoxItem Content="Dark" Tag="{x:Static uiAppearance:ApplicationTheme.Dark}"/>
-                </ComboBox>
-            </ui:CardControl>
+            <ScrollViewer>
+                <StackPanel>
+                    <ui:Card>
+                        <StackPanel>
+                            <TextBlock Text="General" FontSize="20" Margin="0,0,0,12" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
 
-            <ui:CardControl>
-                <ui:CardControl.Icon>
-                    <ui:SymbolIcon Symbol="CalendarWeekStart28"/>
-                </ui:CardControl.Icon>
-                <ui:CardControl.Header>
-                    <TextBlock Text="Startup Page"/>
-                </ui:CardControl.Header>
-                <ComboBox x:Name="StartupPageComboBox" Width="200" SelectionChanged="StartupPageComboBox_SelectionChanged">
-                    <ComboBoxItem Content="Combiner" Tag="{x:Static settingEnums:StartupPageEnum.Combiner}"/>
-                    <ComboBoxItem Content="Extractor" Tag="{x:Static settingEnums:StartupPageEnum.Extractor}"/>
-                </ComboBox>
-            </ui:CardControl>
+                            <ui:CardControl>
+                                <ui:CardControl.Icon>
+                                    <ui:SymbolIcon Symbol="CalendarWeekStart28"/>
+                                </ui:CardControl.Icon>
+                                <ui:CardControl.Header>
+                                    <TextBlock Text="Startup Page"/>
+                                </ui:CardControl.Header>
+                                <ComboBox x:Name="StartupPageComboBox" Width="200" SelectionChanged="StartupPageComboBox_SelectionChanged">
+                                    <ComboBoxItem Content="Combiner" Tag="{x:Static settingEnums:StartupPageEnum.Combiner}"/>
+                                    <ComboBoxItem Content="Extractor" Tag="{x:Static settingEnums:StartupPageEnum.Extractor}"/>
+                                </ComboBox>
+                            </ui:CardControl>
+                        </StackPanel>
+                    </ui:Card>
+
+                    <ui:Card>
+                        <StackPanel>
+                            <TextBlock Text="Appearance" FontSize="20" Margin="0,0,0,12" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+
+                            <ui:CardControl>
+                                <ui:CardControl.Icon>
+                                    <ui:SymbolIcon Symbol="PaintBrush24"/>
+                                </ui:CardControl.Icon>
+                                <ui:CardControl.Header>
+                                    <TextBlock Text="Color Theme"/>
+                                </ui:CardControl.Header>
+                                <ComboBox x:Name="ThemeComboBox" Width="200" SelectionChanged="ThemeComboBox_SelectionChanged">
+                                    <ComboBoxItem Content="Light" Tag="{x:Static uiAppearance:ApplicationTheme.Light}"/>
+                                    <ComboBoxItem Content="Dark" Tag="{x:Static uiAppearance:ApplicationTheme.Dark}"/>
+                                </ComboBox>
+                            </ui:CardControl>
+                        </StackPanel>
+                    </ui:Card>
+                </StackPanel>
+            </ScrollViewer>
         </StackPanel>
     </Grid>
 </Page>
