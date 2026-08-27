@@ -17,7 +17,7 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
         {
             InitializeComponent();
 
-            _timer = new DispatcherTimer(DispatcherPriority.Background)
+            _timer = new DispatcherTimer(DispatcherPriority.Normal)
             {
                 Interval = TimeSpan.FromSeconds(1)
             };
@@ -40,6 +40,7 @@ namespace ImageCombinerChannelExtractor.Components.UserControls
                 int secondsLeft = (int)Math.Ceiling(remainingSeconds);
                 if (secondsLeft <= 0)
                 {
+                    state.Notif.SetSecondsLeft(0);
                     _activeTimedIds.RemoveAt(i);
                     RemoveNotificationInternal(id, state);
                 }
