@@ -137,7 +137,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             _ctsExtract = cts;
             CancellationToken token = cts.Token;
 
-            uint notifId = App.TriggerNotification(StringLinesInfo.notificationExtracting, NotificationTypeEnum.Info);
+            uint notifId = App.TriggerNotification(StringLinesInfo.notificationExtracting, NotificationTypeEnum.Extractor);
             try
             {
                 UpdateChannelPreviews(true);

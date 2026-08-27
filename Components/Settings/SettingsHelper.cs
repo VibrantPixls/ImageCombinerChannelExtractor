@@ -1,4 +1,7 @@
-﻿using ImageCombinerChannelExtractor.Components.Settings.Enums;
+﻿using ImageCombinerChannelExtractor.Components.Enums;
+using ImageCombinerChannelExtractor.Components.Helpers;
+using ImageCombinerChannelExtractor.Components.Settings.Enums;
+using ImageCombinerChannelExtractor.Components.Shared;
 using System.IO;
 using System.Text.Json;
 using Wpf.Ui.Appearance;
@@ -40,7 +43,7 @@ namespace ImageCombinerChannelExtractor.Components.Settings
             return _settingsFile;
         }
 
-        public static void Save()
+        public static void SaveSettings()
         {
             try
             {
@@ -48,9 +51,11 @@ namespace ImageCombinerChannelExtractor.Components.Settings
                 string json = JsonSerializer.Serialize(_settingsFile, _serializerOptions);
                 File.WriteAllText(_settingsFilePathWithFile, json);
             }
-            catch
+            catch (Exception ex)
             {
-                
+                // fails to save
+                LogHelper.Log(ex, nameof(SaveSettings));
+                App.TriggerNotification(StringLinesInfo.notificationException, StringLinesInfo.notificationExceptionDescr, NotificationTypeEnum.Error);
             }
         }
 
@@ -62,7 +67,7 @@ namespace ImageCombinerChannelExtractor.Components.Settings
         public static void SetThemeMode(ApplicationTheme theme)
         {
             _settingsFile.ColorThemeMode = theme;
-            Save();
+            SaveSettings();
         }
 
         public static Type GetStartupPage() => _settingsFile.StartupPage switch
@@ -77,7 +82,7 @@ namespace ImageCombinerChannelExtractor.Components.Settings
         public static void SetStartupPage(StartupPageEnum page)
         {
             _settingsFile.StartupPage = page;
-            Save();
+            SaveSettings();
         }
         #endregion
     }

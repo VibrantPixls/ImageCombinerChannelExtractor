@@ -7,6 +7,7 @@
         Error,
 
         Combining,
+        Extractor,
 
         Success
     }
