@@ -69,7 +69,7 @@ namespace ImageCombinerChannelExtractor.Components.Shared
         private static readonly Color SharedColors_White_Bright = ColorHelper.GetMediaColorBrighter(SharedColors_White, _brightenAmount / 2);
         private static readonly Color SharedColors_White_Dark = ColorHelper.GetMediaColorBrighter(ColorHelper.GetMediaColorDesaturated(SharedColors_White, _desaturateAmount / 2), _darkenAmount);
 
-        private static readonly Color SharedColors_Master = GetThemeColor("SolidBackgroundFillColorBaseBrush", Color.FromRgb(32, 32, 32));
+        private static readonly Color SharedColors_Master = GetThemeColorColor("SolidBackgroundFillColorBaseBrush", Color.FromRgb(32, 32, 32));
 
         const byte _normalValue = 12;
         const byte _brightValue = (byte)(_normalValue * 1.2f);
@@ -98,7 +98,7 @@ namespace ImageCombinerChannelExtractor.Components.Shared
 
         public static readonly Color ApplicationAccentColor = Color.FromRgb(0, 120, 212);
 
-        private static Color GetThemeColor(string resourceKey, Color fallbackColor)
+        private static Color GetThemeColorColor(string resourceKey, Color fallbackColor)
         {
             if (Application.Current != null)
             {
