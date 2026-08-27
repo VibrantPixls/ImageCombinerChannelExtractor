@@ -54,6 +54,17 @@
                             </ui:CardControl>
                         </StackPanel>
                     </ui:Card>
+
+                    <ui:Card>
+                        <StackPanel>
+                            <TextBlock Text="About" FontSize="20" Margin="0,0,0,12" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+
+                            <StackPanel Orientation="Horizontal">
+                                <ui:Anchor Icon="{ui:SymbolIcon HomeDataBase24}" Content="Visit repository" NavigateUri="https://github.com/VibrantPixls/ImageCombinerChannelExtractor" Margin="0,0,12,0"/>
+                                <ui:Anchor Icon="{ui:SymbolIcon Bug24}" Content="Report bugs" NavigateUri="https://github.com/VibrantPixls/ImageCombinerChannelExtractor/issues"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </ui:Card>
                 </StackPanel>
             </ScrollViewer>
         </StackPanel>
