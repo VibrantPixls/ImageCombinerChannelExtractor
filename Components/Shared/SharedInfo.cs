@@ -3,7 +3,6 @@ using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Media;
-using Wpf.Ui.Appearance;
 
 namespace ImageCombinerChannelExtractor.Components.Shared
 {
@@ -84,6 +83,10 @@ namespace ImageCombinerChannelExtractor.Components.Shared
 
         public static SolidColorBrush MainColorMasterOpaque = new SolidColorBrush();
 
+        private static readonly Color BaseAccentColor = ColorHelper.GetMediaColorDesaturated(Color.FromRgb(0, 120, 212), 0.35f);
+        public static readonly Color ApplicationAccentColorLight = ColorHelper.GetMediaColorBrighter(BaseAccentColor, 0.15f);
+        public static readonly Color ApplicationAccentColorDark = ColorHelper.GetMediaColorBrighter(BaseAccentColor, -0.175f);
+
         private static SolidColorBrush UpdateBrush(this SolidColorBrush brush, Color color, byte alpha)
         {
             Color targetColor = color with { A = alpha };
@@ -134,12 +137,10 @@ namespace ImageCombinerChannelExtractor.Components.Shared
             MainColorMasterOpaque.UpdateBrush(SharedColors_Master, _opaqueAlphaValue);
         }
 
-        public static void UpdateColorBrushes(ApplicationTheme theme)
+        public static void UpdateColorBrushes(bool isLightTheme)
         {
-            UpdateMainColors(theme == ApplicationTheme.Light ? -1f : 1);
+            UpdateMainColors(isLightTheme ? -1f : 1);
         }
-
-        public static readonly Color ApplicationAccentColor = Color.FromRgb(0, 120, 212);
 
         private static Color GetThemeColorColor(string resourceKey, Color fallbackColor)
         {

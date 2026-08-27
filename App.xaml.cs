@@ -26,9 +26,10 @@ namespace ImageCombinerChannelExtractor
         #region App settings helpers
         public static void ApplyTheme(ApplicationTheme theme)
         {
-            ApplicationAccentColorManager.Apply(SharedInfo.ApplicationAccentColor, theme);
+            bool isLightTheme = (theme == ApplicationTheme.Light);
+            SharedInfo.UpdateColorBrushes(isLightTheme);
+            ApplicationAccentColorManager.Apply(isLightTheme ? SharedInfo.ApplicationAccentColorLight : SharedInfo.ApplicationAccentColorDark, theme);
             ApplicationThemeManager.Apply(theme, WindowBackdropType.None, false);
-            SharedInfo.UpdateColorBrushes(theme);
         }
         #endregion
         #endregion
