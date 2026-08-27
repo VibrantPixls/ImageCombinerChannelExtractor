@@ -58,3 +58,5 @@ nunit-*.xml
 
 .vs/
 *.user
+
+Illustrator/
