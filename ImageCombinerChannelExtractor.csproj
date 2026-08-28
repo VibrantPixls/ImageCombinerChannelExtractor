@@ -20,11 +20,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Components\Icons\app_icon_v3.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="Components\Icons\app_icon_v3.ico" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="WPF-UI" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Components\Icons\app_icon_v3.png" />
   </ItemGroup>
 
   <ItemGroup>
