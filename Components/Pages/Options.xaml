@@ -25,7 +25,7 @@
                     <StackPanel>
                         <TextBlock Text="General" FontSize="20" Margin="0,0,0,12" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
 
-                        <ui:CardControl>
+                        <ui:CardControl ToolTipService.ToolTip="Controls on what page the application will default on startup.">
                             <ui:CardControl.Icon>
                                 <ui:SymbolIcon Symbol="CalendarWeekStart24"/>
                             </ui:CardControl.Icon>
@@ -38,7 +38,7 @@
                             </ComboBox>
                         </ui:CardControl>
 
-                        <ui:CardControl>
+                        <ui:CardControl ToolTipService.ToolTip="Disables the notifications on the bottom right of the window.">
                             <ui:CardControl.Icon>
                                 <ui:SymbolIcon Symbol="Alert24"/>
                             </ui:CardControl.Icon>
@@ -64,7 +64,7 @@
                     <StackPanel>
                         <TextBlock Text="Appearance" FontSize="20" Margin="0,0,0,12" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
 
-                        <ui:CardControl>
+                        <ui:CardControl ToolTipService.ToolTip="Controls the color theme of the application.">
                             <ui:CardControl.Icon>
                                 <ui:SymbolIcon Symbol="PaintBrush24"/>
                             </ui:CardControl.Icon>
@@ -83,7 +83,7 @@
                     <StackPanel>
                         <TextBlock Text="About" FontSize="20" Margin="0,0,0,12" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
 
-                        <TextBlock VerticalAlignment="Center" Text="Vibrant Pixels" FontSize="16" FontWeight="DemiBold" Padding="0,0,0,4"/>
+                        <ui:Anchor VerticalAlignment="Center" Content="Vibrant Pixels" FontSize="16" FontWeight="DemiBold" Padding="0,0,0,4" Background="{x:Null}" MouseOverBackground="{x:Null}" PressedBackground="{x:Null}" PressedForeground="{x:Null}" BorderThickness="0" NavigateUri="https://vibrant-pixels.com/" Cursor="Hand"/>
                         <TextBlock x:Name="VersionText" VerticalAlignment="Center" Text="Version 1.0.0" FontSize="16" Padding="0,0,0,12" FontWeight="Light"/>
 
                         <StackPanel Orientation="Horizontal">
