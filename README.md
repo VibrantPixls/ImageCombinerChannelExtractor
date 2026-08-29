@@ -10,19 +10,19 @@ Image Combiner & Channel Extractor is a Windows WPF (.NET) application designed 
 * Extract individual color channels (Red, Green, Blue, Alpha) from an existing image into new standalone grayscale image files.
 
 ## Features
-### Multiple supported input image formats
+#### Multiple supported input image formats
 * Import PNG or JPG/JPEG images for each channel.
-### Automatic grayscale conversion
+#### Automatic grayscale conversion
 * Automatically converts colored input images to grayscale.
-### Image previews
+#### Image previews
 * Preview images before combining or extracting.
-### Supports automatic image resizing
+#### Supports automatic image resizing
 * Supports input images with different dimensions.
-### Option to change the image resampling
+#### Option to change the image resampling
 * Choose between Bicubic, Bilinear, or Nearest Neighbor resampling.
-### Drag and drop
+#### Drag and drop
 * Quickly assign input files by dragging them directly into the interface.
-### PNG output
+#### PNG output
 * Save outputs as .png (with transparency).
 
 <br>
