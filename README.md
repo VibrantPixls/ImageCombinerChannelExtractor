@@ -2,6 +2,7 @@
 
 > [!NOTE]
 > This is the **modern** version of the Image Combiner & Channel Extractor.
+> 
 > Looking for a legacy version? Check out the legacy version [here](https://github.com/VibrantPixls/ImageCombinerChannelExtractorLegacy)!
 
 Image Combiner & Channel Extractor is a Windows WPF (.NET) application designed for game developers and texture artists. It provides a simple way to pack or unpack texture maps for engines like Unity and Unreal Engine.
