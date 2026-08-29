@@ -8,12 +8,12 @@ using Wpf.Ui.Controls;
 
 namespace ImageCombinerChannelExtractor.Components.UserControls
 {
-    public partial class DoingTaskNotif : UserControl
+    public partial class NotificationUserControl : UserControl
     {
         public event Action<uint>? CloseRequested;
 
         private readonly uint index = 0;
-        public DoingTaskNotif(NotificationTypeEnum type, string NotificationText, string description, uint index)
+        public NotificationUserControl(NotificationTypeEnum type, string NotificationText, string description, uint index)
         {
             InitializeComponent();
             LayoutTransform = new ScaleTransform { ScaleY = -1 };
