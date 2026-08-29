@@ -150,7 +150,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
                     return;
                 }
                 UpdateChannelPreviews();
-                successNotifInt = App.TriggerNotification(StringLinesInfo.notificationSuccessfullExtracting, NotificationTypeEnum.Success, SharedInfo.NotificationAutoDestroyAfterInSeconds);
+                _successNotifInt = App.TriggerNotification(StringLinesInfo.notificationSuccessfullExtracting, NotificationTypeEnum.Success, SharedInfo.NotificationAutoDestroyAfterInSeconds);
             }
             catch (OperationCanceledException)
             {

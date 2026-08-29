@@ -211,7 +211,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
                     btnCreateCombined.IsEnabled = true;
                     btnCreateCombined.Content = StringLinesInfo.CrtCombinedBtn;
 
-                    successNotifInt = App.TriggerNotification(StringLinesInfo.notificationSuccessfullCombining, NotificationTypeEnum.Success, SharedInfo.NotificationAutoDestroyAfterInSeconds);
+                    _successNotifInt = App.TriggerNotification(StringLinesInfo.notificationSuccessfullCombining, NotificationTypeEnum.Success, SharedInfo.NotificationAutoDestroyAfterInSeconds);
                 }
             }
             catch (OperationCanceledException)
