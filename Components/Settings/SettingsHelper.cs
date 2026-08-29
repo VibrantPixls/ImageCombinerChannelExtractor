@@ -85,6 +85,26 @@ namespace ImageCombinerChannelExtractor.Components.Settings
             _settingsFile.StartupPage = page;
             SaveSettings();
         }
+
+        public static bool GetEnableNotifications()
+        {
+            return _settingsFile.EnableNotifications;
+        }
+        public static void SetEnableNotifications(bool enable)
+        {
+            _settingsFile.EnableNotifications = enable;
+            SaveSettings();
+        }
+
+        public static bool GetDoExtractorScreenFlicker()
+        {
+            return _settingsFile.DoExtractFlicker;
+        }
+        public static void SetDoExtractorScreenFlicker(bool enable)
+        {
+            _settingsFile.DoExtractFlicker = enable;
+            SaveSettings();
+        }
         #endregion
     }
 }

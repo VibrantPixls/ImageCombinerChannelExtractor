@@ -1,6 +1,7 @@
 ﻿using ImageCombinerChannelExtractor.Components.Settings;
 using ImageCombinerChannelExtractor.Components.Settings.Enums;
 using System.Reflection;
+using System.Windows;
 using System.Windows.Controls;
 using Wpf.Ui.Appearance;
 
@@ -35,16 +36,17 @@ namespace ImageCombinerChannelExtractor.Components.Pages
                 }
             }
 
+            StartupPageComboBox.SelectedIndex = 0; // default to combiner
             StartupPageEnum pageSetting = SettingsHelper.GetStartupPageEnum();
             foreach (ComboBoxItem item in StartupPageComboBox.Items)
             {
                 if (item.Tag?.ToString() == pageSetting.ToString())
                 {
                     StartupPageComboBox.SelectedItem = item;
-                    return;
                 }
             }
-            StartupPageComboBox.SelectedIndex = 0; // default to combiner
+            DoNotifCheckbox.IsChecked = SettingsHelper.GetEnableNotifications();
+            DoExtrFlickerCheckbox.IsChecked = SettingsHelper.GetDoExtractorScreenFlicker();
         }
 
         #region User inputs
@@ -73,6 +75,24 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             {
                 SettingsHelper.SetStartupPage(page);
             }
+        }
+
+        private void DoNotifCheckbox_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            if (_isInitializing)
+            {
+                return;
+            }
+            SettingsHelper.SetEnableNotifications(DoNotifCheckbox.IsChecked == true);
+        }
+
+        private void DoExtrFlickerCheckbox_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            if (_isInitializing)
+            {
+                return;
+            }
+            SettingsHelper.SetDoExtractorScreenFlicker(DoExtrFlickerCheckbox.IsChecked == true);
         }
         #endregion
     }

@@ -1,4 +1,5 @@
 ﻿using ImageCombinerChannelExtractor.Components.Enums;
+using ImageCombinerChannelExtractor.Components.Settings;
 using ImageCombinerChannelExtractor.Components.Shared;
 using ImageCombinerChannelExtractor.Components.Stream;
 using Microsoft.Win32;
@@ -93,7 +94,10 @@ namespace ImageCombinerChannelExtractor.Components.Helpers
             });
             App.MainWindowReference.SetExtractingScreenProgress(100);
             // delay after hitting 100%
-            await Task.Delay(SharedInfo.OverlayKeepOnScreenAfterFinishForInMilliseconds).ConfigureAwait(true);
+            if (!SettingsHelper.GetDoExtractorScreenFlicker())
+            {
+                await Task.Delay(SharedInfo.OverlayKeepOnScreenAfterFinishForInMilliseconds).ConfigureAwait(true);
+            }
             App.MainWindowReference.ShowExtractingScreen(false);
         }
     }

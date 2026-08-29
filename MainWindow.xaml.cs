@@ -39,11 +39,19 @@ namespace ImageCombinerChannelExtractor
         #region Notifications trigger
         public uint SpawnNotification(string text, string description, NotificationTypeEnum notifType = NotificationTypeEnum.Info, int autoDestroyinSec = 0)
         {
+            if (!SettingsHelper.GetEnableNotifications())
+            {
+                return 0;
+            }
             return notificationWidget.SpawnNotification(text, description, notifType, autoDestroyinSec);
         }
 
         public void RemoveNotification(uint taskIdToRemove)
         {
+            if (taskIdToRemove == 0)
+            {
+                return;
+            }
             notificationWidget.RemoveNotification(taskIdToRemove);
         }
         #endregion

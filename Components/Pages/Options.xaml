@@ -26,15 +26,35 @@
 
                         <ui:CardControl>
                             <ui:CardControl.Icon>
-                                <ui:SymbolIcon Symbol="CalendarWeekStart28"/>
+                                <ui:SymbolIcon Symbol="CalendarWeekStart24"/>
                             </ui:CardControl.Icon>
                             <ui:CardControl.Header>
-                                <TextBlock Text="Startup Page"/>
+                                <TextBlock Text="Startup page"/>
                             </ui:CardControl.Header>
                             <ComboBox x:Name="StartupPageComboBox" Width="200" SelectionChanged="StartupPageComboBox_SelectionChanged">
                                 <ComboBoxItem Content="Combiner" Tag="{x:Static settingEnums:StartupPageEnum.Combiner}"/>
                                 <ComboBoxItem Content="Extractor" Tag="{x:Static settingEnums:StartupPageEnum.Extractor}"/>
                             </ComboBox>
+                        </ui:CardControl>
+
+                        <ui:CardControl>
+                            <ui:CardControl.Icon>
+                                <ui:SymbolIcon Symbol="Alert24"/>
+                            </ui:CardControl.Icon>
+                            <ui:CardControl.Header>
+                                <TextBlock Text="Enable in-app notifications"/>
+                            </ui:CardControl.Header>
+                            <CheckBox x:Name="DoNotifCheckbox" Width="200" Click="DoNotifCheckbox_SelectionChanged" />
+                        </ui:CardControl>
+
+                        <ui:CardControl ToolTipService.ToolTip="Disables the minimum time the extraction screen stays visible. This speeds up processing, but the screen might flicker as a result.">
+                            <ui:CardControl.Icon>
+                                <ui:SymbolIcon Symbol="TimerOff24"/>
+                            </ui:CardControl.Icon>
+                            <ui:CardControl.Header>
+                                <TextBlock Text="Skip artificial extraction delay"/>
+                            </ui:CardControl.Header>
+                            <CheckBox x:Name="DoExtrFlickerCheckbox" Width="200" Click="DoExtrFlickerCheckbox_SelectionChanged" />
                         </ui:CardControl>
                     </StackPanel>
                 </ui:Card>
@@ -48,7 +68,7 @@
                                 <ui:SymbolIcon Symbol="PaintBrush24"/>
                             </ui:CardControl.Icon>
                             <ui:CardControl.Header>
-                                <TextBlock Text="Color Theme"/>
+                                <TextBlock Text="Color theme"/>
                             </ui:CardControl.Header>
                             <ComboBox x:Name="ThemeComboBox" Width="200" SelectionChanged="ThemeComboBox_SelectionChanged">
                                 <ComboBoxItem Content="Light" Tag="{x:Static uiAppearance:ApplicationTheme.Light}"/>
