@@ -28,6 +28,9 @@
 
   <ItemGroup>
     <None Remove="Components\Icons\app_icon_v3.png" />
+    <None Remove="Components\Icons\app_icon_v3_images.png" />
+    <None Remove="Components\Icons\app_icon_v3_prism.png" />
+    <None Remove="Components\Icons\app_icon_v3_prism_dark.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,7 +42,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Components\Icons\app_icon_v3.png" />
+    <Resource Include="Components\Icons\app_icon_v3_images.png" />
+    <Resource Include="Components\Icons\app_icon_v3_prism.png" />
+    <Resource Include="Components\Icons\app_icon_v3_prism_dark.png" />
   </ItemGroup>
 
   <ItemGroup>

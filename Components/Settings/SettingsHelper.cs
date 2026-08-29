@@ -67,6 +67,7 @@ namespace ImageCombinerChannelExtractor.Components.Settings
         public static void SetThemeMode(ApplicationTheme theme)
         {
             _settingsFile.ColorThemeMode = theme;
+            App.MainWindowReference.SetAppIcon(theme == ApplicationTheme.Light);
             SaveSettings();
         }
 

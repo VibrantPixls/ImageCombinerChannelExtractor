@@ -16,6 +16,25 @@
                  MinWidth="1080" MaxWidth="1080"
                  WindowStartupLocation="CenterScreen"
                  ExtendsContentIntoTitleBar="True" WindowStyle="None" ResizeMode="NoResize" SnapsToDevicePixels="True">
+    <ui:FluentWindow.Resources>
+        <DrawingImage x:Key="AppIconDarkMode">
+            <DrawingImage.Drawing>
+                <DrawingGroup>
+                    <ImageDrawing Rect="0,0,32,32" ImageSource="/Components/Icons/app_icon_v3_images.png" />
+                    <ImageDrawing Rect="0,0,32,32" ImageSource="/Components/Icons/app_icon_v3_prism.png" />
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <DrawingImage x:Key="AppIconLightMode">
+            <DrawingImage.Drawing>
+                <DrawingGroup>
+                    <ImageDrawing Rect="0,0,32,32" ImageSource="/Components/Icons/app_icon_v3_images.png" />
+                    <ImageDrawing Rect="0,0,32,32" ImageSource="/Components/Icons/app_icon_v3_prism_dark.png" />
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+    </ui:FluentWindow.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -25,7 +44,7 @@
 
         <ui:TitleBar Grid.Row="0" Title="     Image Combiner &amp; Channel Extractor" CanMaximize="False" ShowMaximize="False" >
             <ui:TitleBar.Icon>
-                <ui:ImageIcon Source="/Components/Icons/app_icon_v3.png" Width="32" Height="32" Margin="12,-10,0,-12" />
+                <ui:ImageIcon x:Name="appIconTitlbar" Source="{StaticResource AppIconDarkMode}" Width="32" Height="32" Margin="12,-10,0,-12" />
             </ui:TitleBar.Icon>
         </ui:TitleBar>
 

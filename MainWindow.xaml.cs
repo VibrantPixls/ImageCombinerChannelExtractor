@@ -1,5 +1,7 @@
 ﻿using ImageCombinerChannelExtractor.Components.Enums;
 using ImageCombinerChannelExtractor.Components.Settings;
+using System.Windows.Media;
+using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
 namespace ImageCombinerChannelExtractor
@@ -11,6 +13,15 @@ namespace ImageCombinerChannelExtractor
             InitializeComponent();
 
             Loaded += (s, e) => MainNavigation.Navigate(SettingsHelper.GetStartupPage());
+            App.MainWindowReference.SetAppIcon(SettingsHelper.GetThemeMode() == ApplicationTheme.Light);
+        }
+
+        public void SetAppIcon(bool isLightMode)
+        {
+            if (TryFindResource(isLightMode ? "AppIconLightMode" : "AppIconDarkMode") is ImageSource newIcon)
+            {
+                appIconTitlbar.Source = newIcon;
+            }
         }
 
         #region Extracting screen trigger
