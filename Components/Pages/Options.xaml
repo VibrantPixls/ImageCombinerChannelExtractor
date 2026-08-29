@@ -83,7 +83,7 @@
                     <StackPanel>
                         <TextBlock Text="About" FontSize="20" Margin="0,0,0,12" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
 
-                        <ui:Anchor VerticalAlignment="Center" Content="Vibrant Pixels" FontSize="16" FontWeight="DemiBold" Padding="0,0,0,4" Background="{x:Null}" MouseOverBackground="{x:Null}" PressedBackground="{x:Null}" PressedForeground="{x:Null}" BorderThickness="0" NavigateUri="https://vibrant-pixels.com/" Cursor="Hand"/>
+                        <TextBlock VerticalAlignment="Center" Text="Vibrant Pixels" FontSize="16" FontWeight="DemiBold" Padding="0,0,0,4"/>
                         <TextBlock x:Name="VersionText" VerticalAlignment="Center" Text="Version 1.0.0" FontSize="16" Padding="0,0,0,12" FontWeight="Light"/>
 
                         <StackPanel Orientation="Horizontal">
