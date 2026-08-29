@@ -163,7 +163,7 @@ namespace ImageCombinerChannelExtractor.Components.Shared
         }
 
         // notification delays
-        public const int NotificationAutoDestroyAfterInSeconds = 3;
+        public const int NotificationAutoDestroyAfterInSeconds = 5;
 
         // extracting overlay
         public const int OverlayKeepOnScreenAfterFinishForInMilliseconds = 400;
