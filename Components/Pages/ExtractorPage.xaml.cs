@@ -100,6 +100,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         {
             _ctsExtract?.Cancel();
 
+            RemoveOldSuccessNotif();
             ColorChannelHelper.DeleteChannel(this);
             imgPreviewCombiner.ImageSource = null;
             UpdateTargetResolution();
@@ -137,6 +138,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             _ctsExtract = cts;
             CancellationToken token = cts.Token;
 
+            RemoveOldSuccessNotif();
             uint notifId = App.TriggerNotification(StringLinesInfo.notificationExtracting, NotificationTypeEnum.Extractor);
             try
             {
@@ -148,7 +150,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
                     return;
                 }
                 UpdateChannelPreviews();
-                App.TriggerNotification(StringLinesInfo.notificationSuccessfullExtracting, NotificationTypeEnum.Success, SharedInfo.NotificationAutoDestroyAfterInSeconds);
+                successNotifInt = App.TriggerNotification(StringLinesInfo.notificationSuccessfullExtracting, NotificationTypeEnum.Success, SharedInfo.NotificationAutoDestroyAfterInSeconds);
             }
             catch (OperationCanceledException)
             {
