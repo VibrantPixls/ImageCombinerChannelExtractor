@@ -58,3 +58,6 @@ Image Combiner & Channel Extractor is a Windows WPF (.NET) application designed 
 
 ![Extracting channels](/ReadmeAssets/readme_explain_extractor.png)
 ![Looks of the extract panel](/ReadmeAssets/readme_preview_extractor.png)
+
+## Credits
+* The input images used in the readme screenshots are from the [Kenney Pattern Pack](https://kenney.nl/assets/pattern-pack).
