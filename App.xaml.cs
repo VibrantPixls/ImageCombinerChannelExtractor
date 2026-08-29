@@ -3,6 +3,7 @@ using ImageCombinerChannelExtractor.Components.Settings;
 using ImageCombinerChannelExtractor.Components.Shared;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
 
@@ -16,8 +17,33 @@ namespace ImageCombinerChannelExtractor
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            Wpf.Ui.Controls.Button.ClickModeProperty.OverrideMetadata(typeof(Wpf.Ui.Controls.Button), new FrameworkPropertyMetadata(ClickMode.Press));
+
+            OverrideControlStyle<Wpf.Ui.Controls.Button>(style =>
+            {
+                style.Setters.Add(new Setter(FrameworkElement.CursorProperty, Cursors.Hand));
+                style.Setters.Add(new Setter(Wpf.Ui.Controls.Button.ClickModeProperty, ClickMode.Press));
+            });
+            OverrideControlStyle<ComboBox>(style =>
+            {
+                style.Setters.Add(new Setter(FrameworkElement.CursorProperty, Cursors.Hand));
+            });
+            OverrideControlStyle<Anchor>(style =>
+            {
+                style.Setters.Add(new Setter(FrameworkElement.CursorProperty, Cursors.Hand));
+            });
+
             ApplySavedSettings();
+        }
+
+        private static void OverrideControlStyle<T>(Action<Style> configureStyle) where T : FrameworkElement
+        {
+            if (Current.TryFindResource(typeof(T)) is Style baseStyle)
+            {
+                Style updatedStyle = new Style(typeof(T), baseStyle);
+                configureStyle(updatedStyle);
+                updatedStyle.Seal();
+                Current.Resources[typeof(T)] = updatedStyle;
+            }
         }
 
         private static void ApplySavedSettings()

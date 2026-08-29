@@ -93,7 +93,7 @@
 
                         <Separator Margin="0,0,0,8"/>
 
-                        <ui:CardExpander Header="Third-Party Notices">
+                        <ui:CardExpander Header="Third-Party Notices" Cursor="Help">
                             <StackPanel>
                                 <TextBlock Text="WPF UI (Visuals)" FontWeight="SemiBold"/>
                                 <TextBlock Text="Copyright (c) 2021-2025 Leszek Pomianowski and WPF UI Contributors" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
