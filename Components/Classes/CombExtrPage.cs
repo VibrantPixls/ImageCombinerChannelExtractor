@@ -7,6 +7,7 @@ namespace ImageCombinerChannelExtractor.Components.Classes
         public required ColorChannelUserControl[] _cachedColorInputPanels;
         private ColorChannelUserControl? _currentlySelectedPanel;
 
+        protected uint successNotifInt = 0;
 
         protected void ResetAllSelectedInputs()
         {
@@ -23,6 +24,15 @@ namespace ImageCombinerChannelExtractor.Components.Classes
             _currentlySelectedPanel?.SetSelected(false);
             newPreview.SetSelected(true);
             _currentlySelectedPanel = newPreview;
+        }
+
+        protected void RemoveOldSuccessNotif()
+        {
+            if (successNotifInt != 0)
+            {
+                App.TriggerRemoveNotification(successNotifInt);
+                successNotifInt= 0;
+            }
         }
     }
 }

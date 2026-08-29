@@ -28,7 +28,6 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         private BitmapSource? _combinedPreviewCache = null;
         private bool _isWaitingForCombinedImage = false;
         private CancellationTokenSource? _ctsCombined;
-        private uint successNotifInt = 0;
         #endregion
 
         public CombinerPage()
@@ -540,14 +539,6 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
             imgPreviewCombiner.Width = target.PreviewImageWidth;
             imgPreviewCombiner.Height = target.PreviewImageHeight;
-        }
-
-        private void RemoveOldSuccessNotif()
-        {
-            if (successNotifInt != 0)
-            {
-                App.TriggerRemoveNotification(successNotifInt);
-            }
         }
         #endregion
     }
