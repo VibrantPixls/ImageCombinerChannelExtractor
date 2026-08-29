@@ -180,6 +180,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             {
                 //early exit when no input images
                 btnCreateCombined.Content = StringLinesInfo.CrtCombinedBtnNoInputs;
+                RemoveOldSuccessNotif();
                 return;
             }
 
@@ -191,11 +192,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             _ctsCombined = cts;
             CancellationToken token = cts.Token;
 
-            if (successNotifInt != 0)
-            {
-                App.TriggerRemoveNotification(successNotifInt);
-            }
-
+            RemoveOldSuccessNotif();
             uint notifInt = App.TriggerNotification(StringLinesInfo.notificationCombining, NotificationTypeEnum.Combining);
             try
             {
@@ -543,6 +540,14 @@ namespace ImageCombinerChannelExtractor.Components.Pages
 
             imgPreviewCombiner.Width = target.PreviewImageWidth;
             imgPreviewCombiner.Height = target.PreviewImageHeight;
+        }
+
+        private void RemoveOldSuccessNotif()
+        {
+            if (successNotifInt != 0)
+            {
+                App.TriggerRemoveNotification(successNotifInt);
+            }
         }
         #endregion
     }
