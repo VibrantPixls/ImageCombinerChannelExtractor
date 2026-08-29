@@ -52,7 +52,7 @@ Image Combiner & Channel Extractor is a Windows WPF (.NET) application designed 
 
 ### Extract Channels
 1. **Select** an existing PNG, JPG, or JPEG file.
-2. Click on **Download [Channel]** of your desired color channel.
+2. Click on **Download [image]** of your desired color channel.
 3. **Save** your extracted grayscale image.
 
 ![Extracting channels](/ReadmeAssets/readme_explain_extractor.png)
