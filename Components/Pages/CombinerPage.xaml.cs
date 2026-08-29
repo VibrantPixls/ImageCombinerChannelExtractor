@@ -28,6 +28,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
         private BitmapSource? _combinedPreviewCache = null;
         private bool _isWaitingForCombinedImage = false;
         private CancellationTokenSource? _ctsCombined;
+        private uint successNotifInt = 0;
         #endregion
 
         public CombinerPage()
@@ -190,6 +191,11 @@ namespace ImageCombinerChannelExtractor.Components.Pages
             _ctsCombined = cts;
             CancellationToken token = cts.Token;
 
+            if (successNotifInt != 0)
+            {
+                App.TriggerRemoveNotification(successNotifInt);
+            }
+
             uint notifInt = App.TriggerNotification(StringLinesInfo.notificationCombining, NotificationTypeEnum.Combining);
             try
             {
@@ -209,7 +215,7 @@ namespace ImageCombinerChannelExtractor.Components.Pages
                     btnCreateCombined.IsEnabled = true;
                     btnCreateCombined.Content = StringLinesInfo.CrtCombinedBtn;
 
-                    App.TriggerNotification(StringLinesInfo.notificationSuccessfullCombining, NotificationTypeEnum.Success, SharedInfo.NotificationAutoDestroyAfterInSeconds);
+                    successNotifInt = App.TriggerNotification(StringLinesInfo.notificationSuccessfullCombining, NotificationTypeEnum.Success, SharedInfo.NotificationAutoDestroyAfterInSeconds);
                 }
             }
             catch (OperationCanceledException)
